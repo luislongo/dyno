@@ -4,13 +4,36 @@ import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
+import com.alura.dyno.R;
+import com.alura.dyno.engine3d.components.MeshRenderer;
+import com.alura.dyno.engine3d.system.shaders.Shader;
+import com.alura.dyno.engine3d.system.shaders.ShaderBase;
+import com.alura.dyno.engine3d.system.shaders.ShaderLoader;
+import com.alura.dyno.engine3d.system.shaders.ShaderType;
+import com.alura.dyno.engine3d.system.vertex.MeshBuffer;
+import com.alura.dyno.engine3d.system.vertex.Vertex;
+import com.alura.dyno.engine3d.system.vertex.VertexBuffer;
+import com.alura.dyno.engine3d.utils.ColorPalette;
+import com.alura.dyno.engine3d.utils.RGBAColor;
+import com.alura.dyno.engine3d.utils.TriangleFactory;
+
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-public class StructureDrawRenderer implements GLSurfaceView.Renderer {
+public class StructureDrawRenderer implements GLSurfaceView.Renderer, ColorPalette {
 
     SurfaceRendererListener listener;
     Context context;
+
+    float[] color;
+    private int mProgram;
+    private MeshBuffer buffer;
+    private Shader objShader;
+    private MeshRenderer<Shader> renderer;
 
     public StructureDrawRenderer(Context context) {
         super();
@@ -39,7 +62,6 @@ public class StructureDrawRenderer implements GLSurfaceView.Renderer {
     @Override
     public void onDrawFrame(GL10 gl) {
         GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
-
         onRender();
     }
 
@@ -51,6 +73,11 @@ public class StructureDrawRenderer implements GLSurfaceView.Renderer {
 
     public void setOnRenderListener(SurfaceRendererListener listener) {
         this.listener = listener;
+    }
+
+    public void testRender()
+    {
+        final int vertexCount = 6;
     }
 
     public interface SurfaceRendererListener {

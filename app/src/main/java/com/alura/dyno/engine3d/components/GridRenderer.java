@@ -8,6 +8,7 @@ import com.alura.dyno.engine3d.system.Texture;
 import com.alura.dyno.engine3d.system.shaders.GridShader;
 import com.alura.dyno.engine3d.system.vertex.MeshBuffer;
 import com.alura.dyno.engine3d.system.vertex.Vertex;
+import com.alura.dyno.engine3d.utils.ColorPalette;
 import com.alura.dyno.engine3d.utils.RGBAColor;
 import com.alura.dyno.engine3d.utils.TriangleFactory;
 import com.alura.dyno.maths.Vector2;
@@ -76,8 +77,8 @@ public class GridRenderer extends Renderer<MeshBuffer, GridShader> {
     public static class GridRendererBuilder<T extends GridRendererBuilder<T>>
             extends RendererBuilder<T, MeshBuffer, GridShader> {
         protected int textureResourceId = -1;
-        protected RGBAColor lineColor = RGBAColor.WHITE;
-        protected RGBAColor backgroundColor = RGBAColor.BLACK;
+        protected RGBAColor lineColor = ColorPalette.WHITE;
+        protected RGBAColor backgroundColor =  ColorPalette.BLACK;
         protected float spacing = 1.0f;
         Context context;
 

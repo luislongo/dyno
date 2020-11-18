@@ -1,5 +1,7 @@
 package com.alura.dyno.engine3d.system.shaders;
 
+import android.opengl.GLES20;
+
 import com.alura.dyno.engine3d.system.Texture;
 import com.alura.dyno.engine3d.utils.RGBAColor;
 

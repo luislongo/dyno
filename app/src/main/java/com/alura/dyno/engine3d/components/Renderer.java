@@ -1,6 +1,9 @@
 package com.alura.dyno.engine3d.components;
 
+import android.opengl.GLES20;
+
 import com.alura.dyno.engine3d.system.events.ComponentEvent;
+import com.alura.dyno.engine3d.system.shaders.Shader;
 import com.alura.dyno.engine3d.system.shaders.ShaderBase;
 import com.alura.dyno.engine3d.system.vertex.VertexBuffer;
 
@@ -32,7 +35,7 @@ public abstract class Renderer<U extends VertexBuffer, V extends ShaderBase> ext
     public void onRender() {
         shader.use();
         setUniforms();
-        data.draw();
+        data.draw(shader);
         shader.unuse();
     }
 

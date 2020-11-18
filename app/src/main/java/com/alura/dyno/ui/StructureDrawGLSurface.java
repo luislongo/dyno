@@ -7,9 +7,7 @@ import android.view.MotionEvent;
 
 import com.alura.dyno.R;
 import com.alura.dyno.engine3d.components.Camera;
-import com.alura.dyno.engine3d.components.GridRenderer;
 import com.alura.dyno.engine3d.components.MeshRenderer;
-import com.alura.dyno.engine3d.components.TextRenderer;
 import com.alura.dyno.engine3d.objects.EmptyObject;
 import com.alura.dyno.engine3d.objects.SceneObject;
 import com.alura.dyno.engine3d.system.SceneMaster;
@@ -19,12 +17,15 @@ import com.alura.dyno.engine3d.system.events.TreeEventDispatcher;
 import com.alura.dyno.engine3d.system.fonts.Font;
 import com.alura.dyno.engine3d.system.fonts.FontLoader;
 import com.alura.dyno.engine3d.system.shaders.Shader;
+import com.alura.dyno.engine3d.system.shaders.ShaderLoader;
 import com.alura.dyno.engine3d.system.shaders.ShaderMaster;
+import com.alura.dyno.engine3d.system.shaders.ShaderType;
 import com.alura.dyno.engine3d.system.vertex.MeshBuffer;
-import com.alura.dyno.engine3d.utils.RGBAColor;
+import com.alura.dyno.engine3d.system.vertex.Vertex;
+import com.alura.dyno.engine3d.utils.ColorPalette;
 import com.alura.dyno.engine3d.utils.TriangleFactory;
 
-public class StructureDrawGLSurface extends GLSurfaceView {
+public class StructureDrawGLSurface extends GLSurfaceView implements ColorPalette {
     StructureDrawRenderer renderer;
     StructureDrawSurfaceListener listener;
 
@@ -43,6 +44,11 @@ public class StructureDrawGLSurface extends GLSurfaceView {
     public void setListener(StructureDrawSurfaceListener listener) {
         this.listener = listener;
     }
+    public void setRenderer(Renderer renderer) {
+        super.setRenderer(renderer);
+        this.renderer = (StructureDrawRenderer) renderer;
+        this.renderer.setOnRenderListener(new SimpleSurfaceRendererListener());
+    }
 
     private void loadCamera() {
         cam = Camera.CameraBuilder.builder("Main camera")
@@ -59,36 +65,29 @@ public class StructureDrawGLSurface extends GLSurfaceView {
         cameraHandle.addComponent(cam);
         SceneMaster.setMainCamera(cam);
     }
-
-    public void setRenderer(Renderer renderer) {
-        super.setRenderer(renderer);
-        this.renderer = (StructureDrawRenderer) renderer;
-        this.renderer.setOnRenderListener(new SimpleSurfaceRendererListener());
-    }
-
     private void loadObjects() {
         root = EmptyObject.EmptyObjectBuilder.builder("Root")
                 .setPosition(0.0f, 0.0f, -0.5f)
                 .build();
-        MeshBuffer quad = new MeshBuffer();
-        quad.addVertex(new TriangleFactory.QuadBuilder(-1.0f, 1.0f, -1.0f, 1.0f)
-                .setColorBounds(RGBAColor.ACQUA_GREEN,
-                                RGBAColor.BLUE,
-                                RGBAColor.MAGENTA,
-                                RGBAColor.MIDNIGHT_BLUE)
-                .setDepth(0.0f)
-                .asVertex());
-        MeshRenderer<Shader> renderer = MeshRenderer.MeshRendererBuilder.builder("Test", ShaderMaster.objectShader)
-                .setData(quad)
+
+        Vertex[] quad = new TriangleFactory.QuadBuilder(-0.5f, 0.5f, -0.5f, 0.5f)
+                .setColorBounds(BLACK, BLACK, BLACK, ACQUA_GREEN)
+                .asVertex();
+        MeshBuffer buffer = new MeshBuffer();
+        buffer.addVertex(quad);
+        buffer.loadToGPU();
+
+        MeshRenderer meshRenderer = new MeshRenderer
+                .MeshRendererBuilder<>("name", ShaderMaster.objectShader)
+                .setData(buffer)
                 .build();
 
-        root.addComponent(renderer);
-    }
+        root.addComponent(meshRenderer);
 
+    }
     private void loadShaders() {
         ShaderMaster.loadShaders(getContext());
     }
-
     private void loadFonts() {
         font = new FontLoader(getContext())
                 .load(R.drawable.font_atlas_handwritten, R.raw.font_map_handwritten);

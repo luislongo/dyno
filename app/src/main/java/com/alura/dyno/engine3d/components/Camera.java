@@ -78,7 +78,7 @@ public class Camera extends MonoBehaviour implements
         if (top != bottom && left != right) { //Camera should only be called when view is set
             Matrix.setIdentityM(projectionMatrix, 0);
             Matrix.orthoM(projectionMatrix, 0, left, right,
-                    bottom, top, -5.0f, 100.0f);
+                    bottom, top, -100.0f, 100.0f);
         }
     }
 

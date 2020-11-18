@@ -35,4 +35,17 @@ public class ShaderLoader {
 
         return build.toString();
     }
+
+
+
+    public String getVertex()
+    {
+        return sources.get(ShaderType.Vertex);
+    }
+
+
+    public String getFragment()
+    {
+        return sources.get(ShaderType.Fragment);
+    }
 }

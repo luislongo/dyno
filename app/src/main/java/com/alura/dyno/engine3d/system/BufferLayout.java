@@ -2,6 +2,8 @@ package com.alura.dyno.engine3d.system;
 
 import android.os.Debug;
 
+import com.alura.dyno.engine3d.system.shaders.Shader;
+import com.alura.dyno.engine3d.system.vertex.VertexBuffer;
 import com.alura.dyno.maths.Vector3;
 
 import java.nio.FloatBuffer;
@@ -18,33 +20,36 @@ public class BufferLayout {
         elements = new ArrayList<>();
     }
 
-    private void pushFloat(int count) {
-        BufferLayoutElement<Float> element = new BufferLayoutElement<Float>(count, offset, false);
+    private void pushFloat(String name, int count) {
+        BufferLayoutElement element = new BufferLayoutElement(name, count, offset, false);
         elements.add(element);
 
         offset += count;
         stride += count * Float.BYTES;
     }
-    private void pushInt(int count) {
-        BufferLayoutElement element = new BufferLayoutElement<Integer>(count, offset, false);
-        elements.add(element);
+    public void pushVector3(String name)
+    {
+        pushFloat(name, 3);
+    }
+    public void pushColor(String name)
+    {
+        pushFloat(name, 4);
+    }
+    public void pushVector2(String name)
+    {
+        pushFloat(name, 2);
+    }
+    public void bind(FloatBuffer buffer, int programHandle) {
+        for(BufferLayoutElement element : elements)
+        {
+            element.bind(buffer, programHandle, stride);
+        }
+    }
+    public void unbind(int programHandle) {
+        for(BufferLayoutElement element : elements)
+        {
+            element.unbind(programHandle);
+        }
+    }
 
-        offset += count;
-        stride += count * Integer.BYTES;
-    }
-    public void pushVector3()
-    {
-        pushFloat(3);
-    }
-    public void pushColor()
-    {
-        pushFloat(4);
-    }
-    public void pushVector2()
-    {
-        pushFloat(2);
-    }
-    public int getStride() {
-        return stride;
-    }
 }

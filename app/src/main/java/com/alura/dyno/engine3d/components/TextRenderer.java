@@ -5,6 +5,7 @@ import android.opengl.Matrix;
 import com.alura.dyno.engine3d.system.SceneMaster;
 import com.alura.dyno.engine3d.system.fonts.Font;
 import com.alura.dyno.engine3d.system.shaders.TextShader;
+import com.alura.dyno.engine3d.utils.ColorPalette;
 import com.alura.dyno.engine3d.utils.RGBAColor;
 
 import org.jetbrains.annotations.NotNull;
@@ -12,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 public class TextRenderer extends MeshRenderer<TextShader> {
 
     protected float fontSize = 1.0f;
-    protected RGBAColor fontColor = RGBAColor.BLACK;
+    protected RGBAColor fontColor = ColorPalette.BLACK;
     protected Font font;
     private String text;
 
@@ -64,7 +65,7 @@ public class TextRenderer extends MeshRenderer<TextShader> {
 
         String text = "";
         float fontSize = 1.0f;
-        RGBAColor fontColor = RGBAColor.BLACK;
+        RGBAColor fontColor = ColorPalette.BLACK;
 
         public TextRendererBuilder(String name, TextShader shader, Font font) {
             super(name, shader);

@@ -1,6 +1,12 @@
 package com.alura.dyno.engine3d.system.vertex;
 
+import android.opengl.GLES10;
+import android.opengl.GLES20;
+
 import com.alura.dyno.engine3d.system.BufferLayout;
+import com.alura.dyno.engine3d.system.BufferLayoutElement;
+import com.alura.dyno.engine3d.system.shaders.Shader;
+import com.alura.dyno.engine3d.system.shaders.ShaderBase;
 import com.alura.dyno.engine3d.utils.RGBAColor;
 import com.alura.dyno.maths.Vector2;
 import com.alura.dyno.maths.Vector3;
@@ -12,6 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class VertexBuffer {
+    public final static String POSITION_ATTR_NAME = "a_Position";
+    public final static String COLOR_ATTR_NAME = "a_Color";
+    public final static String TEXTURE_ATTR_NAME = "a_TextureCoords";
+
     protected List<Vector3> positions;
     protected List<RGBAColor> colors;
     protected List<Vector2> uvs;
@@ -27,29 +37,29 @@ public abstract class VertexBuffer {
 
         createBufferLayout();
     }
+    private void createBufferLayout() {
+        bufferLayout = new BufferLayout();
+        bufferLayout.pushVector3(VertexBuffer.POSITION_ATTR_NAME);
+        bufferLayout.pushColor(VertexBuffer.COLOR_ATTR_NAME);
+        bufferLayout.pushVector2(VertexBuffer.TEXTURE_ATTR_NAME);
+    }
     protected abstract void drawElements();
-    public final void draw() {
+
+    public final void draw(ShaderBase shader) {
         if (!isInGPU) {
             loadToGPU();
         }
 
+        bufferLayout.bind(vertexDataBuffer, shader.getProgramHandle());
         drawElements();
+        bufferLayout.unbind(shader.getProgramHandle());
     }
+
     public void loadToGPU() {
         clearFloatBuffer();
         allocateMemory();
         loadVerticesIntoDataBuffer();
         resetDataBufferPosition();
-    }
-
-    public void clearData() {
-        positions.clear();
-        colors.clear();
-        uvs.clear();
-
-        if (vertexDataBuffer != null) {
-            vertexDataBuffer.clear();
-        }
     }
 
     public final void addVertex(Vertex v) {
@@ -65,6 +75,15 @@ public abstract class VertexBuffer {
         }
     }
 
+    public void clearData() {
+        positions.clear();
+        colors.clear();
+        uvs.clear();
+
+        if (vertexDataBuffer != null) {
+            vertexDataBuffer.clear();
+        }
+    }
     private void clearFloatBuffer() {
         if (vertexDataBuffer != null) {
             vertexDataBuffer.clear();
@@ -85,13 +104,6 @@ public abstract class VertexBuffer {
     }
     private void resetDataBufferPosition() {
         vertexDataBuffer.position(0);
-    }
-
-    private void createBufferLayout() {
-        bufferLayout = new BufferLayout();
-        bufferLayout.pushVector3();
-        bufferLayout.pushColor();
-        bufferLayout.pushVector2();
     }
     public int getVertexCount() {
         return positions.size();

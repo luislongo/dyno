@@ -34,7 +34,6 @@ public class StructureDrawActivity extends Activity {
 
             detector = new InputDetector(this);
             drawSurface.setListener(detector);
-
         }
     }
 

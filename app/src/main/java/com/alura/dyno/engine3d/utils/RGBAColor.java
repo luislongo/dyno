@@ -2,24 +2,12 @@ package com.alura.dyno.engine3d.utils;
 
 import android.graphics.Color;
 
+import com.alura.dyno.maths.Vector4;
+
 public class RGBAColor {
 
-    //1.2 Constants
-    public final static RGBAColor RED = new RGBAColor(1.0f, 0.0f, 0.0f, 1.0f);
-    public final static RGBAColor BLUE = new RGBAColor(0.0f, 0.0f, 1.0f, 1.0f);
-    public final static RGBAColor GREEN = new RGBAColor(0.0f, 1.0f, 0.0f, 1.0f);
-    public final static RGBAColor BLACK = new RGBAColor(0.0f, 0.0f, 0.0f, 1.0f);
-    public final static RGBAColor WHITE = new RGBAColor(1.0f, 1.0f, 1.0f, 1.0f);
-    public final static RGBAColor MIDNIGHT_BLUE = new RGBAColor(0.035f, 0.094f, 0.2f, 1.0f);
-    public final static RGBAColor WASHED_BLUE = new RGBAColor(92f / 255, 109f / 255, 141f / 255, 1.0f);
-    public final static RGBAColor ACQUA_GREEN = new RGBAColor(0.510f, 0.878f, 0.749f, 1.0f);
-    public final static RGBAColor MAGENTA = RGBAColor.fromHexColor("#FF00FF");
-    //1. Fields
-    //1.1 Variables
     public float r, g, b, a;
 
-    //2. Methods
-    //2.1 Constructor
     public RGBAColor(float r, float g, float b, float a) {
         this.r = r;
         this.g = g;
@@ -35,7 +23,14 @@ public class RGBAColor {
 
         return new RGBAColor(r, g, b, a);
     }
+    public static RGBAColor from255Color(int r255, int g255, int b255, int a255) {
+        float r = (float) r255 / 255f;
+        float g = (float) g255 / 255f;
+        float b = (float) b255 / 255f;
+        float a = (float) a255 / 255f;
 
+        return new RGBAColor(r, g, b, a);
+    }
     public static RGBAColor fromHexColor(String colorStr) {
         return new RGBAColor(
                 Integer.valueOf(colorStr.substring(1, 3), 16),
@@ -43,8 +38,7 @@ public class RGBAColor {
                 Integer.valueOf(colorStr.substring(5, 7), 16),
                 1.0f);
     }
-
     public float[] toArray() {
-        return new float[]{r, g, b, a};
+        return new float[]{r,g,b,a};
     }
 }

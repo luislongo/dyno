@@ -7,10 +7,10 @@ public class TriangleFactory {
     public static class QuadBuilder {
         float left, right, bottom, top, depth;
         float uvLeft, uvRight, uvBottom, uvTop;
-        RGBAColor colorLeftBottom = RGBAColor.MAGENTA;
-        RGBAColor colorRightBottom = RGBAColor.MAGENTA;
-        RGBAColor colorLeftTop = RGBAColor.MAGENTA;
-        RGBAColor colorRightTop = RGBAColor.MAGENTA;
+        RGBAColor colorLeftBottom = ColorPalette.MAGENTA;
+        RGBAColor colorRightBottom = ColorPalette.MAGENTA;
+        RGBAColor colorLeftTop = ColorPalette.MAGENTA;
+        RGBAColor colorRightTop = ColorPalette.MAGENTA;
 
         public QuadBuilder(float left, float right, float bottom, float top) {
             setBounds(left, right, bottom, top);
@@ -68,7 +68,7 @@ public class TriangleFactory {
                     .build();
 
             return new Vertex[]{v1, v2, v3,
-                    v1, v2, v4};
+                                v1, v2, v4};
         }
     }
 }

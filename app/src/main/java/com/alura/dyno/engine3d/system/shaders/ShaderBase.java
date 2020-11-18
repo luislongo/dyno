@@ -1,5 +1,6 @@
 package com.alura.dyno.engine3d.system.shaders;
 
+import android.icu.lang.UCharacter;
 import android.opengl.GLES20;
 import android.util.Log;
 
@@ -8,32 +9,29 @@ import com.alura.dyno.engine3d.utils.RGBAColor;
 import com.alura.dyno.maths.Vector2;
 import com.alura.dyno.maths.Vector3;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class ShaderBase {
-    public final static String POSITION_ATTR_NAME = "a_Position";
-    public final static String COLOR_ATTR_NAME = "a_Color";
-    public final static String TEXTURE_ATTR_NAME = "a_Position";
-
     HashMap<ShaderType, Integer> shaderHandles;
     HashMap<String, Integer> uniformHandles;
     int programHandle;
 
     public ShaderBase(ShaderLoader loader) {
-        shaderHandles = new HashMap<>();
-        uniformHandles = new HashMap<>();
-
-        createProgram();
+        initializeHandleHashMaps();
         compileAllShaders(loader.sources);
+        createProgram();
         attachAllShaders();
         linkProgram();
     }
 
-    private void createProgram()
-    {
-        programHandle = GLES20.glCreateProgram();
+    private void initializeHandleHashMaps() {
+        shaderHandles = new HashMap<>();
+        uniformHandles = new HashMap<>();
     }
+
     private void compileAllShaders(HashMap<ShaderType, String> sources) {
         for(Map.Entry<ShaderType, String> kvp : sources.entrySet())
         {
@@ -41,9 +39,9 @@ public abstract class ShaderBase {
         }
     }
     private void attachAllShaders() {
-        for(Integer handle : shaderHandles.values())
+        for(int shaderHandle : shaderHandles.values())
         {
-            GLES20.glAttachShader(programHandle, handle);
+            attachShaderToProgram(shaderHandle);
         }
     }
     private void deleteAllShaders() {
@@ -69,8 +67,7 @@ public abstract class ShaderBase {
         }
     }
     private int createShader(ShaderType type) {
-        int shaderHandle = GLES20.glCreateShader(type.type);
-        return shaderHandle;
+        return GLES20.glCreateShader(type.type);
     }
     private void loadShaderSourceIntoGPU(String shaderSource, int shaderHandle) {
         GLES20.glShaderSource(shaderHandle, shaderSource);
@@ -96,14 +93,18 @@ public abstract class ShaderBase {
         Log.e("SHADER",  infoLog);
     }
 
+    private void createProgram()
+    {
+        programHandle = GLES20.glCreateProgram();
+    }
+    private void attachShaderToProgram(int shaderHandle) {
+        GLES20.glAttachShader(programHandle, shaderHandle);
+    }
     private void linkProgram() {
         GLES20.glLinkProgram(programHandle);
-        if(hasLinked())
-        {
+
+        if(!hasLinked()) {
             printLinkInfoLog();
-            detachAllShaders();
-        } else
-        {
             GLES20.glDeleteProgram(programHandle);
             deleteAllShaders();
         }
@@ -125,17 +126,6 @@ public abstract class ShaderBase {
 
         Log.i("SHADER", "SHADER::LINKING::LINKING_ERROR ");
         Log.i("SHADER", infoLog);
-    }
-    private void detachAllShaders() {
-        for(Integer handle : shaderHandles.values()) {
-            GLES20.glDeleteShader(handle);
-        }
-    }
-
-    private void bindAttributeLocations() {
-        GLES20.glBindAttribLocation(programHandle, 0, POSITION_ATTR_NAME);
-        GLES20.glBindAttribLocation(programHandle, 1, COLOR_ATTR_NAME);
-        GLES20.glBindAttribLocation(programHandle, 2, TEXTURE_ATTR_NAME);
     }
 
     private final void setUniformFloat2(String name, float x, float y) {
@@ -159,10 +149,10 @@ public abstract class ShaderBase {
         int handle = getUniformHandle(name);
         GLES20.glUniformMatrix4fv(handle, 1, false, matrix4, 0);
     }
-    protected final void setUniformVector2(String name, Vector2 vector2) {
+    protected final void setUniformVector2(String name,Vector2 vector2) {
         setUniformFloat2(name, vector2.getX(), vector2.getY());
     }
-    protected final void setUniformVector3(String name, Vector3 vector3) {
+    protected final void setUniformVector3(String name,Vector3 vector3) {
         setUniformFloat3(name, vector3.getX(), vector3.getY(), vector3.getZ());
     }
     protected final void setUniformColor(String name, RGBAColor color) {
@@ -171,22 +161,28 @@ public abstract class ShaderBase {
     protected final void setUniformTexture(String name, Texture texture) {
         setUniformFloat1(name, texture.getSlot());
     }
+    public final void setUniformColor(RGBAColor color) {
+        setUniformColor("vColor", color);
+    }
 
-    private int getUniformHandle(String name) {
+    public int getUniformHandle(String name) {
         if (uniformHandles.containsKey(name)) {
             return uniformHandles.get(name);
         } else
         {
-            int handle = GLES20.glGetUniformLocation(programHandle, "name");
+            int handle = GLES20.glGetUniformLocation(programHandle, name);
             uniformHandles.put(name, handle);
 
             return handle;
         }
     }
+    public int getProgramHandle() {
+        return programHandle;
+    }
+
 
     public final void use() {
         GLES20.glUseProgram(programHandle);
-        bindAttributeLocations();
     }
     public final void unuse() {
         GLES20.glUseProgram(0);
