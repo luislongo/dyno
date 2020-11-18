@@ -1,12 +1,7 @@
 package com.alura.dyno.engine3d.system.vertex;
 
-import android.opengl.GLES10;
-import android.opengl.GLES20;
-
 import com.alura.dyno.engine3d.system.BufferLayout;
-import com.alura.dyno.engine3d.system.BufferLayoutElement;
 import com.alura.dyno.engine3d.system.shaders.Shader;
-import com.alura.dyno.engine3d.system.shaders.ShaderBase;
 import com.alura.dyno.engine3d.utils.RGBAColor;
 import com.alura.dyno.maths.Vector2;
 import com.alura.dyno.maths.Vector3;
@@ -45,7 +40,7 @@ public abstract class VertexBuffer {
     }
     protected abstract void drawElements();
 
-    public final void draw(ShaderBase shader) {
+    public final void draw(Shader shader) {
         if (!isInGPU) {
             loadToGPU();
         }

@@ -3,7 +3,7 @@ package com.alura.dyno.engine3d.system.shaders;
 import com.alura.dyno.engine3d.system.Texture;
 import com.alura.dyno.engine3d.utils.RGBAColor;
 
-public class TextShader extends Shader {
+public class TextShader extends SimpleShader {
     public static final String FONTATLAS_UNIFORM = "u_FontAtlas";
     public static final String FONTSIZE_UNIFORM = "u_FontSize";
     public static final String FONTCOLOR_UNIFORM = "u_FontColor";

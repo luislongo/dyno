@@ -1,13 +1,10 @@
 package com.alura.dyno.engine3d.components;
 
-import android.opengl.GLES20;
-
 import com.alura.dyno.engine3d.system.events.ComponentEvent;
 import com.alura.dyno.engine3d.system.shaders.Shader;
-import com.alura.dyno.engine3d.system.shaders.ShaderBase;
 import com.alura.dyno.engine3d.system.vertex.VertexBuffer;
 
-public abstract class Renderer<U extends VertexBuffer, V extends ShaderBase> extends MonoBehaviour
+public abstract class Renderer<U extends VertexBuffer, V extends Shader> extends MonoBehaviour
         implements ComponentEvent.IOnRenderEventListener {
 
     U data;
@@ -43,7 +40,7 @@ public abstract class Renderer<U extends VertexBuffer, V extends ShaderBase> ext
         data.clearData();
     }
 
-    public abstract static class RendererBuilder<T extends RendererBuilder<T, U, V>, U extends VertexBuffer, V extends ShaderBase>
+    public abstract static class RendererBuilder<T extends RendererBuilder<T, U, V>, U extends VertexBuffer, V extends Shader>
             extends MonoBehaviourBuilder<T> {
         protected U data;
         protected V shader;

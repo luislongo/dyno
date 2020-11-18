@@ -1,11 +1,11 @@
 package com.alura.dyno.engine3d.components;
 
 import com.alura.dyno.engine3d.system.SceneMaster;
+import com.alura.dyno.engine3d.system.shaders.SimpleShader;
 import com.alura.dyno.engine3d.system.shaders.Shader;
-import com.alura.dyno.engine3d.system.shaders.ShaderBase;
 import com.alura.dyno.engine3d.system.vertex.WireBuffer;
 
-public class WireRenderer<U extends Shader> extends Renderer<WireBuffer, U> {
+public class WireRenderer<U extends SimpleShader> extends Renderer<WireBuffer, U> {
 
     public WireRenderer(WireRendererBuilder builder) {
         super(builder);
@@ -18,7 +18,7 @@ public class WireRenderer<U extends Shader> extends Renderer<WireBuffer, U> {
         shader.setProjectionMatrix(SceneMaster.getMainCamera().getProjectionMatrix());
     }
 
-    public static class WireRendererBuilder<T extends WireRenderer.WireRendererBuilder<T, V>, V extends ShaderBase>
+    public static class WireRendererBuilder<T extends WireRenderer.WireRendererBuilder<T, V>, V extends Shader>
             extends RendererBuilder<T, WireBuffer, V> {
 
         protected WireRendererBuilder(String name, V shader) {

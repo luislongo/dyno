@@ -1,11 +1,9 @@
 package com.alura.dyno.engine3d.system.shaders;
 
-import android.opengl.GLES20;
-
 import com.alura.dyno.engine3d.system.Texture;
 import com.alura.dyno.engine3d.utils.RGBAColor;
 
-public class GridShader extends ShaderBase {
+public class GridShader extends SimpleShader {
     public final static String BACKGROUNDCOLOR_UNIFORM = "u_BackgroundColor";
     public final static String LINECOLOR_UNIFORM = "u_LineColor";
     public final static String GRIDSPACING_UNIFORM = "u_GridSpacing";

@@ -1,11 +1,5 @@
 package com.alura.dyno.engine3d.system;
 
-import android.os.Debug;
-
-import com.alura.dyno.engine3d.system.shaders.Shader;
-import com.alura.dyno.engine3d.system.vertex.VertexBuffer;
-import com.alura.dyno.maths.Vector3;
-
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;

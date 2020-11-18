@@ -1,28 +1,30 @@
 package com.alura.dyno.ui;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import com.alura.dyno.R;
+import com.alura.dyno.engine3d.components.AdaptableGridRenderer;
 import com.alura.dyno.engine3d.components.Camera;
+import com.alura.dyno.engine3d.components.GridRenderer;
 import com.alura.dyno.engine3d.components.MeshRenderer;
 import com.alura.dyno.engine3d.objects.EmptyObject;
 import com.alura.dyno.engine3d.objects.SceneObject;
 import com.alura.dyno.engine3d.system.SceneMaster;
+import com.alura.dyno.engine3d.system.Texture;
 import com.alura.dyno.engine3d.system.events.ComponentEvent;
 import com.alura.dyno.engine3d.system.events.ComponentEvent.OnScreenSizeChangedEvent;
 import com.alura.dyno.engine3d.system.events.TreeEventDispatcher;
 import com.alura.dyno.engine3d.system.fonts.Font;
 import com.alura.dyno.engine3d.system.fonts.FontLoader;
-import com.alura.dyno.engine3d.system.shaders.Shader;
-import com.alura.dyno.engine3d.system.shaders.ShaderLoader;
 import com.alura.dyno.engine3d.system.shaders.ShaderMaster;
-import com.alura.dyno.engine3d.system.shaders.ShaderType;
 import com.alura.dyno.engine3d.system.vertex.MeshBuffer;
 import com.alura.dyno.engine3d.system.vertex.Vertex;
 import com.alura.dyno.engine3d.utils.ColorPalette;
+import com.alura.dyno.engine3d.utils.RGBAColor;
 import com.alura.dyno.engine3d.utils.TriangleFactory;
 
 public class StructureDrawGLSurface extends GLSurfaceView implements ColorPalette {
@@ -70,20 +72,17 @@ public class StructureDrawGLSurface extends GLSurfaceView implements ColorPalett
                 .setPosition(0.0f, 0.0f, -0.5f)
                 .build();
 
-        Vertex[] quad = new TriangleFactory.QuadBuilder(-0.5f, 0.5f, -0.5f, 0.5f)
-                .setColorBounds(BLACK, BLACK, BLACK, ACQUA_GREEN)
-                .asVertex();
-        MeshBuffer buffer = new MeshBuffer();
-        buffer.addVertex(quad);
-        buffer.loadToGPU();
-
-        MeshRenderer meshRenderer = new MeshRenderer
-                .MeshRendererBuilder<>("name", ShaderMaster.objectShader)
-                .setData(buffer)
+        AdaptableGridRenderer grid = AdaptableGridRenderer.AdaptableGridRendererBuilder
+                .builder("Grid", ShaderMaster.gridShader, getContext())
+                .setBackgroundColor(ColorPalette.MIDNIGHT_BLUE)
+                .setLineColor(ColorPalette.WASHED_BLUE)
+                .setMaxTexturePixelSize(600)
+                .setMinTexturePixelSize(300)
+                .setSpacing(1.0f)
+                .setTexture(R.drawable.grid_texture)
                 .build();
 
-        root.addComponent(meshRenderer);
-
+        root.addComponent(grid);
     }
     private void loadShaders() {
         ShaderMaster.loadShaders(getContext());

@@ -16,6 +16,7 @@ import com.alura.dyno.maths.Vector2;
 public class GridRenderer extends Renderer<MeshBuffer, GridShader> {
     protected float spacing;
     Context context;
+
     private Texture texture;
     private RGBAColor lineColor;
     private RGBAColor backgroundColor;
@@ -32,13 +33,12 @@ public class GridRenderer extends Renderer<MeshBuffer, GridShader> {
         loadTexture(builder.textureResourceId, context);
     }
 
-    protected void createQuad() {
+    private void createQuad() {
         Vertex[] vertexData = new TriangleFactory.QuadBuilder(-1.0f, 1.0f, -1.0f, 1.0f)
                 .setUVBounds(0.0f, 1.0f, 0.0f, 1.0f)
                 .setDepth(1.0f).asVertex();
         data.addVertex(vertexData);
     }
-
     private void loadTexture(int textureResourceId, Context context) {
         texture = new Texture(textureResourceId, context);
     }
@@ -54,7 +54,6 @@ public class GridRenderer extends Renderer<MeshBuffer, GridShader> {
         shader.setInverseVPMatrix(invVP);
         shader.setGridTexture(texture);
     }
-
     private float[] getInverseVPMatrix() {
         float[] vP = new float[16];
         Matrix.multiplyMM(vP, 0, SceneMaster.getMainCamera().getViewMatrix(),
@@ -65,13 +64,6 @@ public class GridRenderer extends Renderer<MeshBuffer, GridShader> {
         float[] invVP = new float[16];
         Matrix.invertM(invVP, 0, vP, 0);
         return invVP;
-    }
-
-    public Vector2 alignCoordinateToGrid(Vector2 v) {
-        float alignedX = spacing * Math.round(v.getX() / spacing);
-        float alignedY = spacing * Math.round(v.getY() / spacing);
-
-        return new Vector2(alignedX, alignedY);
     }
 
     public static class GridRendererBuilder<T extends GridRendererBuilder<T>>
