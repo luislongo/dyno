@@ -3,10 +3,9 @@ precision mediump float;
 uniform sampler2D u_FontAtlas;
 uniform vec4 u_FontColor;
 
-varying vec2 v_TexCoords;
+varying vec2 v_TextureCoords;
 
 void main()
 {
-//texture2D(u_FontAtlas, v_TexCoords).a * 
-   gl_FragColor = u_FontColor;
+   gl_FragColor = texture2D(u_FontAtlas, v_TextureCoords).a * u_FontColor;
 }

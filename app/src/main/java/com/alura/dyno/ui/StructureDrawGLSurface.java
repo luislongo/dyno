@@ -1,7 +1,6 @@
 package com.alura.dyno.ui;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -9,23 +8,19 @@ import android.view.MotionEvent;
 import com.alura.dyno.R;
 import com.alura.dyno.engine3d.components.AdaptableGridRenderer;
 import com.alura.dyno.engine3d.components.Camera;
-import com.alura.dyno.engine3d.components.GridRenderer;
-import com.alura.dyno.engine3d.components.MeshRenderer;
+import com.alura.dyno.engine3d.components.TextRenderer;
 import com.alura.dyno.engine3d.objects.EmptyObject;
 import com.alura.dyno.engine3d.objects.SceneObject;
 import com.alura.dyno.engine3d.system.SceneMaster;
-import com.alura.dyno.engine3d.system.Texture;
 import com.alura.dyno.engine3d.system.events.ComponentEvent;
 import com.alura.dyno.engine3d.system.events.ComponentEvent.OnScreenSizeChangedEvent;
 import com.alura.dyno.engine3d.system.events.TreeEventDispatcher;
 import com.alura.dyno.engine3d.system.fonts.Font;
 import com.alura.dyno.engine3d.system.fonts.FontLoader;
 import com.alura.dyno.engine3d.system.shaders.ShaderMaster;
-import com.alura.dyno.engine3d.system.vertex.MeshBuffer;
-import com.alura.dyno.engine3d.system.vertex.Vertex;
 import com.alura.dyno.engine3d.utils.ColorPalette;
-import com.alura.dyno.engine3d.utils.RGBAColor;
-import com.alura.dyno.engine3d.utils.TriangleFactory;
+
+import org.w3c.dom.Text;
 
 public class StructureDrawGLSurface extends GLSurfaceView implements ColorPalette {
     StructureDrawRenderer renderer;
@@ -82,7 +77,14 @@ public class StructureDrawGLSurface extends GLSurfaceView implements ColorPalett
                 .setTexture(R.drawable.grid_texture)
                 .build();
 
-        root.addComponent(grid);
+        TextRenderer text = TextRenderer.TextRendererBuilder.builder("Text", ShaderMaster.textShader, font)
+                .setFontColor(ColorPalette.BLUE)
+                .setFontSize(0.001f)
+                .setText("AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz01234567890")
+                .build();
+
+        //root.addComponent(grid);
+        root.addComponent(text);
     }
     private void loadShaders() {
         ShaderMaster.loadShaders(getContext());

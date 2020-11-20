@@ -55,7 +55,7 @@ char id=83      x=140  y=424  width=70   height=89   xoffset=-1   yoffset=27   x
 char id=84      x=254  y=774  width=72   height=83   xoffset=-6   yoffset=28   xadvance=67
 char id=85      x=546  y=332  width=70   height=90   xoffset=3    yoffset=25   xadvance=74
 char id=86      x=210  y=424  width=70   height=89   xoffset=-1   yoffset=24   xadvance=70
-char id=87      x=851  y=513  width=100  height=87   xoffset=0    yoffset=26   xadvance=10
+char id=87      x=851  y=513  width=100  height=87   xoffset=0    yoffset=26   xadvance=100
 char id=88      x=80   y=513  width=67   height=88   xoffset=2    yoffset=26   xadvance=70
 char id=89      x=280  y=424  width=65   height=89   xoffset=2    yoffset=26   xadvance=68
 char id=90      x=723  y=601  width=73   height=86   xoffset=-3   yoffset=27   xadvance=71

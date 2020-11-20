@@ -8,6 +8,8 @@ public class ShaderMaster {
 
     public static SimpleShader objectShader;
     public static GridShader gridShader;
+    public static TextShader textShader;
+
     private static Context context;
 
     public static void loadShaders(Context context) {
@@ -15,6 +17,7 @@ public class ShaderMaster {
 
         loadObjectShader();
         loadGridShader();
+        loadTextShader();
     }
 
     private static void loadObjectShader() {
@@ -31,5 +34,13 @@ public class ShaderMaster {
         shaderLoader.load(ShaderType.Fragment, R.raw.shaderf_grid);
 
         gridShader = new GridShader(shaderLoader);
+    }
+
+    private static void loadTextShader() {
+        ShaderLoader shaderLoader = new ShaderLoader(context);
+        shaderLoader.load(ShaderType.Vertex, R.raw.shaderv_text);
+        shaderLoader.load(ShaderType.Fragment, R.raw.shaderf_text);
+
+        textShader = new TextShader(shaderLoader);
     }
 }

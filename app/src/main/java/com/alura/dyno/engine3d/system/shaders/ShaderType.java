@@ -20,8 +20,8 @@ public enum ShaderType {
                 return "Fragment";
             case Vertex :
                 return "Vertex";
+            default :
+                return "Invalid";
         }
-
-        return "Invalid";
     }
 }

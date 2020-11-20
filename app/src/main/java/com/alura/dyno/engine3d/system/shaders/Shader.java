@@ -171,11 +171,22 @@ public abstract class Shader {
         } else
         {
             int handle = GLES20.glGetUniformLocation(programHandle, name);
-            uniformHandles.put(name, handle);
 
-            return handle;
+            if(doesHandleExist(handle)) {
+                uniformHandles.put(name, handle);
+                return handle;
+            } else
+            {
+                Log.e("SHADER", "SHADER::UNIFORM::COULD NOT FIND UNIFORM::NAME: " + name);
+                return -1;
+            }
         }
     }
+
+    private boolean doesHandleExist(int handle) {
+        return !(handle == -1);
+    }
+
     public int getProgramHandle() {
         return programHandle;
     }
