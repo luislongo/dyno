@@ -1,15 +1,13 @@
 package com.alura.dyno.engine3d.system.shaders;
 
-import android.icu.lang.UCharacter;
 import android.opengl.GLES20;
 import android.util.Log;
 
 import com.alura.dyno.engine3d.system.Texture;
 import com.alura.dyno.engine3d.utils.RGBAColor;
-import com.alura.dyno.maths.Vector2;
-import com.alura.dyno.maths.Vector3;
-
-import org.jetbrains.annotations.NotNull;
+import com.alura.dyno.maths.Matrix4F;
+import com.alura.dyno.maths.Vector2F;
+import com.alura.dyno.maths.Vector3F;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -128,41 +126,41 @@ public abstract class Shader {
         Log.i("SHADER", infoLog);
     }
 
-    private final void setUniformFloat2(String name, float x, float y) {
+    private final void setUniform2F(String name, float x, float y) {
         int handle = getUniformHandle(name);
         GLES20.glUniform2f(handle, x, y);
     }
-    private final void setUniformFloat3(String name, float x, float y, float z) {
+    private final void setUniform3F(String name, float x, float y, float z) {
         int handle = getUniformHandle(name);
         GLES20.glUniform3f(handle, x, y, z);
     }
-    private final void setUniformFloat4(String name, float x, float y, float z, float w) {
+    private final void setUniform4F(String name, float x, float y, float z, float w) {
         int handle = getUniformHandle(name);
         GLES20.glUniform4f(handle, x, y, z, w);
     }
-
-    protected final void setUniformFloat1(String name, float x) {
-        int handle = getUniformHandle(name);
-        GLES20.glUniform1f(handle, x);
-    }
-    protected final void setUniformMat4(String name, float[] matrix4) {
+    private final void setUniformMat4F(String name, float[] matrix4) {
         int handle = getUniformHandle(name);
         GLES20.glUniformMatrix4fv(handle, 1, false, matrix4, 0);
     }
-    protected final void setUniformVector2(String name,Vector2 vector2) {
-        setUniformFloat2(name, vector2.getX(), vector2.getY());
+
+    protected final void setUniform1F(String name, float x) {
+        int handle = getUniformHandle(name);
+        GLES20.glUniform1f(handle, x);
     }
-    protected final void setUniformVector3(String name,Vector3 vector3) {
-        setUniformFloat3(name, vector3.getX(), vector3.getY(), vector3.getZ());
+    protected final void setUniformVector2F(String name, Vector2F vector2) {
+        setUniform2F(name, vector2.x(), vector2.y());
+    }
+    protected final void setUniformVector3F(String name, Vector3F vector3) {
+        setUniform3F(name, vector3.x(), vector3.y(), vector3.z());
     }
     protected final void setUniformColor(String name, RGBAColor color) {
-        setUniformFloat4(name, color.r, color.g, color.b, color.a);
+        setUniform4F(name, color.r, color.g, color.b, color.a);
     }
     protected final void setUniformTexture(String name, Texture texture) {
-        setUniformFloat1(name, texture.id());
+        setUniform1F(name, texture.id());
     }
-    public final void setUniformColor(RGBAColor color) {
-        setUniformColor("vColor", color);
+    protected final void setUniformMat4F(String name, Matrix4F matrix4) {
+        setUniformMat4F(name, matrix4.toArray());
     }
 
     public int getUniformHandle(String name) {
@@ -182,15 +180,12 @@ public abstract class Shader {
             }
         }
     }
-
     private boolean doesHandleExist(int handle) {
         return !(handle == -1);
     }
-
     public int getProgramHandle() {
         return programHandle;
     }
-
 
     public final void use() {
         GLES20.glUseProgram(programHandle);

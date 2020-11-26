@@ -2,6 +2,7 @@ package com.alura.dyno.engine3d.system.shaders;
 
 import com.alura.dyno.engine3d.system.Texture;
 import com.alura.dyno.engine3d.utils.RGBAColor;
+import com.alura.dyno.maths.Matrix4F;
 
 public class GridShader extends SimpleShader {
     public final static String BACKGROUNDCOLOR_UNIFORM = "u_BackgroundColor";
@@ -22,11 +23,13 @@ public class GridShader extends SimpleShader {
     }
     public void setGridSpacing(float spacing)
     {
-        setUniformFloat1(GRIDSPACING_UNIFORM, spacing);
+        setUniform1F(GRIDSPACING_UNIFORM, spacing);
     }
     public void setGridTexture(Texture texture)
     {
         setUniformTexture(GRIDTEXTURE_UNIFORM, texture);
     }
-    public void setInverseVPMatrix(float[] inverseVPMatrix) {setUniformMat4(INVERSEVPMATRIX_UNIFORM, inverseVPMatrix);}
+    public void setInverseVPMatrix(Matrix4F inverseVPMatrix) {
+        setUniformMat4F(INVERSEVPMATRIX_UNIFORM, inverseVPMatrix);
+    }
 }

@@ -1,25 +1,25 @@
 package com.alura.dyno.engine3d.system.vertex;
 
 import com.alura.dyno.engine3d.utils.RGBAColor;
-import com.alura.dyno.maths.Vector2;
-import com.alura.dyno.maths.Vector3;
+import com.alura.dyno.maths.Vector2F;
+import com.alura.dyno.maths.Vector3F;
 
 public class Vertex {
     public final static int BYTES = 9 * Float.BYTES;
-    public Vector3 position;
+    public Vector3F position;
     public RGBAColor color;
-    public Vector2 uv;
+    public Vector2F uv;
 
     public Vertex(VertexBuilder builder) {
-        this.position = new Vector3(builder.x, builder.y, builder.z);
+        this.position = new Vector3F(builder.x, builder.y, builder.z);
         this.color = new RGBAColor(builder.r, builder.g, builder.b, builder.a);
-        this.uv = new Vector2(builder.uv1, builder.uv2);
+        this.uv = new Vector2F(builder.uv1, builder.uv2);
     }
 
     public float[] data() {
-        return new float[]{position.getX(), position.getY(), position.getZ(),
+        return new float[]{position.x(), position.y(), position.z(),
                 color.r, color.g, color.b, color.a,
-                uv.getX(), uv.getY()};
+                uv.x(), uv.y()};
     }
 
     public static class VertexBuilder {

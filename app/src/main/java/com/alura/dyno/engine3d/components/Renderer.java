@@ -1,10 +1,18 @@
 package com.alura.dyno.engine3d.components;
 
+import android.opengl.Matrix;
+
 import com.alura.dyno.engine3d.system.events.ComponentEvent;
 import com.alura.dyno.engine3d.system.shaders.Shader;
 import com.alura.dyno.engine3d.system.vertex.VertexBuffer;
+import com.alura.dyno.maths.Matrix4F;
+import com.alura.dyno.maths.Vector3F;
 
-public abstract class Renderer<U extends VertexBuffer, V extends Shader> extends MonoBehaviour
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class Renderer<U extends VertexBuffer, V extends Shader>
+        extends MonoBehaviour
         implements ComponentEvent.IOnRenderEventListener {
 
     U data;
@@ -26,13 +34,13 @@ public abstract class Renderer<U extends VertexBuffer, V extends Shader> extends
     @Override
     public void onCreate(ComponentEvent.OnCreateEvent event) {
         super.onCreate(event);
-        data.loadToGPU();
+        data.loadToGPU(getParent().getGlobalTransform());
     }
     @Override
     public void onRender() {
         shader.use();
         setUniforms();
-        data.draw(shader);
+        data.draw(shader, getParent().getGlobalTransform());
         shader.unuse();
     }
 

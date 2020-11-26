@@ -1,8 +1,9 @@
 package com.alura.dyno.engine3d.system.events;
 
+import com.alura.dyno.engine3d.components.Camera;
 import com.alura.dyno.engine3d.objects.SceneObject;
 import com.alura.dyno.engine3d.system.SceneMaster;
-import com.alura.dyno.maths.Vector2;
+import com.alura.dyno.maths.Vector2F;
 
 public abstract class ComponentEvent extends EngineEvent {
 
@@ -105,24 +106,24 @@ public abstract class ComponentEvent extends EngineEvent {
     }
 
     public static class OnTapEvent extends ComponentEvent {
-        Vector2 screenCoords;
-        Vector2 modelCoords;
-        Vector2 alignedCoords;
+        Vector2F screenCoords;
+        Vector2F modelCoords;
+        Vector2F alignedCoords;
 
-        public OnTapEvent(Vector2 screenCoords) {
+        public OnTapEvent(Vector2F screenCoords) {
             this.screenCoords = screenCoords;
-            this.modelCoords = SceneMaster.getMainCamera().fromScreenToView(screenCoords);
+            this.modelCoords = Camera.fromScreenToView(SceneMaster.getMainCamera(), screenCoords);
         }
 
-        public Vector2 getScreenCoords() {
+        public Vector2F getScreenCoords() {
             return screenCoords;
         }
 
-        public Vector2 getViewCoords() {
+        public Vector2F getViewCoords() {
             return modelCoords;
         }
 
-        public Vector2 getAlignedCoords() {
+        public Vector2F getAlignedCoords() {
             return alignedCoords;
         }
 
@@ -133,32 +134,32 @@ public abstract class ComponentEvent extends EngineEvent {
     }
 
     public static class OnDragEvent extends ComponentEvent {
-        Vector2 screenDistance;
-        Vector2 viewDistance;
-        Vector2 screenCurrentTouch;
-        Vector2 viewCurrentTouch;
+        Vector2F screenDistance;
+        Vector2F viewDistance;
+        Vector2F screenCurrentTouch;
+        Vector2F viewCurrentTouch;
 
-        public OnDragEvent(Vector2 screenDistance, Vector2 viewDistance, Vector2 screenCurrentTouch,
-                           Vector2 viewCurrentTouch) {
+        public OnDragEvent(Vector2F screenDistance, Vector2F viewDistance, Vector2F screenCurrentTouch,
+                           Vector2F viewCurrentTouch) {
             this.screenDistance = screenDistance;
             this.viewDistance = viewDistance;
             this.screenCurrentTouch = screenCurrentTouch;
             this.viewCurrentTouch = viewCurrentTouch;
         }
 
-        public Vector2 getScreenDistance() {
+        public Vector2F getScreenDistance() {
             return screenDistance;
         }
 
-        public Vector2 getViewDistance() {
+        public Vector2F getViewDistance() {
             return viewDistance;
         }
 
-        public Vector2 getScreenCurrentTouch() {
+        public Vector2F getScreenCurrentTouch() {
             return screenCurrentTouch;
         }
 
-        public Vector2 getViewCurrentTouch() {
+        public Vector2F getViewCurrentTouch() {
             return viewCurrentTouch;
         }
 
@@ -170,9 +171,9 @@ public abstract class ComponentEvent extends EngineEvent {
 
     public static class OnScaleEvent extends ComponentEvent {
         private float scaleFactor;
-        private Vector2 focusPoint;
+        private Vector2F focusPoint;
 
-        public OnScaleEvent(float scaleFactor, Vector2 focusPoint) {
+        public OnScaleEvent(float scaleFactor, Vector2F focusPoint) {
             this.scaleFactor = scaleFactor;
             this.focusPoint = focusPoint;
         }
@@ -181,7 +182,7 @@ public abstract class ComponentEvent extends EngineEvent {
             return scaleFactor;
         }
 
-        public Vector2 getFocusPoint() {
+        public Vector2F getFocusPoint() {
             return focusPoint;
         }
 

@@ -19,8 +19,7 @@ import com.alura.dyno.engine3d.system.fonts.Font;
 import com.alura.dyno.engine3d.system.fonts.FontLoader;
 import com.alura.dyno.engine3d.system.shaders.ShaderMaster;
 import com.alura.dyno.engine3d.utils.ColorPalette;
-
-import org.w3c.dom.Text;
+import com.alura.dyno.maths.Vector3F;
 
 public class StructureDrawGLSurface extends GLSurfaceView implements ColorPalette {
     StructureDrawRenderer renderer;
@@ -33,7 +32,6 @@ public class StructureDrawGLSurface extends GLSurfaceView implements ColorPalett
     public StructureDrawGLSurface(Context context) {
         super(context);
     }
-
     public StructureDrawGLSurface(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
@@ -55,7 +53,7 @@ public class StructureDrawGLSurface extends GLSurfaceView implements ColorPalett
                 .build();
 
         EmptyObject cameraHandle = new EmptyObject.EmptyObjectBuilder<>("Camera handle")
-                .setPosition(0.0f, 0.0f, 1.0f)
+                .setPosition(new Vector3F(0.0f, 0.0f, 0.0f))
                 .build();
 
         cameraHandle.setParent(root);
@@ -64,7 +62,7 @@ public class StructureDrawGLSurface extends GLSurfaceView implements ColorPalett
     }
     private void loadObjects() {
         root = EmptyObject.EmptyObjectBuilder.builder("Root")
-                .setPosition(0.0f, 0.0f, -0.5f)
+                .setPosition(new Vector3F(0.0f, 0.0f, 0.0f))
                 .build();
 
         AdaptableGridRenderer grid = AdaptableGridRenderer.AdaptableGridRendererBuilder
@@ -94,9 +92,7 @@ public class StructureDrawGLSurface extends GLSurfaceView implements ColorPalett
                 .load(R.drawable.font_atlas_handwritten, R.raw.font_map_handwritten);
     }
 
-    //2.3 Touch events
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    @Override public boolean onTouchEvent(MotionEvent event) {
         if (listener != null) {
             return listener.onTouch(event);
         } else {
@@ -107,8 +103,6 @@ public class StructureDrawGLSurface extends GLSurfaceView implements ColorPalett
     public interface StructureDrawSurfaceListener {
         boolean onTouch(MotionEvent e);
     }
-
-    //3. Classes
     public class SimpleSurfaceRendererListener implements StructureDrawRenderer.SurfaceRendererListener {
         @Override
         public void OnSurfaceCreated(StructureDrawRenderer renderer) {

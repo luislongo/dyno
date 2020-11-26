@@ -2,8 +2,6 @@ package com.alura.dyno.engine3d.utils;
 
 import android.graphics.Color;
 
-import com.alura.dyno.maths.Vector4;
-
 public class RGBAColor {
 
     public float r, g, b, a;
