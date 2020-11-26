@@ -62,7 +62,6 @@ public class StructureDrawGLSurface extends GLSurfaceView implements ColorPalett
     }
     private void loadObjects() {
         root = EmptyObject.EmptyObjectBuilder.builder("Root")
-                .setPosition(new Vector3F(0.0f, 0.0f, 0.0f))
                 .build();
 
         AdaptableGridRenderer grid = AdaptableGridRenderer.AdaptableGridRendererBuilder
@@ -81,7 +80,7 @@ public class StructureDrawGLSurface extends GLSurfaceView implements ColorPalett
                 .setText("AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz01234567890")
                 .build();
 
-        //root.addComponent(grid);
+        root.addComponent(grid);
         root.addComponent(text);
     }
     private void loadShaders() {

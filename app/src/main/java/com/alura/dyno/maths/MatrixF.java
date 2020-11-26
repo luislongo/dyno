@@ -1,7 +1,6 @@
 package com.alura.dyno.maths;
 
 import java.util.Arrays;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MatrixF {
     private int nrOfRows;
@@ -46,10 +45,10 @@ public class MatrixF {
     {
         return getSubMatrix(i, i, 0, nrOfCols - 1);
     }
-    public Vector getColumnVector(int j) {
+    public VectorF getColumnVector(int j) {
         checkForInvalidColumnIndex(j);
 
-        return new Vector(getSubMatrix(0, nrOfRows - 1, j, j).x_ij);
+        return new VectorF(getSubMatrix(0, nrOfRows - 1, j, j).x_ij);
     }
     public void setX_(int i, int j, float value) {
         x_ij[getIndex(i,j)] = value;

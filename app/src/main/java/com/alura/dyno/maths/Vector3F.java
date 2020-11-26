@@ -1,10 +1,13 @@
 package com.alura.dyno.maths;
 
-public class Vector3F extends Vector {
+public class Vector3F extends VectorF {
 
     public Vector3F(float value)
     {
         super(3, value);
+    }
+    public Vector3F(float[] values) {
+        super(values);
     }
     public Vector3F(Vector2F origin, float z) {
         super(new float[]{origin.x(), origin.y(), z});
@@ -27,10 +30,26 @@ public class Vector3F extends Vector {
     public float z() {
         return getX_(2);
     }
+    public void setValues(float x, float y, float z) {
+        setValues(new float[]{x, y, z});
+    }
 
     public void multiply(Matrix4F m_lhs, float w)
     {
         this.x_i = multiply(m_lhs, this, 1.0f).x_i;
+    }
+
+    public static Vector3F add(Vector3F v_lhs,Vector3F v_rhs) {
+        return new Vector3F(VectorMath.add(v_lhs,v_rhs));
+    }
+    public static Vector3F subtract(Vector3F v_lhs,Vector3F v_rhs) {
+        return new Vector3F(VectorMath.subtract(v_lhs, v_rhs));
+    }
+    public static Vector3F multiply(Vector3F v_lhs, float c) {
+        return new Vector3F(VectorMath.multiply(v_lhs, c));
+    }
+    public static Vector3F multiply(MatrixF m_lhs, Vector3F v_rhs) {
+        return new Vector3F(VectorMath.multiply(m_lhs, v_rhs));
     }
     public static Vector3F multiply(Matrix4F m_lhs, Vector3F v_rhs, float w) {
         Vector4F as4F = new Vector4F(v_rhs, w);
@@ -38,7 +57,15 @@ public class Vector3F extends Vector {
 
         return new Vector3F(as4F);
     }
-    public void setValues(float x, float y, float z) {
-        setValues(new float[]{x, y, z});
+    public static Vector3F divide(Vector3F v_lhs, float c) {
+        return new Vector3F(VectorMath.divide(v_lhs, c));
+    }
+    public static Vector3F straightProduct(Vector3F v_lhs, Vector3F v_rhs) {
+        return new Vector3F(VectorMath.straightProduct(v_lhs, v_lhs));
+    }
+
+    @Override protected boolean isDataSizeCorrect(int size)
+    {
+        return size == 3;
     }
 }

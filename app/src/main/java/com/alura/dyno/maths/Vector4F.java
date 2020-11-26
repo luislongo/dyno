@@ -2,8 +2,12 @@ package com.alura.dyno.maths;
 
 import android.opengl.Matrix;
 
-public class Vector4F extends Vector {
+public class Vector4F extends VectorF {
 
+    public Vector4F(float[] values)
+    {
+        super(values);
+    }
     public Vector4F(Vector2F origin, float z, float w)
     {
         this(origin.x(), origin.y(), z, w);
@@ -37,8 +41,34 @@ public class Vector4F extends Vector {
     {
         Matrix.multiplyMV(x_i, 0, m_lhs.x_ij, 0, x_i, 0);
     }
+
+    public static Vector4F add(Vector4F v_lhs,Vector4F v_rhs) {
+        return new Vector4F(VectorMath.add(v_lhs,v_rhs));
+    }
+    public static Vector4F subtract(Vector4F v_lhs,Vector4F v_rhs) {
+        return new Vector4F(VectorMath.subtract(v_lhs, v_rhs));
+    }
+    public static Vector4F multiply(Vector4F v_lhs, float c) {
+        return new Vector4F(VectorMath.multiply(v_lhs, c));
+    }
+    public static Vector4F multiply(Matrix4F m_lhs, Vector4F v_rhs) {
+        return new Vector4F(VectorMath.multiply(m_lhs, v_rhs));
+    }
+    public static Vector4F divide(Vector4F v_lhs, float c) {
+        return new Vector4F(VectorMath.divide(v_lhs, c));
+    }
+    public static Vector4F straightProduct(Vector4F v_lhs, Vector4F v_rhs) {
+        return new Vector4F(VectorMath.straightProduct(v_lhs, v_lhs));
+    }
+
     public void setValues(float x, float y, float z, float w) {
         setValues(new float[]{x, y, z, w});
     }
+
+    @Override protected boolean isDataSizeCorrect(int size)
+    {
+        return size == 4;
+    }
+
 }
 

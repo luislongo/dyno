@@ -1,15 +1,13 @@
 package com.alura.dyno.engine3d.components;
 
 import android.graphics.RectF;
-import android.opengl.Matrix;
+import android.icu.util.ValueIterator;
 
 import com.alura.dyno.engine3d.system.events.ComponentEvent;
 import com.alura.dyno.maths.MathExtra;
 import com.alura.dyno.maths.Matrix4F;
-import com.alura.dyno.maths.Vector;
 import com.alura.dyno.maths.Vector2F;
 import com.alura.dyno.maths.Vector3F;
-import com.alura.dyno.maths.Vector4F;
 
 public class Camera extends MonoBehaviour implements
         ComponentEvent.IOnDragEventListener,
@@ -46,6 +44,8 @@ public class Camera extends MonoBehaviour implements
     @Override public void onCreate(ComponentEvent.OnCreateEvent event) {
         super.onCreate(event);
 
+        viewRect = new RectF();
+
         updateViewMatrix();
         updateProjectionMatrix();
     }
@@ -60,11 +60,7 @@ public class Camera extends MonoBehaviour implements
         float scaleFactor = event.getScaleFactor();
         zoom = MathExtra.clamp(zoom * scaleFactor, minZoom, maxZoom);
 
-        if(isValidZoom(scaleFactor))
-        {
-            Vector3F position = getParent().getGlobalTransform().getPosition();
-            viewMatrix.scale(scaleFactor, position);
-        }
+        updateProjectionMatrix();
     }
     @Override public void onScreenSizeChanged(ComponentEvent.OnScreenSizeChangedEvent event) {
         this.screenSize.setValues(event.getWidth(), event.getHeight());
@@ -75,8 +71,8 @@ public class Camera extends MonoBehaviour implements
     }
 
     private void updateViewMatrix() {
-        Vector3F eye = getParent().getGlobalTransform().getPosition();
-        Vector3F center = new Vector3F(0.0f, 0.0f, -2.0f);
+        Vector3F eye = getParent().getLocalTransform().getPosition();
+        Vector3F center = new Vector3F(0.0f, 0.0f, -1.0f);
         Vector3F up = new Vector3F(0.0f, 1.0f, 0.0f);
 
         viewMatrix = Matrix4F.lookAt(eye, center, up);
@@ -98,7 +94,12 @@ public class Camera extends MonoBehaviour implements
     }
     private boolean isViewRectValid()
     {
-        return (viewRect.height() > 0 && viewRect.height() > 0);
+        boolean hasHeight = viewRect.height() < 0;
+        boolean hasWidth = viewRect.width() > 0;
+        boolean leftLessThanRight = viewRect.left < viewRect.right;
+        boolean bottomLassThanTop = viewRect.bottom < viewRect.top;
+
+        return hasHeight && hasWidth && leftLessThanRight && bottomLassThanTop;
     }
 
     public float getZoom() {
@@ -120,14 +121,25 @@ public class Camera extends MonoBehaviour implements
         return screenDistance / cam.zoom;
     }
     public static Vector2F fromScreenToView(Camera cam, Vector2F screenCoords) {
-        Matrix4F invVPmatrix = Matrix4F.invert(cam.getVPMatrix());
-        return Vector2F.multiply(invVPmatrix, screenCoords);
+        float normalizedX = 2.0f * (screenCoords.x() / cam.screenSize.x()) - 1.0f;
+        float normalizedY = 1.0f - 2 * (screenCoords.y() / cam.screenSize.y());
+
+        float viewX = cam.viewRect.centerX() + 0.5f * normalizedX * cam.viewRect.width();
+        float viewY = cam.viewRect.centerY() + 0.5f * normalizedY * -cam.viewRect.height();
+
+        return new Vector2F(viewX, viewY);
     }
     public static float fromViewToScreen(Camera cam, float viewDistance) {
         return viewDistance * cam.zoom;
     }
     public static Vector2F fromViewToScreen(Camera cam, Vector2F viewCoords) {
-        return Vector2F.multiply(cam.getVPMatrix(), viewCoords);
+        float normalizedX = 2.0f * (viewCoords.x() - cam.viewRect.centerX()) / cam.viewRect.width();
+        float normalizedY = 2.0f * (viewCoords.y() - cam.viewRect.centerY()) / -cam.viewRect.height();
+
+        float screenX = 0.5f * (normalizedX + 1.0f) * cam.screenSize.x();
+        float screenY = 0.5f * (1.0f - normalizedY) * cam.screenSize.y();
+
+        return new Vector2F(screenX, screenY);
     }
 
     public static class CameraBuilder<T extends CameraBuilder<T>>

@@ -1,14 +1,9 @@
 package com.alura.dyno.engine3d.components;
 
-import android.opengl.Matrix;
-
 import com.alura.dyno.engine3d.system.events.SceneObjectEvent;
 import com.alura.dyno.engine3d.system.events.TreeEventDispatcher;
 import com.alura.dyno.maths.Matrix4F;
-import com.alura.dyno.maths.Vector;
-import com.alura.dyno.maths.Vector2F;
 import com.alura.dyno.maths.Vector3F;
-import com.alura.dyno.maths.Vector4F;
 
 public class Transform extends MonoBehaviour {
 
@@ -26,9 +21,6 @@ public class Transform extends MonoBehaviour {
         this.scale = builder.scale;
         this.eulerAngles = builder.eulerAngles;
     }
-    public Transform(String name) {
-        super(name);
-    }
     public Transform(Transform origin) {
         super(origin.name);
         this.copyValues(origin);
@@ -43,10 +35,10 @@ public class Transform extends MonoBehaviour {
         Matrix4F rot_lhs = Matrix4F.identity();
         rot_lhs.rotate(t_lhs.eulerAngles);
 
-        Vector3F newPosition = Vector3F.add(t_lhs.position,
-                Vector3F.multiply(rot_lhs, t_rhs.position, 1.0f));
-        Vector3F newScale = Vector3F.straightProduct(t_lhs.scale, t_rhs.scale);
-        Vector3F newRotation = Vector3F.multiply(rot_lhs, t_rhs.eulerAngles);
+        Vector3F newPosition =
+                Vector3F.add(t_lhs.position, Vector3F.multiply(rot_lhs, t_rhs.position, 0.0f));
+        Vector3F newScale = Vector3F.add(t_lhs.scale, t_rhs.scale);
+        Vector3F newRotation = Vector3F.add(t_lhs.eulerAngles, t_rhs.eulerAngles);
 
         return TransformBuilder.builder("")
                 .setPosition(newPosition)
@@ -113,9 +105,9 @@ public class Transform extends MonoBehaviour {
     public void updateModelMatrix() {
         modelMatrix = Matrix4F.identity();
 
-        modelMatrix.scale(scale);
-        modelMatrix.rotate(eulerAngles);
         modelMatrix.translate(position);
+        modelMatrix.rotate(eulerAngles);
+        modelMatrix.scale(scale);
 
         isUpdated = true;
     }

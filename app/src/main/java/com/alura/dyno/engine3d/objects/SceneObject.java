@@ -11,18 +11,23 @@ public abstract class SceneObject extends TreeNode<SceneObject>
     public static final String LOCAL_TRANSFORM_KEY = "LOCAL_TRANSFORM";
     public static final String GLOBAL_TRANSFORM_KEY = "GLOBAL_TRANSFORM";
 
-    boolean isVisible = true;
-
     public SceneObject(SceneObjectBuilder builder) {
         super(builder);
 
-        addTransformComponents(builder.localTransform);
-    }
-    private void addTransformComponents(Transform localTransform) {
-        addComponent(localTransform);
-        addComponent(new Transform(GLOBAL_TRANSFORM_KEY));
-
+        addTransformComponents(builder);
         updateGlobalTransform();
+    }
+    private void addTransformComponents(SceneObjectBuilder builder) {
+        Transform localTransform = Transform.TransformBuilder.builder(LOCAL_TRANSFORM_KEY)
+                .setPosition(builder.position)
+                .setScale(builder.scale)
+                .setEulerAngles(builder.eulerAngles)
+                .build();
+        Transform globalTransform = Transform.TransformBuilder.builder(GLOBAL_TRANSFORM_KEY)
+                .build();
+
+        addComponent(localTransform);
+        addComponent(globalTransform);
     }
 
     @Override public void setParent(SceneObject newParent) {
@@ -38,48 +43,50 @@ public abstract class SceneObject extends TreeNode<SceneObject>
     @Override public void onParentTransformChanged() {
         updateGlobalTransform();
     }
-
-    public final Transform getLocalTransform() {
-        return findComponentByName(Transform.class, LOCAL_TRANSFORM_KEY);
-    }
-    public final Transform getGlobalTransform() {
-        return findComponentByName(Transform.class, GLOBAL_TRANSFORM_KEY);
-    }
     private void updateGlobalTransform() {
-        if (parent == null) {
-            setGlobalEqualToLocal();
-        } else {
+        if (hasParent()) {
             calculateGlobalFromLocal();
+        } else {
+            setGlobalEqualToLocal();
         }
-    }
-    private void setGlobalEqualToLocal() {
-        Transform global = getGlobalTransform();
-        global.copyValues(getLocalTransform());
     }
     private void calculateGlobalFromLocal() {
         Transform newGlobal = Transform.multiply(parent.getGlobalTransform(), getLocalTransform());
         getGlobalTransform().copyValues(newGlobal);
     }
+    private void setGlobalEqualToLocal() {
+        Transform global = getGlobalTransform();
+        global.copyValues(getLocalTransform());
+    }
 
-    //Builder
+    public final Transform getLocalTransform() {
+        return getComponentByName(Transform.class, LOCAL_TRANSFORM_KEY);
+    }
+    public final Transform getGlobalTransform() {
+        return getComponentByName(Transform.class, GLOBAL_TRANSFORM_KEY);
+    }
+
+    //...Builder
     public abstract static class SceneObjectBuilder<T extends SceneObjectBuilder<T>>
             extends TreeNode.TreeNodeBuilder<T> {
-        protected Transform localTransform = new Transform(LOCAL_TRANSFORM_KEY);
+        Vector3F position = new Vector3F(0.0f, 0.0f, 0.0f);
+        Vector3F eulerAngles = new Vector3F(0.0f, 0.0f, 0.0f);
+        Vector3F scale = new Vector3F(1.0f, 1.0f, 1.0f);
 
         public SceneObjectBuilder(String name) {
             super(name);
         }
 
         public T setPosition(Vector3F position) {
-            this.localTransform.setPosition(position);
+            this.position = new Vector3F(position);
             return (T) this;
         }
         public T setScale(Vector3F scale) {
-            this.localTransform.setScale(scale);
+            this.scale = new Vector3F(scale);
             return (T) this;
         }
-        public T setAngle(Vector3F angle) {
-            this.localTransform.setEulerAngles(angle);
+        public T setEulerAngle(Vector3F eulerAngles) {
+            this.eulerAngles = new Vector3F(eulerAngles);
             return (T) this;
         }
     }

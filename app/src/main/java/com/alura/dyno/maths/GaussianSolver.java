@@ -4,7 +4,7 @@ public class GaussianSolver {
     private static MatrixF system;
     private static MatrixF result;
 
-    public static void solve(MatrixF equations, Vector result) {
+    public static void solve(MatrixF equations, VectorF result) {
         checkForInvalidDimensions(equations, result);
         buildAugmentedMatrix(equations, result);
         forwardSubstitute();
@@ -23,7 +23,7 @@ public class GaussianSolver {
         }
     }
 
-    private static void buildAugmentedMatrix(MatrixF equations, Vector result) {
+    private static void buildAugmentedMatrix(MatrixF equations, VectorF result) {
         GaussianSolver.system = new MatrixF(equations.getNrOfRows(), equations.getNrOfCols() + 1);
 
         for(int i = 0; i < equations.getNrOfRows(); i++)
@@ -88,7 +88,7 @@ public class GaussianSolver {
     }
 
 
-    private static void checkForInvalidDimensions(MatrixF equations, Vector result) {
+    private static void checkForInvalidDimensions(MatrixF equations, VectorF result) {
         if(!equations.isSquare())
         {
             throw new RuntimeException("ERROR::GAUSSIAN_SOLVER::EQUATION MATRIX MUST BE SQUARE");

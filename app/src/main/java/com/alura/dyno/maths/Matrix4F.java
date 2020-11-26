@@ -63,8 +63,7 @@ public class Matrix4F extends MatrixF {
         return m;
     }
 
-    @Override
-    public void transpose() {
+    @Override public void transpose() {
         this.x_ij = transpose(this).x_ij;
     }
     public void setIdentity()
@@ -92,13 +91,5 @@ public class Matrix4F extends MatrixF {
     }
     public void scale(Vector3F factor) {
         Matrix.scaleM(x_ij, 0, factor.x(), factor.y(), factor.z());
-    }
-    public void scale(float factor, Vector3F center) {
-        this.scale(new Vector3F(factor), center);
-    }
-    public void scale(Vector3F factor, Vector3F center) {
-        this.translate(Vector3F.multiply(center, -1.0f));
-        this.scale(factor);
-        this.translate(center);
     }
 }
