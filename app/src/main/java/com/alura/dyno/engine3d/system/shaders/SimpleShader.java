@@ -1,5 +1,7 @@
 package com.alura.dyno.engine3d.system.shaders;
 
+import com.alura.dyno.maths.Matrix4F;
+
 public class SimpleShader extends Shader {
 
     public final static String MODELMATRIX_UNIFORM_NAME = "u_ModelMatrix";
@@ -10,13 +12,13 @@ public class SimpleShader extends Shader {
         super(loader);
     }
 
-    public void setModelMatrix(float[] modelMatrix) {
-        setUniformMat4(MODELMATRIX_UNIFORM_NAME, modelMatrix);
+    public void setModelMatrix(Matrix4F modelMatrix) {
+        setUniformMat4F(MODELMATRIX_UNIFORM_NAME, modelMatrix);
     }
-    public void setViewMatrix(float[] viewMatrix) {
-        setUniformMat4(VIEWMATRIX_UNIFORM_NAME, viewMatrix);
+    public void setViewMatrix(Matrix4F viewMatrix) {
+        setUniformMat4F(VIEWMATRIX_UNIFORM_NAME, viewMatrix);
     }
-    public void setProjectionMatrix(float[] projectionMatrix) {
-        setUniformMat4(PROJECTIONMATRIX_UNIFORM_NAME, projectionMatrix);
+    public void setProjectionMatrix(Matrix4F projectionMatrix) {
+        setUniformMat4F(PROJECTIONMATRIX_UNIFORM_NAME, projectionMatrix);
     }
 }

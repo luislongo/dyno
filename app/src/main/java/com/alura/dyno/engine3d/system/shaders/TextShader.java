@@ -18,5 +18,6 @@ public class TextShader extends SimpleShader {
     public void setFontColor(RGBAColor fontColor) {
         setUniformColor(FONTCOLOR_UNIFORM, fontColor);
     }
-    public void setFontSize(float fontSize) {setUniformFloat1(FONTSIZE_UNIFORM, fontSize);}
+    public void setFontSize(float fontSize) {
+        setUniform1F(FONTSIZE_UNIFORM, fontSize);}
 }

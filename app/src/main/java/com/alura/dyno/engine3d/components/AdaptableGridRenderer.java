@@ -24,12 +24,12 @@ public class AdaptableGridRenderer extends GridRenderer {
     @Override
     public void onUpdate(ComponentEvent.OnUpdateEvent event) {
         super.onUpdate(event);
-        if(SceneMaster.getMainCamera().fromViewToScreen(spacing) <= minTexturePixelSize)
+        if(Camera.fromViewToScreen(SceneMaster.getMainCamera(), spacing) <= minTexturePixelSize)
         {
             spacing *= 5;
         }
 
-        if(SceneMaster.getMainCamera().fromViewToScreen(spacing) >= maxTexturePixelSize)
+        if(Camera.fromViewToScreen(SceneMaster.getMainCamera(), spacing) >= maxTexturePixelSize)
         {
             spacing /= 5;
         }

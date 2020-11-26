@@ -11,7 +11,7 @@ import com.alura.dyno.engine3d.system.vertex.Vertex;
 import com.alura.dyno.engine3d.utils.ColorPalette;
 import com.alura.dyno.engine3d.utils.RGBAColor;
 import com.alura.dyno.engine3d.utils.TriangleFactory;
-import com.alura.dyno.maths.Vector2;
+import com.alura.dyno.maths.Matrix4F;
 
 public class GridRenderer extends Renderer<MeshBuffer, GridShader> {
     protected float spacing;
@@ -45,25 +45,20 @@ public class GridRenderer extends Renderer<MeshBuffer, GridShader> {
 
     @Override
     public void setUniforms() {
-        float[] invVP = getInverseVPMatrix();
+        Matrix4F inverseVP = getInverseVPMatrix();
 
         texture.bind(0);
         shader.setBackgroundColor(backgroundColor);
         shader.setLineColor(lineColor);
         shader.setGridSpacing(spacing);
-        shader.setInverseVPMatrix(invVP);
+        shader.setInverseVPMatrix(inverseVP);
         shader.setGridTexture(texture);
     }
-    private float[] getInverseVPMatrix() {
-        float[] vP = new float[16];
-        Matrix.multiplyMM(vP, 0, SceneMaster.getMainCamera().getViewMatrix(),
-                0, getParent().getGlobalTransform().getModelmatrix(), 0);
-        Matrix.multiplyMM(vP, 0, SceneMaster.getMainCamera().getProjectionMatrix(),
-                0, vP, 0);
+    private Matrix4F getInverseVPMatrix() {
+        Matrix4F inverseVP = SceneMaster.getMainCamera().getVPMatrix();
+        inverseVP.invert();
 
-        float[] invVP = new float[16];
-        Matrix.invertM(invVP, 0, vP, 0);
-        return invVP;
+        return inverseVP;
     }
 
     public static class GridRendererBuilder<T extends GridRendererBuilder<T>>
@@ -88,25 +83,21 @@ public class GridRenderer extends Renderer<MeshBuffer, GridShader> {
 
             return (T) this;
         }
-
         public T setBackgroundColor(RGBAColor backgorundColor) {
             this.backgroundColor = backgorundColor;
 
             return (T) this;
         }
-
         public T setShader(GridShader shader) {
             this.shader = shader;
 
             return (T) this;
         }
-
         public T setTexture(int textureResourceId) {
             this.textureResourceId = textureResourceId;
 
             return (T) this;
         }
-
         public T setSpacing(float spacing) {
             this.spacing = spacing;
 

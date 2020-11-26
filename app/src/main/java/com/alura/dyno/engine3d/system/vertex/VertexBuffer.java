@@ -1,10 +1,11 @@
 package com.alura.dyno.engine3d.system.vertex;
 
+import com.alura.dyno.engine3d.components.Transform;
 import com.alura.dyno.engine3d.system.BufferLayout;
 import com.alura.dyno.engine3d.system.shaders.Shader;
 import com.alura.dyno.engine3d.utils.RGBAColor;
-import com.alura.dyno.maths.Vector2;
-import com.alura.dyno.maths.Vector3;
+import com.alura.dyno.maths.Vector2F;
+import com.alura.dyno.maths.Vector3F;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -17,9 +18,9 @@ public abstract class VertexBuffer {
     public final static String COLOR_ATTR_NAME = "a_Color";
     public final static String TEXTURE_ATTR_NAME = "a_TextureCoords";
 
-    protected List<Vector3> positions;
+    protected List<Vector3F> positions;
     protected List<RGBAColor> colors;
-    protected List<Vector2> uvs;
+    protected List<Vector2F> uvs;
 
     FloatBuffer vertexDataBuffer;
     BufferLayout bufferLayout;
@@ -40,9 +41,9 @@ public abstract class VertexBuffer {
     }
     protected abstract void drawElements();
 
-    public final void draw(Shader shader) {
+    public final void draw(Shader shader, Transform transform) {
         if (!isInGPU) {
-            loadToGPU();
+            loadToGPU(transform);
         }
 
         bufferLayout.bind(vertexDataBuffer, shader.getProgramHandle());
@@ -50,10 +51,10 @@ public abstract class VertexBuffer {
         bufferLayout.unbind(shader.getProgramHandle());
     }
 
-    public void loadToGPU() {
+    public void loadToGPU(Transform transform) {
         clearFloatBuffer();
         allocateMemory();
-        loadVerticesIntoDataBuffer();
+        loadVerticesIntoDataBuffer(transform);
         resetDataBufferPosition();
     }
 
@@ -89,8 +90,10 @@ public abstract class VertexBuffer {
         vertexDataBuffer = ByteBuffer.allocateDirect(getVertexCount() * Vertex.BYTES)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
     }
-    private void loadVerticesIntoDataBuffer() {
+    private void loadVerticesIntoDataBuffer(Transform transform) {
         for (int i = 0; i < getVertexCount(); i++) {
+            float[] transformedPosition;
+
             vertexDataBuffer.put(positions.get(i).toArray())
                     .put(colors.get(i).toArray())
                     .put(uvs.get(i).toArray());
@@ -102,5 +105,9 @@ public abstract class VertexBuffer {
     }
     public int getVertexCount() {
         return positions.size();
+    }
+    public List<Vector3F> getPositions()
+    {
+        return positions;
     }
 }
