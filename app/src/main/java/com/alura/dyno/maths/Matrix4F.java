@@ -63,9 +63,6 @@ public class Matrix4F extends MatrixF {
         return m;
     }
 
-    @Override public void transpose() {
-        this.x_ij = transpose(this).x_ij;
-    }
     public void setIdentity()
     {
         Matrix.setIdentityM(x_ij, 0);
