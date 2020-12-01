@@ -43,22 +43,22 @@ public class Vector4F extends VectorF {
     }
 
     public static Vector4F add(Vector4F v_lhs,Vector4F v_rhs) {
-        return new Vector4F(VMath.add(v_lhs,v_rhs));
+        return new Vector4F(add(v_lhs,v_rhs));
     }
     public static Vector4F subtract(Vector4F v_lhs,Vector4F v_rhs) {
-        return new Vector4F(VMath.subtract(v_lhs, v_rhs));
+        return new Vector4F(subtract(v_lhs, v_rhs));
     }
     public static Vector4F multiply(Vector4F v_lhs, float c) {
-        return new Vector4F(VMath.multiply(v_lhs, c));
+        return new Vector4F(multiply(v_lhs, c));
     }
     public static Vector4F multiply(Matrix4F m_lhs, Vector4F v_rhs) {
-        return new Vector4F(VMath.multiply(m_lhs, v_rhs));
+        return new Vector4F(multiply(m_lhs, v_rhs));
     }
     public static Vector4F divide(Vector4F v_lhs, float c) {
-        return new Vector4F(VMath.divide(v_lhs, c));
+        return new Vector4F(divide(v_lhs, c));
     }
     public static Vector4F straightProduct(Vector4F v_lhs, Vector4F v_rhs) {
-        return new Vector4F(VMath.straightProduct(v_lhs, v_lhs));
+        return new Vector4F(straightProduct(v_lhs, v_lhs));
     }
 
     public void setValues(float x, float y, float z, float w) {

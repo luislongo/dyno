@@ -1,66 +1,59 @@
 package com.alura.dyno.maths;
 
 public class GaussianSolver {
-    private static MatrixF system;
-    private static MatrixF result;
+    private static MatrixD system;
+    private static MathExtra.DeltaCompare compare = new MathExtra.DeltaCompare(0.000001f);
 
-    public static void solve(MatrixF equations, VectorF result) {
-        checkForInvalidDimensions(equations, result);
-        buildAugmentedMatrix(equations, result);
+    public static MatrixD solve(MatrixD A, MatrixD b) {
+        checkForInvalidDimensions(A, b);
+        buildAugmentedMatrix(A, b);
         forwardSubstitute();
         backwardInsertion();
 
-        GaussianSolver.result = MMath.getCol(system, system.cols() - 1);
+        return system.getCol(system.cols() - 1);
     }
 
+    private static void buildAugmentedMatrix(MatrixD A, MatrixD b) {
+        GaussianSolver.system = new MatrixD(A.rows(), A.cols() + 1);
+        system.setRange(A, 0, 0);
+        system.setCol(b, system.cols() - 1);
+    }
     private static void forwardSubstitute() {
-        for(int i = 0; i < system.rows(); i++)
-        {
+        for(int i = 0; i < system.rows(); i++) {
             swapLinesForNonZeroPivot(i);
             normalizePivotLine(i);
             forwardEliminate(i);
         }
     }
-
-    private static void buildAugmentedMatrix(MatrixF equations, VectorF result) {
-        GaussianSolver.system = new MatrixF(equations.rows(), equations.cols() + 1);
-
-        for(int i = 0; i < equations.rows(); i++)
-        {
-            for(int j = 0; j < equations.cols(); j++)
-            {
-                system.setCell(i, j, equations.getCell(i, j));
-            }
-            system.setCell(i, system.cols() - 1, result.getX_(i));
-        }
-    }
-    private static void normalizePivotLine(int i) {
-        float pivotValue = system.getCell(i,i);
-        MMath.multiplyRow(system, 1, 1.0f / pivotValue);
-    }
     private static int swapLinesForNonZeroPivot(int i) {
         int firstNonZeroPivot = i;
-        while(system.getCell(firstNonZeroPivot, i) == 0.0f)
-        {
+
+        while(compare.isZero(system.getCell(firstNonZeroPivot, i))) {
             firstNonZeroPivot += 1;
             checkForNonZeroPivotUnavailable(firstNonZeroPivot);
         }
         if(firstNonZeroPivot != i) {
-            MMath.swapLines(system, i, firstNonZeroPivot);
+            system.swapRows(i, firstNonZeroPivot);
         }
+
         return firstNonZeroPivot;
     }
+    private static void normalizePivotLine(int i) {
+        double pivotValue = system.getCell(i, i);
+        system.divRow(i, pivotValue);
+    }
     private static void forwardEliminate(int i) {
+        MatrixD pivotRow = system.getRow(i);
+
         for(int k = i + 1; k < system.rows(); k++) {
-            float multiplier = system.getCell(k, i);
-            for (int j = i; j < system.cols(); j++)
-            {
-                float normalizedValue = multiplier * system.getCell(i,j);
-                system.subFromCell(k, j, normalizedValue);
-            }
+            double multiplier = system.getCell(k, i);
+
+            MatrixD sub = pivotRow.getRange(0,0, i, system.cols()-1);
+            sub.mult(multiplier);
+
+            system.subRange(sub, k, i);
         }
     }
-
     private static void backwardInsertion() {
         for(int i = system.rows() - 1; i >= 0; i--)
         {
@@ -68,31 +61,27 @@ public class GaussianSolver {
         }
     }
     private static void backwardEliminate(int i) {
+        MatrixD pivotRange = system.getRange(i, i, i, system.cols() - 1);
+
         for(int k = i - 1; k >= 0; k--) {
-            float multiplier = system.getCell(k, i);
-            for (int j = i; j < system.cols(); j++)
-            {
-                float normalizedValue = multiplier * system.getCell(i,j);
-                system.subFromCell(k, j, normalizedValue);
-            }
+            double multiplier = system.getCell(k, i);
+            MatrixD sub = MatrixD.mult(pivotRange, multiplier);
+
+            system.subRange(sub, k, i);
         }
     }
-
-
     private static void checkForNonZeroPivotUnavailable(int firstNonZeroPivot) {
         if(firstNonZeroPivot >= system.rows())
         {
             throw new RuntimeException("ERROR::GAUSSIAN_SOLVER::NON ZERO PIVOT UNAVAILABLE");
         }
     }
-
-
-    private static void checkForInvalidDimensions(MatrixF equations, VectorF result) {
-        if(!equations.isSquare())
+    private static void checkForInvalidDimensions(MatrixD A, MatrixD b) {
+        if(!A.isSquare())
         {
             throw new RuntimeException("ERROR::GAUSSIAN_SOLVER::EQUATION MATRIX MUST BE SQUARE");
         }
-        if(equations.cols() != result.count())
+        if(A.rows() != b.rows())
         {
             throw new RuntimeException("ERROR::GAUSSIAN_SOLVER::NUMBER OF EQUATIONS DOES NOT MATCH RESULT LENGTH");
         }

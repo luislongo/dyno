@@ -2,64 +2,72 @@ package com.alura.dyno.maths;
 
 import java.util.Arrays;
 
-public class VectorF {
-    protected float[] x_i;
+public class VectorD {
+    protected double[] x_i;
 
-    public VectorF(int size) {
-        x_i = new float[size];
+    public VectorD(int size) {
+        x_i = new double[size];
     }
-    public VectorF(int size, float value) {
-        x_i = new float[size];
+    public VectorD(int size, double value) {
+        x_i = new double[size];
         Arrays.fill(x_i, value);
     }
-    public VectorF(float[] x_i) {
+    public VectorD(double[] x_i) {
         assert (isDataSizeCorrect(x_i.length));
         this.x_i = Arrays.copyOf(x_i, x_i.length);
     }
-    public VectorF(float[] x_i, int offset, int size) {
+    public VectorD(double[] x_i, int offset, int size) {
         this.x_i = Arrays.copyOfRange(x_i, offset, offset + size);
     }
 
-    public final float length() {
-        float length = 0;
+    /* TODO Split abstract class and concrete implementation. ...
+        ... Must also split Matrix implementation in order    ...
+        ... to keep things organized. */
+    protected boolean isDataSizeCorrect(int size)
+    {
+        return true;
+    }
+
+    public final double length() {
+        double length = 0;
 
         for(int i = 0; i < count(); i++) {
             length += x_i[i] * x_i[i];
         }
 
-        return (float)Math.sqrt(length);
+        return (double)Math.sqrt(length);
     }
     public final int count() {
         return x_i.length;
     }
-    public final float[] toArray() {
+    public final double[] toArray() {
         return Arrays.copyOf(x_i, count());
     }
 
-    protected final float getX_(int i) {
+    protected final double getCell(int i) {
         return x_i[i];
     }
-    protected final void setX_(int i, float value) {
+    protected final void setCell(int i, double value) {
         x_i[i] = value;
     }
-    protected final void setValues(float[] x_i) {
+    protected final void setValues(double[] x_i) {
         assert (isDataSizeCorrect(x_i.length));
         this.x_i = Arrays.copyOf(x_i, count());
     }
 
-    public void add(VectorF v_rhs) {
+    public void add(VectorD v_rhs) {
         this.x_i = add(this, v_rhs);
     }
-    public void subtract(VectorF v_rhs) {
+    public void subtract(VectorD v_rhs) {
         this.x_i = subtract(this, v_rhs);
     }
-    public void divide(float c) {
+    public void divide(double c) {
         this.x_i = divide(this, c);
     }
-    public void multiply(float c) {
+    public void multiply(double c) {
         this.x_i = multiply(this, c);
     }
-    public void straightProduct(VectorF v_rhs) {
+    public void straightProduct(VectorD v_rhs) {
         this.x_i = straightProduct(this, v_rhs);
     }
     public void multiply(MatrixF m_lhs) {
@@ -67,10 +75,10 @@ public class VectorF {
     }
     public void normalize() { this.x_i = normalize(this);}
 
-    public static float[] add(VectorF v_lhs,VectorF v_rhs) {
+    public static double[] add(VectorD v_lhs,VectorD v_rhs) {
         assert (isSameDimension(v_lhs, v_rhs));;
 
-        float[] result = new float[v_lhs.count()];
+        double[] result = new double[v_lhs.count()];
         for(int i = 0; i < result.length; i++)
         {
             result[i] = v_lhs.x_i[i] + v_rhs.x_i[i] ;
@@ -78,10 +86,10 @@ public class VectorF {
 
         return result;
     }
-    public static float[] subtract(VectorF v_lhs,VectorF v_rhs) {
+    public static double[] subtract(VectorD v_lhs,VectorD v_rhs) {
         assert (isSameDimension(v_lhs, v_rhs));;
 
-        float[] result = new float[v_lhs.count()];
+        double[] result = new double[v_lhs.count()];
         for(int i = 0; i < result.length; i++)
         {
             result[i] = v_lhs.x_i[i] - v_rhs.x_i[i] ;
@@ -89,8 +97,8 @@ public class VectorF {
 
         return result;
     }
-    public static float[] multiply(VectorF v_lhs, float c) {
-        float[] result = new float[v_lhs.count()];
+    public static double[] multiply(VectorD v_lhs, double c) {
+        double[] result = new double[v_lhs.count()];
         for(int i = 0; i < result.length; i++)
         {
             result[i] = v_lhs.x_i[i] * c;
@@ -98,8 +106,8 @@ public class VectorF {
 
         return result;
     }
-    public static float[] divide(VectorF v_lhs, float c) {
-        float[] result = new float[v_lhs.count()];
+    public static double[] divide(VectorD v_lhs, double c) {
+        double[] result = new double[v_lhs.count()];
         for(int i = 0; i < result.length; i++)
         {
             result[i] = v_lhs.x_i[i] / c;
@@ -107,16 +115,16 @@ public class VectorF {
 
         return result;
     }
-    public static float[] multiply(MatrixF m_lhs, VectorF v_rhs) {
+    public static double[] multiply(MatrixF m_lhs, VectorD v_rhs) {
         assert (isMultiplyDimension(m_lhs, v_rhs));
 
-        float[] result = new float[v_rhs.count()];
+        double[] result = new double[v_rhs.count()];
         for(int i = 0; i < v_rhs.count(); i++) {
-            float sum = 0;
+            double sum = 0;
 
             for(int j = 0; j < m_lhs.cols(); j++)
             {
-                sum += m_lhs.getCell(i,j) * v_rhs.getX_(j);
+                sum += m_lhs.getCell(i,j) * v_rhs.getCell(j);
             }
 
             result[i] = sum;
@@ -124,35 +132,35 @@ public class VectorF {
 
         return result;
     }
-    public static float[] straightProduct(VectorF v_lhs, VectorF v_rhs) {
+    public static double[] straightProduct(VectorD v_lhs, VectorD v_rhs) {
         assert (isSameDimension(v_lhs, v_rhs));
 
-        float[] result = new float[v_lhs.count()];
+        double[] result = new double[v_lhs.count()];
         for(int i = 0; i < v_rhs.count(); i++) {
             result[i] = v_lhs.x_i[i] * v_rhs.x_i[i];
         }
 
         return result;
     }
-    public static float[] normalize(VectorF v_lhs) {
-        float length = v_lhs.length();
+    public static double[] normalize(VectorD v_lhs) {
+        double length = v_lhs.length();
 
-        float[] result = new float[v_lhs.count()];
+        double[] result = new double[v_lhs.count()];
 
         if(length != 0.0f)
         {
             for(int i = 0; i < v_lhs.count(); i++)
             {
-                result[i] = v_lhs.getX_(i) / length;
+                result[i] = v_lhs.getCell(i) / length;
             }
         }
 
         return result;
     }
-    public static float dotProduct(VectorF v_lhs, VectorF v_rhs) {
+    public static double dotProduct(VectorD v_lhs, VectorD v_rhs) {
         assert (isSameDimension(v_lhs, v_rhs));
 
-        float result = 0;
+        double result = 0;
         for(int i = 0; i < v_lhs.count(); i++)
         {
             result += v_lhs.x_i[i] * v_rhs.x_i[i] ;
@@ -161,15 +169,11 @@ public class VectorF {
         return result;
     }
 
-    protected static boolean isMultiplyDimension(MatrixF m_lhs, VectorF v_rhs) {
+    protected static boolean isMultiplyDimension(MatrixF m_lhs, VectorD v_rhs) {
         return m_lhs.cols() == v_rhs.count();
     }
-    protected static boolean isSameDimension(VectorF v_lhs, VectorF v_rhs) {
+    protected static boolean isSameDimension(VectorD v_lhs, VectorD v_rhs) {
         return  v_lhs.count() == v_rhs.count();
-    }
-    protected boolean isDataSizeCorrect(int size)
-    {
-        return true;
     }
 
     @Override

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class VMathTestUnitTest {
+class VectorFUnitTest {
     private static int VEC_SIZE = 10000;
     private static float PRECISION = 0.05f;
     private VectorF generateAtRandom(int nrOfCoords) {
@@ -40,7 +40,7 @@ class VMathTestUnitTest {
     @Test void testAddedVectorLength() {
         VectorF v1 = generateAtRandom(VEC_SIZE);
         VectorF v2 = generateAtRandom(VEC_SIZE);
-        VectorF v3 = new VectorF(VMath.add(v1, v2));
+        VectorF v3 = new VectorF(VectorF.add(v1, v2));
 
         float addLength = 0;
         for(int i = 0; i < VEC_SIZE; i++)
@@ -54,7 +54,7 @@ class VMathTestUnitTest {
     @Test void testSubtractedVectorLength() {
         VectorF v1 = generateAtRandom(VEC_SIZE);
         VectorF v2 = generateAtRandom(VEC_SIZE);
-        VectorF v3 = new VectorF(VMath.subtract(v1, v2));
+        VectorF v3 = new VectorF(VectorF.subtract(v1, v2));
 
         float addLength = 0;
         for(int i = 0; i < VEC_SIZE; i++)
@@ -68,42 +68,42 @@ class VMathTestUnitTest {
     @Test void testMultipliedByConstantVectorLength() {
         float c = (float) Math.random();
         VectorF v1 = generateAtRandom(VEC_SIZE);
-        VectorF v2 = new VectorF(VMath.multiply(v1, c));
+        VectorF v2 = new VectorF(VectorF.multiply(v1, c));
 
         assertEquals(v1.length() * c, v2.length(), PRECISION);
     }
     @Test void testDividedByConstantVectorLength() {
         float c = (float) Math.random();
         VectorF v1 = generateAtRandom(VEC_SIZE);
-        VectorF v2 = new VectorF(VMath.divide(v1, c));
+        VectorF v2 = new VectorF(VectorF.divide(v1, c));
 
         assertEquals(v1.length() / c, v2.length(), PRECISION);
     }
 
     @Test void testNormalizeRandomVector() {
         VectorF v1 = generateAtRandom(VEC_SIZE);
-        VectorF v2 = new VectorF(VMath.normalize(v1));
+        VectorF v2 = new VectorF(VectorF.normalize(v1));
 
         System.out.println("NORMALIZE ERROR :: " + Math.abs(v2.length() - 1.0f));
         assert (Math.abs(v2.length() - 1.0f) < PRECISION);
     }
     @Test void testNormalizeAllOnesVector() {
         VectorF v1 = new VectorF(VEC_SIZE, 1.0f);
-        VectorF v2 = new VectorF(VMath.normalize(v1));
+        VectorF v2 = new VectorF(VectorF.normalize(v1));
         VectorF result = new VectorF(VEC_SIZE, 1.0f / (float) Math.sqrt(VEC_SIZE));
 
         assertArrayEquals (v2.x_i, result.x_i);
     }
     @Test void testNormalizeAllMinusOnesVector() {
         VectorF v1 = new VectorF(VEC_SIZE, -1.0f);
-        VectorF v2 = new VectorF(VMath.normalize(v1));
+        VectorF v2 = new VectorF(VectorF.normalize(v1));
         VectorF result = new VectorF(VEC_SIZE, -1.0f / (float) Math.sqrt(VEC_SIZE));
 
         assertArrayEquals (v2.x_i, result.x_i);
     }
     @Test void testNormalizeAllZerosVector() {
         VectorF allZeros = new VectorF(VEC_SIZE);
-        VectorF normalized = new VectorF(VMath.normalize(allZeros));
+        VectorF normalized = new VectorF(VectorF.normalize(allZeros));
 
         assertArrayEquals(allZeros.x_i, normalized.x_i);
     }
@@ -129,19 +129,19 @@ class VMathTestUnitTest {
         VectorF v1 = new VectorF(3);
         VectorF v2 = new VectorF(3);
 
-        assertEquals(true, VMath.isSameDimension(v1, v2));
+        assertEquals(true, VectorF.isSameDimension(v1, v2));
     }
     @Test void testIsSameDimension() {
         VectorF v1 = new VectorF(3);
         VectorF v2 = new VectorF(2);
 
-        assertEquals(false, VMath.isSameDimension(v1, v2));
+        assertEquals(false, VectorF.isSameDimension(v1, v2));
     }
 
     @Test void testComponentAdditionValues() {
         VectorF v1 = generateAtRandom(VEC_SIZE);
         VectorF v2 = generateAtRandom(VEC_SIZE);
-        VectorF v3 = new VectorF(VMath.add(v1,v2));
+        VectorF v3 = new VectorF(VectorF.add(v1,v2));
 
         assert (checkAdditionAtComponents(v1, v2, v3));
     }
@@ -156,7 +156,7 @@ class VMathTestUnitTest {
     @Test void testComponentSubtractionValues() {
         VectorF v1 = generateAtRandom(VEC_SIZE);
         VectorF v2 = generateAtRandom(VEC_SIZE);
-        VectorF v3 = new VectorF(VMath.subtract(v1,v2));
+        VectorF v3 = new VectorF(VectorF.subtract(v1,v2));
 
         assert (checkSubtractionAtComponents(v1, v2, v3));
     }
@@ -171,7 +171,7 @@ class VMathTestUnitTest {
     @Test void testComponentMultiplyByConstant() {
         float c = (float) Math.random();
         VectorF v1 = generateAtRandom(VEC_SIZE);
-        VectorF v2 = new VectorF(VMath.multiply(v1, c));
+        VectorF v2 = new VectorF(VectorF.multiply(v1, c));
 
         assert (checkConstantMultiplyAtComponents(v1, v2, c));
     }
@@ -186,7 +186,7 @@ class VMathTestUnitTest {
     @Test void testComponentDivideByConstant() {
         float c = (float) Math.random();
         VectorF v1 = generateAtRandom(VEC_SIZE);
-        VectorF v2 = new VectorF(VMath.divide(v1, c));
+        VectorF v2 = new VectorF(VectorF.divide(v1, c));
 
         assert (checkConstantDivideAtComponents(v1, v2, c));
     }
@@ -202,7 +202,7 @@ class VMathTestUnitTest {
         VectorF v1 = generateAtRandom(VEC_SIZE);
         VectorF v2 = generateAtRandom(VEC_SIZE);
 
-        float dot = VMath.dotProduct(v1, v2);
+        float dot = VectorF.dotProduct(v1, v2);
         float sum = calculateDotProduct(v1, v2);
 
         assertEquals(sum, dot);
@@ -214,19 +214,10 @@ class VMathTestUnitTest {
         }
         return sum;
     }
-    @Test void testMultiplyByIdentityMatrix() {
-        MatrixF m_lhs = MatrixF.identity(VEC_SIZE);
-
-        float value = (float) Math.random();
-        VectorF v_rhs = new VectorF(VEC_SIZE, value);
-        VectorF result = new VectorF(VMath.multiply(m_lhs, v_rhs));
-
-        assertArrayEquals(v_rhs.x_i, result.x_i);
-    }
     @Test void testMultiplyByAllZeroMatrix() {
         MatrixF m_lhs = new MatrixF(VEC_SIZE, VEC_SIZE);
         VectorF v1 = generateAtRandom(VEC_SIZE);
-        VectorF v2 = new VectorF(VMath.multiply(m_lhs, v1));
+        VectorF v2 = new VectorF(VectorF.multiply(m_lhs, v1));
         VectorF allZeros = new VectorF(VEC_SIZE);
 
         assertArrayEquals(v2.x_i, allZeros.x_i);
@@ -234,7 +225,7 @@ class VMathTestUnitTest {
     @Test void testStraightProduct() {
         VectorF v1 = generateAtRandom(3);
         VectorF v2 = generateAtRandom(3);
-        VectorF v3 = new VectorF(VMath.straightProduct(v1, v2));
+        VectorF v3 = new VectorF(VectorF.straightProduct(v1, v2));
 
         assert (checkStraightProductAtComponents(v1, v2, v3));
     }

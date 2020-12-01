@@ -34,22 +34,22 @@ public class Vector2F extends VectorF {
     }
 
     public static Vector2F add(Vector2F v_lhs,Vector2F v_rhs) {
-        return new Vector2F(VMath.add(v_lhs,v_rhs));
+        return new Vector2F(add(v_lhs,v_rhs));
     }
     public static Vector2F subtract(Vector2F v_lhs,Vector2F v_rhs) {
-        return new Vector2F(VMath.subtract(v_lhs, v_rhs));
+        return new Vector2F(subtract(v_lhs, v_rhs));
     }
     public static Vector2F multiply(Vector2F v_lhs, float c) {
-        return new Vector2F(VMath.multiply(v_lhs, c));
+        return new Vector2F(multiply(v_lhs, c));
     }
     public static Vector2F multiply(Matrix4F m_lhs, Vector2F v_rhs, float z, float w) {
-        return new Vector2F(VMath.multiply(m_lhs, new Vector4F(v_rhs, z, w)));
+        return new Vector2F(multiply(m_lhs, new Vector4F(v_rhs, z, w)));
     }
     public static Vector2F divide(Vector2F v_lhs, float c) {
-        return new Vector2F(VMath.divide(v_lhs, c));
+        return new Vector2F(divide(v_lhs, c));
     }
     public static Vector2F straightProduct(Vector2F v_lhs, Vector2F v_rhs) {
-        return new Vector2F(VMath.straightProduct(v_lhs, v_lhs));
+        return new Vector2F(straightProduct(v_lhs, v_lhs));
     }
 
     public void setValues(float x, float y) {

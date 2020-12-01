@@ -40,16 +40,16 @@ public class Vector3F extends VectorF {
     }
 
     public static Vector3F add(Vector3F v_lhs,Vector3F v_rhs) {
-        return new Vector3F(VMath.add(v_lhs,v_rhs));
+        return new Vector3F(add(v_lhs,v_rhs));
     }
     public static Vector3F subtract(Vector3F v_lhs,Vector3F v_rhs) {
-        return new Vector3F(VMath.subtract(v_lhs, v_rhs));
+        return new Vector3F(subtract(v_lhs, v_rhs));
     }
     public static Vector3F multiply(Vector3F v_lhs, float c) {
-        return new Vector3F(VMath.multiply(v_lhs, c));
+        return new Vector3F(multiply(v_lhs, c));
     }
     public static Vector3F multiply(MatrixF m_lhs, Vector3F v_rhs) {
-        return new Vector3F(VMath.multiply(m_lhs, v_rhs));
+        return new Vector3F(multiply(m_lhs, v_rhs));
     }
     public static Vector3F multiply(Matrix4F m_lhs, Vector3F v_rhs, float w) {
         Vector4F as4F = new Vector4F(v_rhs, w);
@@ -58,10 +58,10 @@ public class Vector3F extends VectorF {
         return new Vector3F(as4F);
     }
     public static Vector3F divide(Vector3F v_lhs, float c) {
-        return new Vector3F(VMath.divide(v_lhs, c));
+        return new Vector3F(divide(v_lhs, c));
     }
     public static Vector3F straightProduct(Vector3F v_lhs, Vector3F v_rhs) {
-        return new Vector3F(VMath.straightProduct(v_lhs, v_lhs));
+        return new Vector3F(straightProduct(v_lhs, v_lhs));
     }
 
     @Override protected boolean isDataSizeCorrect(int size)
