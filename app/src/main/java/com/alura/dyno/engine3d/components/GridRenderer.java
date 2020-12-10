@@ -1,7 +1,6 @@
 package com.alura.dyno.engine3d.components;
 
 import android.content.Context;
-import android.opengl.Matrix;
 
 import com.alura.dyno.engine3d.system.SceneMaster;
 import com.alura.dyno.engine3d.system.Texture;
@@ -11,7 +10,7 @@ import com.alura.dyno.engine3d.system.vertex.Vertex;
 import com.alura.dyno.engine3d.utils.ColorPalette;
 import com.alura.dyno.engine3d.utils.RGBAColor;
 import com.alura.dyno.engine3d.utils.TriangleFactory;
-import com.alura.dyno.maths.Matrix4F;
+import com.alura.dyno.maths.MatrixG;
 
 public class GridRenderer extends Renderer<MeshBuffer, GridShader> {
     protected float spacing;
@@ -45,7 +44,7 @@ public class GridRenderer extends Renderer<MeshBuffer, GridShader> {
 
     @Override
     public void setUniforms() {
-        Matrix4F inverseVP = getInverseVPMatrix();
+        MatrixG inverseVP = getInverseVPMatrix();
 
         texture.bind(0);
         shader.setBackgroundColor(backgroundColor);
@@ -54,8 +53,8 @@ public class GridRenderer extends Renderer<MeshBuffer, GridShader> {
         shader.setInverseVPMatrix(inverseVP);
         shader.setGridTexture(texture);
     }
-    private Matrix4F getInverseVPMatrix() {
-        Matrix4F inverseVP = SceneMaster.getMainCamera().getVPMatrix();
+    private MatrixG getInverseVPMatrix() {
+        MatrixG inverseVP = SceneMaster.getMainCamera().getVPMatrix();
         inverseVP.invert();
 
         return inverseVP;

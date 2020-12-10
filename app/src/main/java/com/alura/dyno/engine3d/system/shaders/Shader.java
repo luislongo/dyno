@@ -5,9 +5,9 @@ import android.util.Log;
 
 import com.alura.dyno.engine3d.system.Texture;
 import com.alura.dyno.engine3d.utils.RGBAColor;
-import com.alura.dyno.maths.Matrix4F;
-import com.alura.dyno.maths.Vector2F;
-import com.alura.dyno.maths.Vector3F;
+import com.alura.dyno.maths.MatrixG;
+import com.alura.dyno.maths.Vector2G;
+import com.alura.dyno.maths.Vector3G;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -138,7 +138,7 @@ public abstract class Shader {
         int handle = getUniformHandle(name);
         GLES20.glUniform4f(handle, x, y, z, w);
     }
-    private final void setUniformMat4F(String name, float[] matrix4) {
+    private final void setUniformMat4G(String name, float[] matrix4) {
         int handle = getUniformHandle(name);
         GLES20.glUniformMatrix4fv(handle, 1, false, matrix4, 0);
     }
@@ -147,10 +147,10 @@ public abstract class Shader {
         int handle = getUniformHandle(name);
         GLES20.glUniform1f(handle, x);
     }
-    protected final void setUniformVector2F(String name, Vector2F vector2) {
+    protected final void setUniformVector2G(String name, Vector2G vector2) {
         setUniform2F(name, vector2.x(), vector2.y());
     }
-    protected final void setUniformVector3F(String name, Vector3F vector3) {
+    protected final void setUniformVector3G(String name, Vector3G vector3) {
         setUniform3F(name, vector3.x(), vector3.y(), vector3.z());
     }
     protected final void setUniformColor(String name, RGBAColor color) {
@@ -159,8 +159,8 @@ public abstract class Shader {
     protected final void setUniformTexture(String name, Texture texture) {
         setUniform1F(name, texture.id());
     }
-    protected final void setUniformMat4F(String name, Matrix4F matrix4) {
-        setUniformMat4F(name, matrix4.toArray());
+    protected final void setUniformMat4G(String name, MatrixG matrix4) {
+        setUniformMat4G(name, matrix4.to1DArray());
     }
 
     public int getUniformHandle(String name) {

@@ -2,17 +2,18 @@ package com.alura.dyno.engine3d.components;
 
 import com.alura.dyno.engine3d.system.events.SceneObjectEvent;
 import com.alura.dyno.engine3d.system.events.TreeEventDispatcher;
-import com.alura.dyno.maths.Matrix4F;
-import com.alura.dyno.maths.Vector3F;
+import com.alura.dyno.maths.MatrixG;
+import com.alura.dyno.maths.MatrixGFactory;
+import com.alura.dyno.maths.Vector3G;
 
 public class Transform extends MonoBehaviour {
 
-    private Vector3F position;
-    private Vector3F scale;
-    private Vector3F eulerAngles;
+    private Vector3G position;
+    private Vector3G scale;
+    private Vector3G eulerAngles;
 
-    private boolean isUpdated = false;
-    private Matrix4F modelMatrix = new Matrix4F();
+    private MatrixG modelMatrix = new MatrixG();
+    private MatrixG globalModelMatrix = new MatrixG();
 
     public Transform(TransformBuilder builder) {
         super(builder);
@@ -20,100 +21,93 @@ public class Transform extends MonoBehaviour {
         this.position = builder.position;
         this.scale = builder.scale;
         this.eulerAngles = builder.eulerAngles;
+        updateModelMatrix();
     }
     public Transform(Transform origin) {
         super(origin.name);
         this.copyValues(origin);
     }
     public void copyValues(Transform origin) {
-        this.position = new Vector3F(origin.position);
-        this.scale = new Vector3F(origin.scale);
-        this.eulerAngles = new Vector3F(origin.eulerAngles);
+        this.position = new Vector3G(origin.position);
+        this.scale = new Vector3G(origin.scale);
+        this.eulerAngles = new Vector3G(origin.eulerAngles);
+        updateModelMatrix();
     }
 
-    public static Transform multiply(Transform t_lhs, Transform t_rhs) {
-        Matrix4F rot_lhs = Matrix4F.identity();
-        rot_lhs.rotate(t_lhs.eulerAngles);
+    public static Transform compose(Transform t_lhs, Transform t_rhs) {
+        Vector3G position = Vector3G.multiply(t_lhs.getModelmatrix(), Vector3G.minus(t_rhs.position, t_lhs.position), 0.0f);
+        Vector3G eulerAngles = Vector3G.plus(t_lhs.eulerAngles, t_rhs.eulerAngles);
+        Vector3G scale = Vector3G.multiply(t_lhs.scale, t_rhs.scale);
 
-        Vector3F newPosition =
-                Vector3F.add(t_lhs.position, Vector3F.multiply(rot_lhs, t_rhs.position, 0.0f));
-        Vector3F newScale = Vector3F.add(t_lhs.scale, t_rhs.scale);
-        Vector3F newRotation = Vector3F.add(t_lhs.eulerAngles, t_rhs.eulerAngles);
-
-        return TransformBuilder.builder("")
-                .setPosition(newPosition)
-                .setScale(newScale)
-                .setEulerAngles(newRotation)
+        Transform composed = TransformBuilder.builder("")
+                .setPosition(position)
+                .setEulerAngles(eulerAngles)
+                .setScale(scale)
                 .build();
+
+        return composed;
     }
 
-    public void move(Vector3F distance) {
-        this.position.add(distance);
-
+    public void move(Vector3G distance) {
+        this.position.plus(distance);
         notifyChanged();
     }
-    public void rotate(Vector3F eulerRotation) {
-        this.eulerAngles.add(eulerRotation);
-
+    public void rotate(Vector3G eulerRotation) {
+        this.eulerAngles.plus(eulerRotation);
         notifyChanged();
     }
-    public void scale(Vector3F multiplier) {
-        this.scale = Vector3F.straightProduct(this.scale, multiplier);
+    public void scale(Vector3G multiplier) {
+        this.scale.multiply(multiplier);
         notifyChanged();
     }
 
-    public Vector3F fromViewToModelSpace(Vector3F viewCoords) {
-        Vector3F modelCoords = Vector3F.multiply(modelMatrix, viewCoords, 1.0f);
+    public Vector3G fromViewToModelSpace(Vector3G viewCoords) {
+        Vector3G modelCoords = Vector3G.multiply(modelMatrix, viewCoords, 1.0f);
         return modelCoords;
     }
-    public Vector3F fromModelToViewSpace(Vector3F modelCoords) {
-        Matrix4F invModelMatrix = getModelmatrix();
+    public Vector3G fromModelToViewSpace(Vector3G modelCoords) {
+        MatrixG invModelMatrix = getModelmatrix();
         invModelMatrix.invert();
 
-        Vector3F viewCoords = Vector3F.multiply(invModelMatrix, modelCoords, 1.0f);
+        Vector3G viewCoords = Vector3G.multiply(invModelMatrix, modelCoords, 1.0f);
         return viewCoords;
     }
 
-    public Vector3F getPosition() {
+    public Vector3G getPosition() {
         return position;
     }
-    public Vector3F getScale() {
+    public Vector3G getScale() {
         return scale;
     }
-    public Vector3F getAngles() {
+    public Vector3G getAngles() {
         return eulerAngles;
     }
-    public Matrix4F getModelmatrix() {
-        if (!isUpdated) {
-            updateModelMatrix();
-        }
+    public MatrixG getModelmatrix() {
         return modelMatrix;
     }
-    public void setPosition(Vector3F newPosition) {
+    public void setPosition(Vector3G newPosition) {
         this.position = newPosition;
         notifyChanged();
     }
-    public void setScale(Vector3F newScale) {
+    public void setScale(Vector3G newScale) {
         this.scale = newScale;
         notifyChanged();
     }
-    public void setEulerAngles(Vector3F eulerAngles) {
+    public void setEulerAngles(Vector3G eulerAngles) {
         this.eulerAngles = eulerAngles;
         notifyChanged();
     }
 
     public void updateModelMatrix() {
-        modelMatrix = Matrix4F.identity();
+        modelMatrix = MatrixGFactory.identity();
 
-        modelMatrix.translate(position);
-        modelMatrix.rotate(eulerAngles);
         modelMatrix.scale(scale);
-
-        isUpdated = true;
+        modelMatrix.rotate(eulerAngles);
+        modelMatrix.translate(position);
     }
 
     private void notifyChanged() {
-        isUpdated = false;
+        updateModelMatrix();
 
         if (getParent() != null) {
             TreeEventDispatcher.dispatchEvent(new SceneObjectEvent.OnParentTransformChangedEvent(), getParent());
@@ -122,9 +116,9 @@ public class Transform extends MonoBehaviour {
 
     public static class TransformBuilder<T extends TransformBuilder<T>>
             extends MonoBehaviourBuilder<T> {
-        private Vector3F position = new Vector3F(0.0f, 0.0f, 0.0f);
-        private Vector3F scale = new Vector3F( 1.0f, 1.0f, 1.0f);
-        private Vector3F eulerAngles = new Vector3F(0.0f, 0.0f, 0.0f);
+        private Vector3G position = new Vector3G(0.0f, 0.0f, 0.0f);
+        private Vector3G scale = new Vector3G( 1.0f, 1.0f, 1.0f);
+        private Vector3G eulerAngles = new Vector3G(0.0f, 0.0f, 0.0f);
 
         protected TransformBuilder(String name) {
             super(name);
@@ -138,19 +132,19 @@ public class Transform extends MonoBehaviour {
             return new Transform(this);
         }
 
-        public T setPosition(Vector3F position) {
+        public T setPosition(Vector3G position) {
             this.position = position;
 
             return (T) this;
         }
 
-        public T setScale(Vector3F scale) {
+        public T setScale(Vector3G scale) {
             this.scale = scale;
 
             return (T) this;
         }
 
-        public T setEulerAngles(Vector3F eulerAngles) {
+        public T setEulerAngles(Vector3G eulerAngles) {
             this.eulerAngles = eulerAngles;
             return (T) this;
         }

@@ -9,21 +9,4 @@ public class MathExtra {
         return mapMin + (mapMax - mapMin) * (value - min) / (max - min);
     }
 
-    public static class DeltaCompare {
-        float delta;
-
-        public DeltaCompare(float delta) {
-            this.delta = delta;
-        }
-
-        public boolean isZero(double a) {return Math.abs(a) <= delta;}
-        public boolean isZero(float a) {return isZero(a);}
-        public boolean equals(float a, float b)
-        {
-            return (Math.abs(a - b) <= delta);
-        }
-        public float roundToDelta(float a) {
-            return Math.round( a / delta) * delta;
-        }
-    }
 }

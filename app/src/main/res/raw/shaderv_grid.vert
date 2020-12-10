@@ -1,6 +1,7 @@
 precision mediump float;
 
 attribute vec3 a_Position;
+attribute vec3 a_Color;
 
 varying vec4 v_Position;
 

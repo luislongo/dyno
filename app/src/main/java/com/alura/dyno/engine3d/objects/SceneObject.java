@@ -4,7 +4,7 @@ import com.alura.dyno.engine3d.components.Transform;
 import com.alura.dyno.engine3d.system.TreeNode;
 import com.alura.dyno.engine3d.system.events.SceneObjectEvent;
 import com.alura.dyno.engine3d.system.events.TreeEventDispatcher;
-import com.alura.dyno.maths.Vector3F;
+import com.alura.dyno.maths.Vector3G;
 
 public abstract class SceneObject extends TreeNode<SceneObject>
         implements SceneObjectEvent.IOnParentTransformChangedListener {
@@ -51,12 +51,11 @@ public abstract class SceneObject extends TreeNode<SceneObject>
         }
     }
     private void calculateGlobalFromLocal() {
-        Transform newGlobal = Transform.multiply(parent.getGlobalTransform(), getLocalTransform());
+        Transform newGlobal = Transform.compose(parent.getGlobalTransform(), getLocalTransform());
         getGlobalTransform().copyValues(newGlobal);
     }
     private void setGlobalEqualToLocal() {
-        Transform global = getGlobalTransform();
-        global.copyValues(getLocalTransform());
+        getGlobalTransform().copyValues(getLocalTransform());
     }
 
     public final Transform getLocalTransform() {
@@ -69,24 +68,24 @@ public abstract class SceneObject extends TreeNode<SceneObject>
     //...Builder
     public abstract static class SceneObjectBuilder<T extends SceneObjectBuilder<T>>
             extends TreeNode.TreeNodeBuilder<T> {
-        Vector3F position = new Vector3F(0.0f, 0.0f, 0.0f);
-        Vector3F eulerAngles = new Vector3F(0.0f, 0.0f, 0.0f);
-        Vector3F scale = new Vector3F(1.0f, 1.0f, 1.0f);
+        Vector3G position = new Vector3G(0.0f, 0.0f, 0.0f);
+        Vector3G eulerAngles = new Vector3G(0.0f, 0.0f, 0.0f);
+        Vector3G scale = new Vector3G(1.0f, 1.0f, 1.0f);
 
         public SceneObjectBuilder(String name) {
             super(name);
         }
 
-        public T setPosition(Vector3F position) {
-            this.position = new Vector3F(position);
+        public T setPosition(Vector3G position) {
+            this.position = new Vector3G(position);
             return (T) this;
         }
-        public T setScale(Vector3F scale) {
-            this.scale = new Vector3F(scale);
+        public T setScale(Vector3G scale) {
+            this.scale = new Vector3G(scale);
             return (T) this;
         }
-        public T setEulerAngle(Vector3F eulerAngles) {
-            this.eulerAngles = new Vector3F(eulerAngles);
+        public T setEulerAngle(Vector3G eulerAngles) {
+            this.eulerAngles = new Vector3G(eulerAngles);
             return (T) this;
         }
     }

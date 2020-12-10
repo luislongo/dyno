@@ -5,9 +5,6 @@ import android.content.Context;
 import com.alura.dyno.engine3d.system.SceneMaster;
 import com.alura.dyno.engine3d.system.events.ComponentEvent;
 import com.alura.dyno.engine3d.system.shaders.GridShader;
-import com.alura.dyno.engine3d.system.vertex.MeshBuffer;
-import com.alura.dyno.engine3d.utils.ColorPalette;
-import com.alura.dyno.engine3d.utils.RGBAColor;
 
 public class AdaptableGridRenderer extends GridRenderer {
 

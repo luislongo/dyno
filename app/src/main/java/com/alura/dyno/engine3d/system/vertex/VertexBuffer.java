@@ -4,8 +4,8 @@ import com.alura.dyno.engine3d.components.Transform;
 import com.alura.dyno.engine3d.system.BufferLayout;
 import com.alura.dyno.engine3d.system.shaders.Shader;
 import com.alura.dyno.engine3d.utils.RGBAColor;
-import com.alura.dyno.maths.Vector2F;
-import com.alura.dyno.maths.Vector3F;
+import com.alura.dyno.maths.Vector2G;
+import com.alura.dyno.maths.Vector3G;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -18,9 +18,9 @@ public abstract class VertexBuffer {
     public final static String COLOR_ATTR_NAME = "a_Color";
     public final static String TEXTURE_ATTR_NAME = "a_TextureCoords";
 
-    protected List<Vector3F> positions;
+    protected List<Vector3G> positions;
     protected List<RGBAColor> colors;
-    protected List<Vector2F> uvs;
+    protected List<Vector2G> uvs;
 
     FloatBuffer vertexDataBuffer;
     BufferLayout bufferLayout;
@@ -92,8 +92,6 @@ public abstract class VertexBuffer {
     }
     private void loadVerticesIntoDataBuffer(Transform transform) {
         for (int i = 0; i < getVertexCount(); i++) {
-            float[] transformedPosition;
-
             vertexDataBuffer.put(positions.get(i).toArray())
                     .put(colors.get(i).toArray())
                     .put(uvs.get(i).toArray());
@@ -106,7 +104,7 @@ public abstract class VertexBuffer {
     public int getVertexCount() {
         return positions.size();
     }
-    public List<Vector3F> getPositions()
+    public List<Vector3G> getPositions()
     {
         return positions;
     }
