@@ -51,7 +51,6 @@ public abstract class ComponentEvent extends EngineEvent {
         }
 
     }
-
     public static class OnUpdateEvent extends ComponentEvent {
 
         @Override
@@ -59,7 +58,6 @@ public abstract class ComponentEvent extends EngineEvent {
             return EngineEventType.OnUpdateEvent;
         }
     }
-
     public static class OnDestroyEvent extends ComponentEvent {
 
         @Override
@@ -67,14 +65,12 @@ public abstract class ComponentEvent extends EngineEvent {
             return EngineEventType.OnDestroyEvent;
         }
     }
-
     public static class OnRenderEvent extends ComponentEvent {
         @Override
         EngineEventType getType() {
             return EngineEventType.OnRenderEvent;
         }
     }
-
     public static class OnScreenSizeChangedEvent extends ComponentEvent {
         int width, height;
 
@@ -86,7 +82,6 @@ public abstract class ComponentEvent extends EngineEvent {
         public int getWidth() {
             return width;
         }
-
         public int getHeight() {
             return height;
         }
