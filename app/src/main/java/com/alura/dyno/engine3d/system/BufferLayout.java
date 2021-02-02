@@ -1,49 +1,58 @@
 package com.alura.dyno.engine3d.system;
 
+import android.opengl.GLES20;
+
+import com.alura.dyno.engine3d.system.vertex.Vertex;
+import com.alura.dyno.maths.Matrix4F;
+
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BufferLayout {
-    List<BufferLayoutElement> elements;
-    int offset = 0;
-    int stride = 0;
+    int layoutSize = 0;
+    private List<IBufferLayoutElement> elements;
 
     public BufferLayout()
     {
         elements = new ArrayList<>();
     }
 
-    private void pushFloat(String name, int count) {
-        BufferLayoutElement element = new BufferLayoutElement(name, count, offset, false);
+    public void addElement(IBufferLayoutElement element) {
         elements.add(element);
+        layoutSize += element.getSize();
+    }
+    public void removeElement(IBufferLayoutElement element) {
+        elements.remove(element);
+        layoutSize -= element.getSize();
+    }
 
-        offset += count;
-        stride += count * Float.BYTES;
-    }
-    public void pushVector3(String name)
-    {
-        pushFloat(name, 3);
-    }
-    public void pushColor(String name)
-    {
-        pushFloat(name, 4);
-    }
-    public void pushVector2(String name)
-    {
-        pushFloat(name, 2);
+    public void layoutVertex(Vertex v, FloatBuffer buffer) {
+        for(IBufferLayoutElement element : elements) {
+            element.layoutVertex(v, buffer);
+        }
     }
     public void bind(FloatBuffer buffer, int programHandle) {
-        for(BufferLayoutElement element : elements)
+        int offset = 0;
+        for(IBufferLayoutElement element : elements)
         {
-            element.bind(buffer, programHandle, stride);
+            int attrHandle = GLES20.glGetAttribLocation(programHandle, element.getName());
+            GLES20.glEnableVertexAttribArray(attrHandle);
+            GLES20.glVertexAttribPointer(attrHandle, element.getCount(), GLES20.GL_FLOAT,
+                    element.doNormalize(), layoutSize, buffer.position(offset));
+
+            offset += element.getCount();
         }
     }
     public void unbind(int programHandle) {
-        for(BufferLayoutElement element : elements)
+        for(IBufferLayoutElement element : elements)
         {
-            element.unbind(programHandle);
+            int attrHandle = GLES20.glGetAttribLocation(programHandle, element.getName());
+            GLES20.glDisableVertexAttribArray(attrHandle);
         }
     }
 
+    public int getLayoutSize() {
+        return layoutSize;
+    }
 }

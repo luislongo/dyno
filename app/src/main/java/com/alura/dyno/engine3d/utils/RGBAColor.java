@@ -2,15 +2,28 @@ package com.alura.dyno.engine3d.utils;
 
 import android.graphics.Color;
 
-public class RGBAColor {
+import com.alura.dyno.maths.VectorF;
 
-    public float r, g, b, a;
+public class RGBAColor extends VectorF<RGBAColor> {
 
     public RGBAColor(float r, float g, float b, float a) {
-        this.r = r;
-        this.g = g;
-        this.b = b;
-        this.a = a;
+        super(new float[] {r,g,b,a});
+    }
+    public RGBAColor(RGBAColor color) {
+        super(color.toArray());
+    }
+
+    public float r() {
+        return getX_(0);
+    }
+    public float g() {
+        return getX_(1);
+    }
+    public float b() {
+        return getX_(2);
+    }
+    public float a() {
+        return getX_(3);
     }
 
     public static RGBAColor fromIntColor(int color) {
@@ -36,7 +49,9 @@ public class RGBAColor {
                 Integer.valueOf(colorStr.substring(5, 7), 16),
                 1.0f);
     }
-    public float[] toArray() {
-        return new float[]{r,g,b,a};
+
+    @Override
+    public RGBAColor clone() {
+        return new RGBAColor(this);
     }
 }

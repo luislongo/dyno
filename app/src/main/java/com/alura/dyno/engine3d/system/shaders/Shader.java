@@ -4,188 +4,104 @@ import android.opengl.GLES20;
 import android.util.Log;
 
 import com.alura.dyno.engine3d.system.Texture;
+import com.alura.dyno.engine3d.system.shaders.uniforms.Uniform;
 import com.alura.dyno.engine3d.utils.RGBAColor;
-import com.alura.dyno.maths.MatrixG;
-import com.alura.dyno.maths.Vector2G;
-import com.alura.dyno.maths.Vector3G;
+import com.alura.dyno.maths.Matrix4F;
+import com.alura.dyno.maths.Vector2F;
+import com.alura.dyno.maths.Vector3F;
+import com.alura.dyno.maths.Vector4F;
+import com.alura.dyno.maths.VectorF;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 public abstract class Shader {
     HashMap<ShaderType, Integer> shaderHandles;
-    HashMap<String, Integer> uniformHandles;
-    int programHandle;
+    HashMap<Uniform, Integer> uniforms;
+    private int programHandle;
 
-    public Shader(ShaderLoader loader) {
+    public Shader(List<ShaderSource> sources) {
         initializeHandleHashMaps();
-        compileAllShaders(loader.sources);
-        createProgram();
-        attachAllShaders();
-        linkProgram();
+        compileShader(sources);
     }
-
     private void initializeHandleHashMaps() {
         shaderHandles = new HashMap<>();
-        uniformHandles = new HashMap<>();
+        uniforms = new HashMap<>();
     }
+    private void compileShader(List<ShaderSource> sources) {
+        ShaderCompiler compiler = new ShaderCompiler();
 
-    private void compileAllShaders(HashMap<ShaderType, String> sources) {
-        for(Map.Entry<ShaderType, String> kvp : sources.entrySet())
-        {
-            compileShader(kvp.getKey(), kvp.getValue());
+        for(ShaderSource source : sources) {
+            int handle = compiler.putShader(source);
+            shaderHandles.put(source.getType(), handle);
         }
-    }
-    private void attachAllShaders() {
-        for(int shaderHandle : shaderHandles.values())
-        {
-            attachShaderToProgram(shaderHandle);
-        }
-    }
-    private void deleteAllShaders() {
-        for(Integer handle : shaderHandles.values())
-        {
-            GLES20.glDeleteShader(handle);
-        }
+
+        programHandle = compiler.compile();
     }
 
-    private void compileShader(ShaderType type, String shaderSource) {
-        int shaderHandle = createShader(type);
+    protected final void setUniform1F(Uniform<Float> uniform) {
+        int handle = getUniformHandle(uniform);
+        float value = uniform.getValue();
 
-        loadShaderSourceIntoGPU(shaderSource, shaderHandle);
-        compileShader(shaderHandle);
+        GLES20.glUniform1f(handle, value);
+    }
+    protected final void setUniformVector2F(Uniform<Vector2F> uniform) {
+        int handle = getUniformHandle(uniform);
+        Vector2F value = uniform.getValue();
 
-        if(!hasCompiled(shaderHandle))
-        {
-            printShaderCompilingError(shaderHandle, type);
-            GLES20.glDeleteShader(shaderHandle);
+        GLES20.glUniform2f(handle, value.x(), value.y());
+    }
+    protected final void setUniformVector3F(Uniform<Vector3F> uniform) {
+        int handle = getUniformHandle(uniform);
+        Vector3F value = uniform.getValue();
+
+        GLES20.glUniform3f(handle, value.x(), value.y(), value.z());
+    }
+    protected final void setUniformVector4F(Uniform<Vector4F> uniform) {
+        int handle = getUniformHandle(uniform);
+        Vector4F value = uniform.getValue();
+
+        GLES20.glUniform4f(handle, value.x(), value.y(), value.z(), value.w());
+    }
+    protected final void setUniformColor(Uniform<RGBAColor> uniform) {
+        int handle = getUniformHandle(uniform);
+        RGBAColor value = uniform.getValue();
+
+        GLES20.glUniform4f(handle, value.r(), value.g(), value.b(), value.a());
+    }
+    protected final void setUniformTexture(Uniform<Texture> uniform) {
+        int handle = getUniformHandle(uniform);
+        Texture value = uniform.getValue();
+
+        GLES20.glUniform1i(handle, value.id());
+    }
+    protected final void setUniformMat4F(Uniform<Matrix4F> uniform) {
+        int handle = getUniformHandle(uniform);
+        Matrix4F value = uniform.getValue();
+
+        GLES20.glUniformMatrix4fv(handle, 16, false, value.toArray(), 0);
+    }
+
+    public int getUniformHandle(Uniform uniform) {
+        if(uniforms.containsKey(uniform)) {
+            return uniforms.get(uniform);
         } else
         {
-            shaderHandles.put(type, shaderHandle);
-        }
-    }
-    private int createShader(ShaderType type) {
-        return GLES20.glCreateShader(type.type);
-    }
-    private void loadShaderSourceIntoGPU(String shaderSource, int shaderHandle) {
-        GLES20.glShaderSource(shaderHandle, shaderSource);
-    }
-    private void compileShader(int shaderHandle) {
-        GLES20.glCompileShader(shaderHandle);
-    }
-    private boolean hasCompiled(int shaderHandle) {
-        int[] isCompiled = new int[1];
-        GLES20.glGetShaderiv(shaderHandle, GLES20.GL_COMPILE_STATUS, isCompiled, 0);
-        if(isCompiled[0] == GLES20.GL_FALSE)
-        {
-            return false;
-        }
-        return true;
-    }
-    private void printShaderCompilingError(int shaderHandle, ShaderType type) {
-        int[] maxLenth = new int[1];
-        GLES20.glGetShaderiv(shaderHandle, GLES20.GL_INFO_LOG_LENGTH, maxLenth, 0);
+            int handle = GLES20.glGetUniformLocation(programHandle, uniform.getName());
 
-        String infoLog = GLES20.glGetShaderInfoLog(shaderHandle);
-        Log.e("SHADER", "SHADER::SHADER_COMPILE::COMPILE_FAILED::TYPE=" + type.toString());
-        Log.e("SHADER",  infoLog);
-    }
-
-    private void createProgram()
-    {
-        programHandle = GLES20.glCreateProgram();
-    }
-    private void attachShaderToProgram(int shaderHandle) {
-        GLES20.glAttachShader(programHandle, shaderHandle);
-    }
-    private void linkProgram() {
-        GLES20.glLinkProgram(programHandle);
-
-        if(!hasLinked()) {
-            printLinkInfoLog();
-            GLES20.glDeleteProgram(programHandle);
-            deleteAllShaders();
-        }
-    }
-    private boolean hasLinked() {
-        int[] isLinked = new int[1];
-        GLES20.glGetProgramiv(programHandle, GLES20.GL_LINK_STATUS, isLinked, 0);
-        if(isLinked[0] == GLES20.GL_FALSE)
-        {
-            return false;
-        }
-        return true;
-    }
-    private void printLinkInfoLog() {
-        int[] maxLength = new int[]{0};
-        GLES20.glGetProgramiv(programHandle, GLES20.GL_INFO_LOG_LENGTH, maxLength, 0);
-
-        String infoLog = GLES20.glGetProgramInfoLog(programHandle);
-
-        Log.i("SHADER", "SHADER::LINKING::LINKING_ERROR ");
-        Log.i("SHADER", infoLog);
-    }
-
-    private final void setUniform2F(String name, float x, float y) {
-        int handle = getUniformHandle(name);
-        GLES20.glUniform2f(handle, x, y);
-    }
-    private final void setUniform3F(String name, float x, float y, float z) {
-        int handle = getUniformHandle(name);
-        GLES20.glUniform3f(handle, x, y, z);
-    }
-    private final void setUniform4F(String name, float x, float y, float z, float w) {
-        int handle = getUniformHandle(name);
-        GLES20.glUniform4f(handle, x, y, z, w);
-    }
-    private final void setUniformMat4G(String name, float[] matrix4) {
-        int handle = getUniformHandle(name);
-        GLES20.glUniformMatrix4fv(handle, 1, false, matrix4, 0);
-    }
-
-    protected final void setUniform1F(String name, float x) {
-        int handle = getUniformHandle(name);
-        GLES20.glUniform1f(handle, x);
-    }
-    protected final void setUniformVector2G(String name, Vector2G vector2) {
-        setUniform2F(name, vector2.x(), vector2.y());
-    }
-    protected final void setUniformVector3G(String name, Vector3G vector3) {
-        setUniform3F(name, vector3.x(), vector3.y(), vector3.z());
-    }
-    protected final void setUniformColor(String name, RGBAColor color) {
-        setUniform4F(name, color.r, color.g, color.b, color.a);
-    }
-    protected final void setUniformTexture(String name, Texture texture) {
-        setUniform1F(name, texture.id());
-    }
-    protected final void setUniformMat4G(String name, MatrixG matrix4) {
-        setUniformMat4G(name, matrix4.to1DArray());
-    }
-
-    public int getUniformHandle(String name) {
-        if (uniformHandles.containsKey(name)) {
-            return uniformHandles.get(name);
-        } else
-        {
-            int handle = GLES20.glGetUniformLocation(programHandle, name);
-
-            if(doesHandleExist(handle)) {
-                uniformHandles.put(name, handle);
-                return handle;
-            } else
-            {
-                Log.e("SHADER", "SHADER::UNIFORM::COULD NOT FIND UNIFORM::NAME: " + name);
-                return -1;
+            if(!doesHandleExist(handle)) {
+                Log.e("SHADER", "SHADER::UNIFORM::COULD NOT FIND UNIFORM::NAME: " + uniform.getName());
             }
+
+            return handle;
         }
     }
     private boolean doesHandleExist(int handle) {
         return !(handle == -1);
     }
-    public int getProgramHandle() {
-        return programHandle;
-    }
+
+    public abstract void setUniforms();
 
     public final void use() {
         GLES20.glUseProgram(programHandle);
