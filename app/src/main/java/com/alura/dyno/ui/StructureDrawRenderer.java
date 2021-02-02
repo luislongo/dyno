@@ -5,7 +5,7 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
 import com.alura.dyno.engine3d.utils.ColorPalette;
-import com.alura.dyno.maths.Vector2G;
+import com.alura.dyno.maths.Vector2F;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -15,7 +15,7 @@ public class StructureDrawRenderer implements GLSurfaceView.Renderer, ColorPalet
     SurfaceRendererListener listener;
     Context context;
 
-    Vector2G screenSize;
+    Vector2F screenSize;
 
     public StructureDrawRenderer(Context context) {
         super();
@@ -36,7 +36,7 @@ public class StructureDrawRenderer implements GLSurfaceView.Renderer, ColorPalet
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         GLES20.glViewport(0, 0, width, height);
-        screenSize = new Vector2G(width, height);
+        screenSize = new Vector2F(width, height);
 
         if (listener != null) {
             listener.OnSurfaceChanged(width, height);

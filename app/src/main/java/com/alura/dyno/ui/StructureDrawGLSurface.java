@@ -8,7 +8,6 @@ import android.view.MotionEvent;
 import com.alura.dyno.R;
 import com.alura.dyno.engine3d.components.AdaptableGridRenderer;
 import com.alura.dyno.engine3d.components.Camera;
-import com.alura.dyno.engine3d.components.MeshRenderer;
 import com.alura.dyno.engine3d.components.TextRenderer;
 import com.alura.dyno.engine3d.objects.EmptyObject;
 import com.alura.dyno.engine3d.objects.SceneObject;
@@ -19,10 +18,8 @@ import com.alura.dyno.engine3d.system.events.TreeEventDispatcher;
 import com.alura.dyno.engine3d.system.fonts.Font;
 import com.alura.dyno.engine3d.system.fonts.FontLoader;
 import com.alura.dyno.engine3d.system.shaders.ShaderMaster;
-import com.alura.dyno.engine3d.system.vertex.MeshBuffer;
-import com.alura.dyno.engine3d.system.vertex.Vertex;
 import com.alura.dyno.engine3d.utils.ColorPalette;
-import com.alura.dyno.maths.Vector3G;
+import com.alura.dyno.maths.Vector3F;
 
 public class StructureDrawGLSurface extends GLSurfaceView implements ColorPalette {
     StructureDrawRenderer renderer;
@@ -31,8 +28,6 @@ public class StructureDrawGLSurface extends GLSurfaceView implements ColorPalett
     SceneObject root;
     Camera cam;
     Font font;
-    private MeshRenderer mesh;
-    private EmptyObject circle;
 
     public StructureDrawGLSurface(Context context) {
         super(context);
@@ -58,7 +53,7 @@ public class StructureDrawGLSurface extends GLSurfaceView implements ColorPalett
                 .build();
 
         EmptyObject cameraHandle = new EmptyObject.EmptyObjectBuilder<>("Camera handle")
-                .setPosition(new Vector3G(0.0f, 0.0f, 1.0f))
+                .setPosition(new Vector3F(0.0f, 0.0f, 0.0f))
                 .build();
 
         cameraHandle.setParent(root);
@@ -85,74 +80,9 @@ public class StructureDrawGLSurface extends GLSurfaceView implements ColorPalett
                 .setText("AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz01234567890")
                 .build();
 
-        circle = EmptyObject.EmptyObjectBuilder.builder("Circle")
-                .build();
-
-        float radius = 20;
-
-        for(int i = 0; i <= 20; i++) {
-            float angle = 0.1f * (float) i * (float) Math.PI;
-            float x = radius * (float) Math.cos(angle);
-            float y = radius * (float) Math.sin(angle);
-
-            MeshBuffer data = getData();
-            EmptyObject meshHandle = EmptyObject.EmptyObjectBuilder.builder("Mesh " + i)
-                    .setPosition(new Vector3G(x, y, 0.0f))
-                    .build();
-            mesh = MeshRenderer.MeshRendererBuilder.builder("Cube " + i, ShaderMaster.objectShader)
-                    .setData(data)
-                    .build();
-
-            meshHandle.addComponent(mesh);
-            meshHandle.setParent(circle);
-        }
-
-        circle.setParent(root);
-
         root.addComponent(grid);
         root.addComponent(text);
     }
-
-    private MeshBuffer getData() {
-        return new MeshBuffer()
-                .addElement(new Vertex.VertexBuilder(-1, -1, 1).setColor(ColorPalette.ACQUA_GREEN).build(),
-                            new Vertex.VertexBuilder(1, -1, 1).setColor(ColorPalette.ACQUA_GREEN).build(),
-                            new Vertex.VertexBuilder(1, 1, 1).setColor(ColorPalette.ACQUA_GREEN).build())
-                .addElement(new Vertex.VertexBuilder(-1, -1, 1).setColor(ColorPalette.ACQUA_GREEN).build(),
-                        new Vertex.VertexBuilder(1, 1, 1).setColor(ColorPalette.ACQUA_GREEN).build(),
-                        new Vertex.VertexBuilder(-1, 1, 1).setColor(ColorPalette.ACQUA_GREEN).build())
-                .addElement(new Vertex.VertexBuilder(-1, -1, -1).setColor(ColorPalette.ACQUA_GREEN).build(),
-                         new Vertex.VertexBuilder(1, -1, -1).setColor(ColorPalette.ACQUA_GREEN).build(),
-                         new Vertex.VertexBuilder(1, 1, -1).setColor(ColorPalette.ACQUA_GREEN).build())
-                .addElement(new Vertex.VertexBuilder(-1, -1, -1).setColor(ColorPalette.ACQUA_GREEN).build(),
-                        new Vertex.VertexBuilder(1, 1, -1).setColor(ColorPalette.ACQUA_GREEN).build(),
-                        new Vertex.VertexBuilder(-1, 1, -1).setColor(ColorPalette.ACQUA_GREEN).build())
-                .addElement(new Vertex.VertexBuilder(1, -1, -1).setColor(ColorPalette.ACQUA_GREEN).build(),
-                        new Vertex.VertexBuilder(1, 1, -1).setColor(ColorPalette.ACQUA_GREEN).build(),
-                        new Vertex.VertexBuilder(1, 1, 1).setColor(ColorPalette.ACQUA_GREEN).build())
-                .addElement(new Vertex.VertexBuilder(1, -1, -1).setColor(ColorPalette.ACQUA_GREEN).build(),
-                        new Vertex.VertexBuilder(1, 1, 1).setColor(ColorPalette.ACQUA_GREEN).build(),
-                        new Vertex.VertexBuilder(1, -1, 1).setColor(ColorPalette.ACQUA_GREEN).build())
-                .addElement(new Vertex.VertexBuilder(-1, -1, -1).setColor(ColorPalette.ACQUA_GREEN).build(),
-                        new Vertex.VertexBuilder(-1, 1, -1).setColor(ColorPalette.ACQUA_GREEN).build(),
-                        new Vertex.VertexBuilder(-1, 1, 1).setColor(ColorPalette.ACQUA_GREEN).build())
-                .addElement(new Vertex.VertexBuilder(-1, -1, -1).setColor(ColorPalette.ACQUA_GREEN).build(),
-                        new Vertex.VertexBuilder(-1, 1, 1).setColor(ColorPalette.ACQUA_GREEN).build(),
-                        new Vertex.VertexBuilder(-1, -1, 1).setColor(ColorPalette.ACQUA_GREEN).build())
-                .addElement(new Vertex.VertexBuilder(-1, 1, -1).setColor(ColorPalette.ACQUA_GREEN).build(),
-                        new Vertex.VertexBuilder(1, 1, -1).setColor(ColorPalette.ACQUA_GREEN).build(),
-                        new Vertex.VertexBuilder(1, 1, 1).setColor(ColorPalette.ACQUA_GREEN).build())
-                .addElement(new Vertex.VertexBuilder(-1, 1, -1).setColor(ColorPalette.ACQUA_GREEN).build(),
-                        new Vertex.VertexBuilder(1, 1, 1).setColor(ColorPalette.ACQUA_GREEN).build(),
-                        new Vertex.VertexBuilder(-1, 1, 1).setColor(ColorPalette.ACQUA_GREEN).build())
-                .addElement(new Vertex.VertexBuilder(-1, -1, -1).setColor(ColorPalette.ACQUA_GREEN).build(),
-                        new Vertex.VertexBuilder(1, -1, -1).setColor(ColorPalette.ACQUA_GREEN).build(),
-                        new Vertex.VertexBuilder(1, -1, 1).setColor(ColorPalette.ACQUA_GREEN).build())
-                .addElement(new Vertex.VertexBuilder(-1, -1, -1).setColor(ColorPalette.ACQUA_GREEN).build(),
-                        new Vertex.VertexBuilder(1, -1, 1).setColor(ColorPalette.ACQUA_GREEN).build(),
-                        new Vertex.VertexBuilder(-1, -1, 1).setColor(ColorPalette.ACQUA_GREEN).build());
-    }
-
     private void loadShaders() {
         ShaderMaster.loadShaders(getContext());
     }
@@ -172,7 +102,6 @@ public class StructureDrawGLSurface extends GLSurfaceView implements ColorPalett
     public interface StructureDrawSurfaceListener {
         boolean onTouch(MotionEvent e);
     }
-
     public class SimpleSurfaceRendererListener implements StructureDrawRenderer.SurfaceRendererListener {
         @Override
         public void OnSurfaceCreated(StructureDrawRenderer renderer) {
@@ -193,12 +122,6 @@ public class StructureDrawGLSurface extends GLSurfaceView implements ColorPalett
 
         @Override
         public void OnRender(StructureDrawRenderer renderer) {
-            circle.getLocalTransform().scale(new Vector3G(1.f,1.001f, 1.0f));
-            for(SceneObject so : circle.getChildrenList())
-            {
-               so.getLocalTransform().move(new Vector3G(.05f,0.0f,0.0f));
-            }
-
             TreeEventDispatcher.dispatcher.dispatchEvent(new ComponentEvent.OnUpdateEvent());
             TreeEventDispatcher.dispatcher.dispatchEvent(new ComponentEvent.OnRenderEvent());
         }

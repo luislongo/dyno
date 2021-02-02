@@ -3,7 +3,7 @@ package com.alura.dyno.engine3d.system.events;
 import com.alura.dyno.engine3d.components.Camera;
 import com.alura.dyno.engine3d.objects.SceneObject;
 import com.alura.dyno.engine3d.system.SceneMaster;
-import com.alura.dyno.maths.Vector2G;
+import com.alura.dyno.maths.Vector2F;
 
 public abstract class ComponentEvent extends EngineEvent {
 
@@ -51,6 +51,7 @@ public abstract class ComponentEvent extends EngineEvent {
         }
 
     }
+
     public static class OnUpdateEvent extends ComponentEvent {
 
         @Override
@@ -58,6 +59,7 @@ public abstract class ComponentEvent extends EngineEvent {
             return EngineEventType.OnUpdateEvent;
         }
     }
+
     public static class OnDestroyEvent extends ComponentEvent {
 
         @Override
@@ -65,12 +67,14 @@ public abstract class ComponentEvent extends EngineEvent {
             return EngineEventType.OnDestroyEvent;
         }
     }
+
     public static class OnRenderEvent extends ComponentEvent {
         @Override
         EngineEventType getType() {
             return EngineEventType.OnRenderEvent;
         }
     }
+
     public static class OnScreenSizeChangedEvent extends ComponentEvent {
         int width, height;
 
@@ -82,6 +86,7 @@ public abstract class ComponentEvent extends EngineEvent {
         public int getWidth() {
             return width;
         }
+
         public int getHeight() {
             return height;
         }
@@ -101,24 +106,24 @@ public abstract class ComponentEvent extends EngineEvent {
     }
 
     public static class OnTapEvent extends ComponentEvent {
-        Vector2G screenCoords;
-        Vector2G modelCoords;
-        Vector2G alignedCoords;
+        Vector2F screenCoords;
+        Vector2F modelCoords;
+        Vector2F alignedCoords;
 
-        public OnTapEvent(Vector2G screenCoords) {
+        public OnTapEvent(Vector2F screenCoords) {
             this.screenCoords = screenCoords;
             this.modelCoords = Camera.fromScreenToView(SceneMaster.getMainCamera(), screenCoords);
         }
 
-        public Vector2G getScreenCoords() {
+        public Vector2F getScreenCoords() {
             return screenCoords;
         }
 
-        public Vector2G getViewCoords() {
+        public Vector2F getViewCoords() {
             return modelCoords;
         }
 
-        public Vector2G getAlignedCoords() {
+        public Vector2F getAlignedCoords() {
             return alignedCoords;
         }
 
@@ -129,32 +134,32 @@ public abstract class ComponentEvent extends EngineEvent {
     }
 
     public static class OnDragEvent extends ComponentEvent {
-        Vector2G screenDistance;
-        Vector2G viewDistance;
-        Vector2G screenCurrentTouch;
-        Vector2G viewCurrentTouch;
+        Vector2F screenDistance;
+        Vector2F viewDistance;
+        Vector2F screenCurrentTouch;
+        Vector2F viewCurrentTouch;
 
-        public OnDragEvent(Vector2G screenDistance, Vector2G viewDistance, Vector2G screenCurrentTouch,
-                           Vector2G viewCurrentTouch) {
+        public OnDragEvent(Vector2F screenDistance, Vector2F viewDistance, Vector2F screenCurrentTouch,
+                           Vector2F viewCurrentTouch) {
             this.screenDistance = screenDistance;
             this.viewDistance = viewDistance;
             this.screenCurrentTouch = screenCurrentTouch;
             this.viewCurrentTouch = viewCurrentTouch;
         }
 
-        public Vector2G getScreenDistance() {
+        public Vector2F getScreenDistance() {
             return screenDistance;
         }
 
-        public Vector2G getViewDistance() {
+        public Vector2F getViewDistance() {
             return viewDistance;
         }
 
-        public Vector2G getScreenCurrentTouch() {
+        public Vector2F getScreenCurrentTouch() {
             return screenCurrentTouch;
         }
 
-        public Vector2G getViewCurrentTouch() {
+        public Vector2F getViewCurrentTouch() {
             return viewCurrentTouch;
         }
 
@@ -166,9 +171,9 @@ public abstract class ComponentEvent extends EngineEvent {
 
     public static class OnScaleEvent extends ComponentEvent {
         private float scaleFactor;
-        private Vector2G focusPoint;
+        private Vector2F focusPoint;
 
-        public OnScaleEvent(float scaleFactor, Vector2G focusPoint) {
+        public OnScaleEvent(float scaleFactor, Vector2F focusPoint) {
             this.scaleFactor = scaleFactor;
             this.focusPoint = focusPoint;
         }
@@ -177,7 +182,7 @@ public abstract class ComponentEvent extends EngineEvent {
             return scaleFactor;
         }
 
-        public Vector2G getFocusPoint() {
+        public Vector2F getFocusPoint() {
             return focusPoint;
         }
 
