@@ -4,7 +4,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.1' //change this with latest gradle version.
+        classpath 'com.android.tools.build:gradle:4.1.2' //change this with latest gradle version.
     }
 }
 
