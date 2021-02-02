@@ -1,6 +1,6 @@
 package com.alura.dyno.maths;
 
-public class Vector2F extends VectorF {
+public class Vector2F extends VectorF<Vector2F> {
 
     public Vector2F()
     {
@@ -56,6 +56,12 @@ public class Vector2F extends VectorF {
         setValues(new float[]{x, y});
     }
 
+    public static Vector2F ZERO() {
+        return new Vector2F(0.0f, 0.0f);
+    }
+    @Override public Vector2F clone() {
+        return new Vector2F(this);
+    }
     @Override protected boolean isDataSizeCorrect(int size)
     {
         return size == 2;

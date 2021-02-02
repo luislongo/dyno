@@ -15,7 +15,6 @@ public abstract class MonoBehaviour implements
     protected MonoBehaviour(MonoBehaviourBuilder builder) {
         this.name = builder.name;
     }
-
     protected MonoBehaviour(String name) {
         this.name = name;
     }
@@ -23,28 +22,20 @@ public abstract class MonoBehaviour implements
     public String getName() {
         return this.name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
 
-    @Override
-    public void onCreate(ComponentEvent.OnCreateEvent event) {
+    @Override public void onCreate(ComponentEvent.OnCreateEvent event) {
 
     }
-
-    @Override
-    public void onUpdate(ComponentEvent.OnUpdateEvent event) {
+    @Override public void onUpdate(ComponentEvent.OnUpdateEvent event) {
 
     }
-
-    @Override
-    public void onDestroy() {
+    @Override public void onDestroy() {
         parent = null;
     }
-
-    @Override
-    public void onParentChanged(SceneObject newParent) {
+    @Override public void onParentChanged(SceneObject newParent) {
         if (parent != null) {
             parent.removeComponent(this);
         }
@@ -54,15 +45,12 @@ public abstract class MonoBehaviour implements
     public SceneObject getParent() {
         return parent;
     }
-
     public boolean isActive() {
         return isActive;
     }
-
     public void setActive(boolean isActive) {
         this.isActive = isActive;
     }
-
 
     public static abstract class MonoBehaviourBuilder<T extends MonoBehaviourBuilder<T>> {
         protected String name;

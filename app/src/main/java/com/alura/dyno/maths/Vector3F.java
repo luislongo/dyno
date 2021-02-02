@@ -1,7 +1,6 @@
 package com.alura.dyno.maths;
 
-public class Vector3F extends VectorF {
-
+public class Vector3F extends VectorF<Vector3F> {
     public Vector3F(float value)
     {
         super(3, value);
@@ -64,6 +63,13 @@ public class Vector3F extends VectorF {
         return new Vector3F(straightProduct(v_lhs, v_lhs));
     }
 
+    public static Vector3F ZERO() {
+        return new Vector3F(0.0f, 0.0f, 0.0f);
+    }
+
+    @Override public Vector3F clone() {
+        return new Vector3F(this);
+    }
     @Override protected boolean isDataSizeCorrect(int size)
     {
         return size == 3;

@@ -2,8 +2,7 @@ package com.alura.dyno.maths;
 
 import android.opengl.Matrix;
 
-public class Vector4F extends VectorF {
-
+public class Vector4F extends VectorF<Vector4F> {
     public Vector4F(float[] values)
     {
         super(values, 0, 4);
@@ -64,7 +63,13 @@ public class Vector4F extends VectorF {
     public void setValues(float x, float y, float z, float w) {
         setValues(new float[]{x, y, z, w});
     }
+    public static Vector4F ZERO() {
+        return new Vector4F(0.0f, 0.0f, 0.0f, 0.0f);
+    }
 
+    @Override public Vector4F clone() {
+        return new Vector4F(this);
+    }
     @Override protected boolean isDataSizeCorrect(int size)
     {
         return size == 4;

@@ -2,7 +2,7 @@ package com.alura.dyno.maths;
 
 import java.util.Arrays;
 
-public class VectorF {
+public abstract class VectorF<T extends VectorF> {
     protected float[] x_i;
 
     public VectorF(int size) {
@@ -171,6 +171,8 @@ public class VectorF {
     {
         return true;
     }
+
+    public abstract T clone();
 
     @Override
     public final String toString() {

@@ -4,9 +4,6 @@ import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
-import com.alura.dyno.engine3d.components.MeshRenderer;
-import com.alura.dyno.engine3d.system.shaders.SimpleShader;
-import com.alura.dyno.engine3d.system.vertex.MeshBuffer;
 import com.alura.dyno.engine3d.utils.ColorPalette;
 import com.alura.dyno.maths.Vector2F;
 

@@ -2,50 +2,31 @@ package com.alura.dyno.engine3d.system.shaders;
 
 import android.content.Context;
 
+import com.alura.dyno.engine3d.utils.AndroidResourceLoader;
+
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ShaderLoader {
-    HashMap<ShaderType, String> sources;
+    List<ShaderSource> sources;
     Context context;
 
     public ShaderLoader(Context context)
     {
         this.context = context;
-        sources = new HashMap<>();
+        sources = new ArrayList<>();
     }
-    public void load(ShaderType type, int shaderResourceId) {
-        String shaderSource = parseFile(shaderResourceId);
-        sources.put(type, shaderSource);
+    public void loadFromRawResource(ShaderType type, int shaderResourceId) {
+        String strSource = parseFile(shaderResourceId);
+        sources.add(new ShaderSource(type, strSource));
     }
     private String parseFile(int shaderResourceId) {
-        InputStream stream = context.getResources().openRawResource(shaderResourceId);
-        StringBuilder build = new StringBuilder();
-
-        byte[] buf = new byte[1024];
-        int length;
-
-        try {
-            while ((length = stream.read(buf)) != -1) {
-                build.append(new String(buf, 0, length));
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Error loading resource: " + shaderResourceId);
-        }
-
-        return build.toString();
+        AndroidResourceLoader loader = new AndroidResourceLoader(context);
+        return loader.loadRawResource(shaderResourceId);
     }
-
-
-
-    public String getVertex()
-    {
-        return sources.get(ShaderType.Vertex);
-    }
-
-
-    public String getFragment()
-    {
-        return sources.get(ShaderType.Fragment);
+    public List<ShaderSource> getSources() {
+        return sources;
     }
 }

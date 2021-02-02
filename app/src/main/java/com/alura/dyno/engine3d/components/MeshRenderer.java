@@ -1,51 +1,53 @@
 package com.alura.dyno.engine3d.components;
 
-import com.alura.dyno.engine3d.system.SceneMaster;
-import com.alura.dyno.engine3d.system.shaders.SimpleShader;
+import com.alura.dyno.engine3d.system.events.ComponentEvent;
+import com.alura.dyno.engine3d.system.shaders.Shader;
+import com.alura.dyno.engine3d.system.vertex.Mesh;
 import com.alura.dyno.engine3d.system.vertex.MeshBuffer;
-import com.alura.dyno.engine3d.utils.ColorPalette;
-import com.alura.dyno.engine3d.utils.RGBAColor;
+import com.alura.dyno.engine3d.system.vertex.Triangle;
+import com.alura.dyno.engine3d.system.vertex.Vertex;
+import com.alura.dyno.engine3d.system.vertex.VertexTransform;
+import com.alura.dyno.maths.Matrix4F;
 
-public class MeshRenderer<V extends SimpleShader> extends Renderer<MeshBuffer, V> {
+public class MeshRenderer extends MonoBehaviour {
+    public Material material = new DefaultMaterial();
+    public Shader shader;
 
-    public MeshRenderer(RendererBuilder builder) {
-        super(builder);
+    public Mesh sharedMesh;
+    private MeshBuffer buffer;
+
+    public MeshRenderer() {
+        super("Mesh Renderer");
+    }
+
+    public void setMesh(Mesh mesh) {
+        this.sharedMesh = mesh;
+
+    }
+
+    public void invalidate(VertexTransform t) {
+        clearBufferData();
+        updateBufferData(t);
+    }
+    private void clearBufferData() {
+        buffer.clearData();
+    }
+    private void updateBufferData(VertexTransform vt) {
+        Matrix4F globalMatrix = getParent().getGlobalTransform().getModelmatrix();
+
+        for(Vertex vertex : sharedMesh.getVertices()) {
+            buffer.put(vertex.transform(vt));
+        }
+
+        for(Triangle triangle : sharedMesh.getTriangles()) {
+            buffer.put(triangle);
+        }
     }
 
     @Override
-    public void setUniforms() {
-        shader.setModelMatrix(getParent().getGlobalTransform().getModelmatrix());
-        shader.setViewMatrix(SceneMaster.getMainCamera().getViewMatrix());
-        shader.setProjectionMatrix(SceneMaster.getMainCamera().getProjectionMatrix());
+    public void onCreate(ComponentEvent.OnCreateEvent event) {
+        super.onCreate(event);
+
+
     }
-
-    public static class MeshRendererBuilder<T extends MeshRendererBuilder<T, V>, V extends SimpleShader>
-            extends RendererBuilder<T, MeshBuffer, V> {
-        protected RGBAColor meshColor = ColorPalette.MAGENTA;
-
-        public MeshRendererBuilder(String name, V shader) {
-            super(name, shader);
-        }
-
-        @Override
-        protected void initializeEmptyData() {
-            data = new MeshBuffer();
-        }
-
-        public MeshRenderer build() {
-            return new MeshRenderer(this);
-        }
-
-        public static <T extends  MeshRendererBuilder<T,V>, V extends SimpleShader>
-            MeshRendererBuilder<T, V> builder(String name, V shader)
-        {
-            return new MeshRendererBuilder<>(name, shader);
-        }
-
-        public T setObjectColor(RGBAColor meshColor) {
-            this.meshColor = meshColor;
-            return (T) this;
-        }
-    }
-
 }
