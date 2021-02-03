@@ -1,9 +1,7 @@
 package com.alura.dyno.engine3d.components;
 
 import android.graphics.RectF;
-import android.icu.util.ValueIterator;
 
-import com.alura.dyno.engine3d.system.events.ComponentEvent;
 import com.alura.dyno.maths.MathExtra;
 import com.alura.dyno.maths.Matrix4F;
 import com.alura.dyno.maths.Vector2F;

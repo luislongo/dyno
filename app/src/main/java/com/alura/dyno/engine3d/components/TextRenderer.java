@@ -1,8 +1,8 @@
 package com.alura.dyno.engine3d.components;
 
 import com.alura.dyno.engine3d.system.SceneMaster;
-import com.alura.dyno.engine3d.system.fonts.Font;
-import com.alura.dyno.engine3d.system.shaders.TextShader;
+import com.alura.dyno.engine3d.fonts.Font;
+import com.alura.dyno.engine3d.shaders.TextShader;
 import com.alura.dyno.engine3d.utils.ColorPalette;
 import com.alura.dyno.engine3d.utils.RGBAColor;
 

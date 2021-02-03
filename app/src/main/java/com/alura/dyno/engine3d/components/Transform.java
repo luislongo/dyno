@@ -1,18 +1,14 @@
 package com.alura.dyno.engine3d.components;
 
-import com.alura.dyno.engine3d.system.events.SceneObjectEvent;
-import com.alura.dyno.engine3d.system.events.TreeEventDispatcher;
+import com.alura.dyno.engine3d.scripting.Script;
 import com.alura.dyno.maths.Matrix4F;
 import com.alura.dyno.maths.Vector3F;
 
-public class Transform extends MonoBehaviour {
+public class Transform extends Script {
 
     private Vector3F position;
     private Vector3F scale;
     private Vector3F eulerAngles;
-
-    private boolean isUpdated = false;
-    private Matrix4F modelMatrix = new Matrix4F();
 
     public Transform(TransformBuilder builder) {
         super(builder);
@@ -120,39 +116,28 @@ public class Transform extends MonoBehaviour {
         }
     }
 
-    public static class TransformBuilder<T extends TransformBuilder<T>>
-            extends MonoBehaviourBuilder<T> {
+    public static class TransformBuilder {
         private Vector3F position = new Vector3F(0.0f, 0.0f, 0.0f);
         private Vector3F scale = new Vector3F( 1.0f, 1.0f, 1.0f);
         private Vector3F eulerAngles = new Vector3F(0.0f, 0.0f, 0.0f);
 
-        protected TransformBuilder(String name) {
-            super(name);
-        }
-
-        public static TransformBuilder<?> builder(String name) {
-            return new TransformBuilder<>(name);
+        protected TransformBuilder() {
         }
 
         public Transform build() {
             return new Transform(this);
         }
-
-        public T setPosition(Vector3F position) {
+        public TransformBuilder setPosition(Vector3F position) {
             this.position = position;
-
-            return (T) this;
+            return this;
         }
-
-        public T setScale(Vector3F scale) {
+        public TransformBuilder setScale(Vector3F scale) {
             this.scale = scale;
-
-            return (T) this;
+            return this;
         }
-
-        public T setEulerAngles(Vector3F eulerAngles) {
+        public TransformBuilder setEulerAngles(Vector3F eulerAngles) {
             this.eulerAngles = eulerAngles;
-            return (T) this;
+            return this;
         }
 
     }

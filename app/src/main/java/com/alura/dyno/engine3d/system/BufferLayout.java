@@ -2,8 +2,7 @@ package com.alura.dyno.engine3d.system;
 
 import android.opengl.GLES20;
 
-import com.alura.dyno.engine3d.system.vertex.Vertex;
-import com.alura.dyno.maths.Matrix4F;
+import com.alura.dyno.engine3d.vertex.Vertex;
 
 import java.nio.FloatBuffer;
 import java.util.ArrayList;

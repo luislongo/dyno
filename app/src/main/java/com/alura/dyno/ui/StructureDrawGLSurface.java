@@ -9,15 +9,12 @@ import com.alura.dyno.R;
 import com.alura.dyno.engine3d.components.AdaptableGridRenderer;
 import com.alura.dyno.engine3d.components.Camera;
 import com.alura.dyno.engine3d.components.TextRenderer;
-import com.alura.dyno.engine3d.objects.EmptyObject;
+import com.alura.dyno.engine3d.scripting.Glyph;
 import com.alura.dyno.engine3d.objects.SceneObject;
 import com.alura.dyno.engine3d.system.SceneMaster;
-import com.alura.dyno.engine3d.system.events.ComponentEvent;
-import com.alura.dyno.engine3d.system.events.ComponentEvent.OnScreenSizeChangedEvent;
-import com.alura.dyno.engine3d.system.events.TreeEventDispatcher;
-import com.alura.dyno.engine3d.system.fonts.Font;
-import com.alura.dyno.engine3d.system.fonts.FontLoader;
-import com.alura.dyno.engine3d.system.shaders.ShaderMaster;
+import com.alura.dyno.engine3d.fonts.Font;
+import com.alura.dyno.engine3d.fonts.FontLoader;
+import com.alura.dyno.engine3d.shaders.ShaderMaster;
 import com.alura.dyno.engine3d.utils.ColorPalette;
 import com.alura.dyno.maths.Vector3F;
 
@@ -52,7 +49,7 @@ public class StructureDrawGLSurface extends GLSurfaceView implements ColorPalett
                 .setZoom(100)
                 .build();
 
-        EmptyObject cameraHandle = new EmptyObject.EmptyObjectBuilder<>("Camera handle")
+        Glyph cameraHandle = new Glyph.EmptyObjectBuilder<>("Camera handle")
                 .setPosition(new Vector3F(0.0f, 0.0f, 0.0f))
                 .build();
 
@@ -61,7 +58,7 @@ public class StructureDrawGLSurface extends GLSurfaceView implements ColorPalett
         SceneMaster.setMainCamera(cam);
     }
     private void loadObjects() {
-        root = EmptyObject.EmptyObjectBuilder.builder("Root")
+        root = Glyph.EmptyObjectBuilder.builder("Root")
                 .build();
 
         AdaptableGridRenderer grid = AdaptableGridRenderer.AdaptableGridRendererBuilder

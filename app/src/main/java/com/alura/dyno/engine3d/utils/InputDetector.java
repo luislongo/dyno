@@ -7,10 +7,7 @@ import android.view.ScaleGestureDetector;
 
 import com.alura.dyno.engine3d.components.Camera;
 import com.alura.dyno.engine3d.system.SceneMaster;
-import com.alura.dyno.engine3d.system.events.ComponentEvent;
-import com.alura.dyno.engine3d.system.events.TreeEventDispatcher;
 import com.alura.dyno.maths.Vector2F;
-import com.alura.dyno.maths.Vector3F;
 import com.alura.dyno.ui.StructureDrawGLSurface;
 
 public class InputDetector implements StructureDrawGLSurface.StructureDrawSurfaceListener {

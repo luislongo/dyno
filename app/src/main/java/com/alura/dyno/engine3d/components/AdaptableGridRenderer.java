@@ -3,8 +3,7 @@ package com.alura.dyno.engine3d.components;
 import android.content.Context;
 
 import com.alura.dyno.engine3d.system.SceneMaster;
-import com.alura.dyno.engine3d.system.events.ComponentEvent;
-import com.alura.dyno.engine3d.system.shaders.GridShader;
+import com.alura.dyno.engine3d.shaders.GridShader;
 
 public class AdaptableGridRenderer extends GridRenderer {
 

@@ -1,6 +1,6 @@
 package com.alura.dyno.engine3d.utils;
 
-import com.alura.dyno.engine3d.system.vertex.Vertex;
+import com.alura.dyno.engine3d.vertex.Vertex;
 
 public class TriangleFactory {
 

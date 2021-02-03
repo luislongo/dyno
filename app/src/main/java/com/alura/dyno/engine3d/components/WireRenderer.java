@@ -1,9 +1,9 @@
 package com.alura.dyno.engine3d.components;
 
 import com.alura.dyno.engine3d.system.SceneMaster;
-import com.alura.dyno.engine3d.system.shaders.SimpleShader;
-import com.alura.dyno.engine3d.system.shaders.Shader;
-import com.alura.dyno.engine3d.system.vertex.WireBuffer;
+import com.alura.dyno.engine3d.shaders.SimpleShader;
+import com.alura.dyno.engine3d.shaders.Shader;
+import com.alura.dyno.engine3d.vertex.WireBuffer;
 
 public class WireRenderer<U extends SimpleShader> extends Renderer<WireBuffer, U> {
 

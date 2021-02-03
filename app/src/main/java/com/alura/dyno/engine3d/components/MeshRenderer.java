@@ -1,12 +1,11 @@
 package com.alura.dyno.engine3d.components;
 
-import com.alura.dyno.engine3d.system.events.ComponentEvent;
-import com.alura.dyno.engine3d.system.shaders.Shader;
-import com.alura.dyno.engine3d.system.vertex.Mesh;
-import com.alura.dyno.engine3d.system.vertex.MeshBuffer;
-import com.alura.dyno.engine3d.system.vertex.Triangle;
-import com.alura.dyno.engine3d.system.vertex.Vertex;
-import com.alura.dyno.engine3d.system.vertex.VertexTransform;
+import com.alura.dyno.engine3d.shaders.Shader;
+import com.alura.dyno.engine3d.vertex.Mesh;
+import com.alura.dyno.engine3d.vertex.MeshBuffer;
+import com.alura.dyno.engine3d.vertex.Triangle;
+import com.alura.dyno.engine3d.vertex.Vertex;
+import com.alura.dyno.engine3d.vertex.VertexTransform;
 import com.alura.dyno.maths.Matrix4F;
 
 public class MeshRenderer extends MonoBehaviour {
