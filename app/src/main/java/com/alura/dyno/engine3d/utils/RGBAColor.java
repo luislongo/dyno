@@ -2,7 +2,7 @@ package com.alura.dyno.engine3d.utils;
 
 import android.graphics.Color;
 
-import com.alura.dyno.maths.linalg.FloatVector;
+import com.alura.dyno.math.linalg.FloatVector;
 
 public class RGBAColor extends FloatVector<RGBAColor> {
 

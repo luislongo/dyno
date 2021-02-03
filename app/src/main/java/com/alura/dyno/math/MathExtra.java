@@ -1,4 +1,4 @@
-package com.alura.dyno.maths;
+package com.alura.dyno.math;
 
 public class MathExtra {
 

@@ -1,6 +1,6 @@
-package com.alura.dyno.maths.graphics;
+package com.alura.dyno.math.graphics;
 
-import com.alura.dyno.maths.linalg.FloatVector;
+import com.alura.dyno.math.linalg.FloatVector;
 
 public class Vector2 extends FloatVector<Vector2> {
     public Vector2()

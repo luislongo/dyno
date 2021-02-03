@@ -2,8 +2,8 @@ package com.alura.dyno.engine3d.vertex;
 
 import com.alura.dyno.engine3d.utils.ColorPalette;
 import com.alura.dyno.engine3d.utils.RGBAColor;
-import com.alura.dyno.maths.graphics.Vector2;
-import com.alura.dyno.maths.graphics.Vector3;
+import com.alura.dyno.math.graphics.Vector2;
+import com.alura.dyno.math.graphics.Vector3;
 
 public class Vertex {
     public final static int BYTES = 9 * Float.BYTES;

@@ -2,10 +2,10 @@ package com.alura.dyno.engine3d.components;
 
 import android.graphics.RectF;
 
-import com.alura.dyno.maths.MathExtra;
-import com.alura.dyno.maths.graphics.GraphicMatrix;
-import com.alura.dyno.maths.graphics.Vector2;
-import com.alura.dyno.maths.graphics.Vector3;
+import com.alura.dyno.math.MathExtra;
+import com.alura.dyno.math.graphics.GraphicMatrix;
+import com.alura.dyno.math.graphics.Vector2;
+import com.alura.dyno.math.graphics.Vector3;
 
 public class Camera extends MonoBehaviour implements
         ComponentEvent.IOnDragEventListener,

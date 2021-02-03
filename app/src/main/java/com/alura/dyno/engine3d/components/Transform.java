@@ -1,8 +1,8 @@
 package com.alura.dyno.engine3d.components;
 
 import com.alura.dyno.engine3d.scripting.Script;
-import com.alura.dyno.maths.graphics.GraphicMatrix;
-import com.alura.dyno.maths.graphics.Vector3;
+import com.alura.dyno.math.graphics.GraphicMatrix;
+import com.alura.dyno.math.graphics.Vector3;
 
 public class Transform extends Script {
 

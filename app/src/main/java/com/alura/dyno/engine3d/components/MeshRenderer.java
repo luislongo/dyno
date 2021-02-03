@@ -6,7 +6,7 @@ import com.alura.dyno.engine3d.vertex.MeshBuffer;
 import com.alura.dyno.engine3d.vertex.Triangle;
 import com.alura.dyno.engine3d.vertex.Vertex;
 import com.alura.dyno.engine3d.vertex.VertexTransform;
-import com.alura.dyno.maths.graphics.GraphicMatrix;
+import com.alura.dyno.math.graphics.GraphicMatrix;
 
 public class MeshRenderer extends MonoBehaviour {
     public Material material = new DefaultMaterial();

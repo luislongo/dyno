@@ -5,7 +5,7 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
 import com.alura.dyno.engine3d.utils.ColorPalette;
-import com.alura.dyno.maths.graphics.Vector2;
+import com.alura.dyno.math.graphics.Vector2;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;

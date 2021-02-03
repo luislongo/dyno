@@ -1,7 +1,7 @@
 package com.alura.dyno.engine3d.shaders;
 
 import com.alura.dyno.engine3d.shaders.uniforms.Uniform;
-import com.alura.dyno.maths.graphics.GraphicMatrix;
+import com.alura.dyno.math.graphics.GraphicMatrix;
 
 import java.util.List;
 

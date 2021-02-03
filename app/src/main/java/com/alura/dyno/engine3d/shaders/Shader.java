@@ -6,10 +6,10 @@ import android.util.Log;
 import com.alura.dyno.engine3d.system.Texture;
 import com.alura.dyno.engine3d.shaders.uniforms.Uniform;
 import com.alura.dyno.engine3d.utils.RGBAColor;
-import com.alura.dyno.maths.graphics.GraphicMatrix;
-import com.alura.dyno.maths.graphics.Vector2;
-import com.alura.dyno.maths.graphics.Vector3;
-import com.alura.dyno.maths.graphics.Vector4;
+import com.alura.dyno.math.graphics.GraphicMatrix;
+import com.alura.dyno.math.graphics.Vector2;
+import com.alura.dyno.math.graphics.Vector3;
+import com.alura.dyno.math.graphics.Vector4;
 
 import java.util.HashMap;
 import java.util.List;

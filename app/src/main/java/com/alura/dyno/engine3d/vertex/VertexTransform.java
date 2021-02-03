@@ -1,8 +1,8 @@
 package com.alura.dyno.engine3d.vertex;
 
 import com.alura.dyno.engine3d.utils.RGBAColor;
-import com.alura.dyno.maths.graphics.Vector2;
-import com.alura.dyno.maths.graphics.Vector3;
+import com.alura.dyno.math.graphics.Vector2;
+import com.alura.dyno.math.graphics.Vector3;
 
 public interface VertexTransform {
     Vector3 transformPosition(Vector3 v);

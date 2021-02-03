@@ -1,4 +1,4 @@
-package com.alura.dyno.maths.linalg;
+package com.alura.dyno.math.linalg;
 
 import cern.colt.matrix.tfloat.algo.DenseFloatAlgebra;
 

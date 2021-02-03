@@ -1,4 +1,4 @@
-package com.alura.dyno.maths.graphics;
+package com.alura.dyno.math.graphics;
 
 import android.graphics.RectF;
 

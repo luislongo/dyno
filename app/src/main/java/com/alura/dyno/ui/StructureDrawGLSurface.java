@@ -14,7 +14,7 @@ import com.alura.dyno.engine3d.fonts.Font;
 import com.alura.dyno.engine3d.fonts.FontLoader;
 import com.alura.dyno.engine3d.shaders.ShaderMaster;
 import com.alura.dyno.engine3d.utils.ColorPalette;
-import com.alura.dyno.maths.graphics.Vector3;
+import com.alura.dyno.math.graphics.Vector3;
 
 public class StructureDrawGLSurface extends GLSurfaceView implements ColorPalette {
     StructureDrawRenderer renderer;

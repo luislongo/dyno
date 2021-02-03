@@ -1,6 +1,6 @@
-package com.alura.dyno.maths.graphics;
+package com.alura.dyno.math.graphics;
 
-import com.alura.dyno.maths.linalg.FloatMatrix;
+import com.alura.dyno.math.linalg.FloatMatrix;
 
 public class GraphicMatrix extends FloatMatrix<GraphicMatrix> {
 

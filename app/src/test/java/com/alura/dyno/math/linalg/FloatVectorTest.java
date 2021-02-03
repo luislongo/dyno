@@ -1,8 +1,8 @@
-package com.alura.dyno.maths.linalg;
+package com.alura.dyno.math.linalg;
 
-import com.alura.dyno.maths.graphics.Vector2;
-import com.alura.dyno.maths.graphics.Vector3;
-import com.alura.dyno.maths.graphics.Vector4;
+import com.alura.dyno.math.graphics.Vector2;
+import com.alura.dyno.math.graphics.Vector3;
+import com.alura.dyno.math.graphics.Vector4;
 
 import org.junit.jupiter.api.Test;
 

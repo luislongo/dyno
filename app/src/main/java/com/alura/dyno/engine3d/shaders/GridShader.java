@@ -2,7 +2,7 @@ package com.alura.dyno.engine3d.shaders;
 
 import com.alura.dyno.engine3d.system.Texture;
 import com.alura.dyno.engine3d.utils.RGBAColor;
-import com.alura.dyno.maths.graphics.GraphicMatrix;
+import com.alura.dyno.math.graphics.GraphicMatrix;
 
 public class GridShader extends SimpleShader {
     public final static String BACKGROUNDCOLOR_UNIFORM = "u_BackgroundColor";
