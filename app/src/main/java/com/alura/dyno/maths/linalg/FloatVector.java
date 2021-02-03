@@ -1,4 +1,4 @@
-package com.alura.dyno.maths;
+package com.alura.dyno.maths.linalg;
 
 import cern.colt.matrix.tfloat.FloatMatrix1D;
 import cern.colt.matrix.tfloat.algo.DenseFloatAlgebra;
@@ -9,20 +9,19 @@ import static cern.jet.math.tfloat.FloatFunctions.minus;
 import static cern.jet.math.tfloat.FloatFunctions.mult;
 import static cern.jet.math.tfloat.FloatFunctions.plus;
 
-public abstract class VectorF<DIM extends VectorF> {
+public abstract class FloatVector<DIM extends FloatVector> {
     public static final DenseFloatAlgebra fun = new DenseFloatAlgebra();
 
     FloatMatrix1D data;
 
-    public VectorF(int size) {
+    public FloatVector(int size) {
         data = new DenseFloatMatrix1D(size);
     }
-    public VectorF(int size, float value) {
+    public FloatVector(int size, float value) {
         data = new DenseFloatMatrix1D(size).assign(value);
     }
-    public VectorF(float[] x_i) {
+    public FloatVector(float[] x_i) {
         data = new DenseFloatMatrix1D(x_i);
-
     }
 
     public final float norm2() {
@@ -53,7 +52,7 @@ public abstract class VectorF<DIM extends VectorF> {
         data.assign(v_rhs.data, plus);
         return (DIM) this;
     }
-    public DIM minus(VectorF v_rhs) {
+    public DIM minus(FloatVector v_rhs) {
         data.assign(v_rhs.data, minus);
         return (DIM) this;
     }
@@ -69,7 +68,7 @@ public abstract class VectorF<DIM extends VectorF> {
         data.assign(v_rhs.data, mult);
         return (DIM) this;
     }
-    public DIM multiply(MatrixF m_lhs) {
+    public DIM multiply(FloatMatrix m_lhs) {
         this.data.assign(fun.mult(m_lhs.getData(), this.data));
         return (DIM) this;
     }

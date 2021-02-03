@@ -19,9 +19,8 @@ public class StructureDrawActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_structure_draw);
-        super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.act_structure_draw);
         drawSurface = findViewById(R.id.act_structure_draw_glsurface);
 
         final ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);

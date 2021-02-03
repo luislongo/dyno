@@ -1,6 +1,8 @@
-package com.alura.dyno.maths;
+package com.alura.dyno.maths.graphics;
 
-public class Vector2F extends VectorF<Vector2F> {
+import com.alura.dyno.maths.linalg.FloatVector;
+
+public class Vector2F extends FloatVector<Vector2F> {
     public Vector2F()
     {
         super(2);
@@ -40,7 +42,7 @@ public class Vector2F extends VectorF<Vector2F> {
         setValues(new float[]{x, y});
     }
 
-    public Vector2F multiply(Matrix4F m_lhs, float z, float w) {
+    public Vector2F multiply(GraphicMatrix m_lhs, float z, float w) {
         Vector4F extended = new Vector4F(this, z, w);
         extended.multiply(m_lhs);
 

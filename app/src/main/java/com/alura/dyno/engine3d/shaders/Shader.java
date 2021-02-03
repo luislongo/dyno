@@ -6,10 +6,10 @@ import android.util.Log;
 import com.alura.dyno.engine3d.system.Texture;
 import com.alura.dyno.engine3d.shaders.uniforms.Uniform;
 import com.alura.dyno.engine3d.utils.RGBAColor;
-import com.alura.dyno.maths.Matrix4F;
-import com.alura.dyno.maths.Vector2F;
-import com.alura.dyno.maths.Vector3F;
-import com.alura.dyno.maths.Vector4F;
+import com.alura.dyno.maths.graphics.GraphicMatrix;
+import com.alura.dyno.maths.graphics.Vector2F;
+import com.alura.dyno.maths.graphics.Vector3F;
+import com.alura.dyno.maths.graphics.Vector4F;
 
 import java.util.HashMap;
 import java.util.List;
@@ -74,9 +74,9 @@ public abstract class Shader {
 
         GLES20.glUniform1i(handle, value.id());
     }
-    protected final void setUniformMat4F(Uniform<Matrix4F> uniform) {
+    protected final void setUniformMat4F(Uniform<GraphicMatrix> uniform) {
         int handle = getUniformHandle(uniform);
-        Matrix4F value = uniform.getValue();
+        GraphicMatrix value = uniform.getValue();
 
         GLES20.glUniformMatrix4fv(handle, 16, false, value.toArray(), 0);
     }

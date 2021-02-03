@@ -3,17 +3,17 @@ package com.alura.dyno.engine3d.components;
 import android.graphics.RectF;
 
 import com.alura.dyno.maths.MathExtra;
-import com.alura.dyno.maths.Matrix4F;
-import com.alura.dyno.maths.Vector2F;
-import com.alura.dyno.maths.Vector3F;
+import com.alura.dyno.maths.graphics.GraphicMatrix;
+import com.alura.dyno.maths.graphics.Vector2F;
+import com.alura.dyno.maths.graphics.Vector3F;
 
 public class Camera extends MonoBehaviour implements
         ComponentEvent.IOnDragEventListener,
         ComponentEvent.IOnScaleEventListener,
         ComponentEvent.IOnScreenSizeChangedEventListener {
 
-    private Matrix4F viewMatrix;
-    private Matrix4F projectionMatrix;
+    private GraphicMatrix viewMatrix;
+    private GraphicMatrix projectionMatrix;
 
     private Vector2F screenSize;
 
@@ -73,13 +73,13 @@ public class Camera extends MonoBehaviour implements
         Vector3F center = new Vector3F(0.0f, 0.0f, -1.0f);
         Vector3F up = new Vector3F(0.0f, 1.0f, 0.0f);
 
-        viewMatrix = Matrix4F.lookAt(eye, center, up);
+        viewMatrix = GraphicMatrix.lookAt(eye, center, up);
     }
     private void updateProjectionMatrix() {
         updateViewSpaceCamBounds();
 
         if (isViewRectValid()) {
-            projectionMatrix = Matrix4F.orthogonal(viewRect, zNear, zFar);
+            projectionMatrix = GraphicMatrix.orthogonal(viewRect, zNear, zFar);
         }
     }
     private void updateViewSpaceCamBounds() {
@@ -103,16 +103,16 @@ public class Camera extends MonoBehaviour implements
     public float getZoom() {
         return zoom;
     }
-    public Matrix4F getProjectionMatrix() {
+    public GraphicMatrix getProjectionMatrix() {
         updateProjectionMatrix();
         return projectionMatrix;
     }
-    public Matrix4F getViewMatrix() {
+    public GraphicMatrix getViewMatrix() {
         updateViewMatrix();
         return viewMatrix;
     }
-    public Matrix4F getVPMatrix() {
-        return Matrix4F.multiply(projectionMatrix, viewMatrix);
+    public GraphicMatrix getVPMatrix() {
+        return GraphicMatrix.multiply(projectionMatrix, viewMatrix);
     }
 
     public static float fromScreenToView(Camera cam, float screenDistance) {

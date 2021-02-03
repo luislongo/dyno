@@ -1,8 +1,8 @@
-package com.alura.dyno.maths;
+package com.alura.dyno.maths.graphics;
 
-import android.opengl.Matrix;
+import com.alura.dyno.maths.linalg.FloatVector;
 
-public class Vector4F extends VectorF<Vector4F> {
+public class Vector4F extends FloatVector<Vector4F> {
     public Vector4F() {super(4);}
     public Vector4F(float value) {super(4, value);}
     public Vector4F(float[] values)
@@ -42,7 +42,7 @@ public class Vector4F extends VectorF<Vector4F> {
         setValues(new float[]{x, y, z, w});
     }
 
-    public Vector4F multiply(Matrix4F m_lhs) {
+    public Vector4F multiply(GraphicMatrix m_lhs) {
         data.assign(fun.mult(m_lhs.getData(), this.data));
         return this;
     }

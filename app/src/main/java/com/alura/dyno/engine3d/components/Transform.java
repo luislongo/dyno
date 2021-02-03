@@ -1,8 +1,8 @@
 package com.alura.dyno.engine3d.components;
 
 import com.alura.dyno.engine3d.scripting.Script;
-import com.alura.dyno.maths.Matrix4F;
-import com.alura.dyno.maths.Vector3F;
+import com.alura.dyno.maths.graphics.GraphicMatrix;
+import com.alura.dyno.maths.graphics.Vector3F;
 
 public class Transform extends Script {
 
@@ -28,7 +28,7 @@ public class Transform extends Script {
     }
 
     public static Transform multiply(Transform t_lhs, Transform t_rhs) {
-        Matrix4F rot_lhs = Matrix4F.identity();
+        GraphicMatrix rot_lhs = GraphicMatrix.identity();
         rot_lhs.rotate(t_lhs.eulerAngles);
 
         Vector3F newPosition =
@@ -44,12 +44,12 @@ public class Transform extends Script {
     }
 
     public void move(Vector3F distance) {
-        this.position.add(distance);
+        this.position.plus(distance);
 
         notifyChanged();
     }
     public void rotate(Vector3F eulerRotation) {
-        this.eulerAngles.add(eulerRotation);
+        this.eulerAngles.plus(eulerRotation);
 
         notifyChanged();
     }
@@ -63,7 +63,7 @@ public class Transform extends Script {
         return modelCoords;
     }
     public Vector3F fromModelToViewSpace(Vector3F modelCoords) {
-        Matrix4F invModelMatrix = getModelmatrix();
+        GraphicMatrix invModelMatrix = getModelmatrix();
         invModelMatrix.invert();
 
         Vector3F viewCoords = Vector3F.multiply(invModelMatrix, modelCoords, 1.0f);
@@ -79,7 +79,7 @@ public class Transform extends Script {
     public Vector3F getAngles() {
         return eulerAngles;
     }
-    public Matrix4F getModelmatrix() {
+    public GraphicMatrix getModelmatrix() {
         if (!isUpdated) {
             updateModelMatrix();
         }
@@ -99,7 +99,7 @@ public class Transform extends Script {
     }
 
     public void updateModelMatrix() {
-        modelMatrix = Matrix4F.identity();
+        modelMatrix = GraphicMatrix.identity();
 
         modelMatrix.translate(position);
         modelMatrix.rotate(eulerAngles);

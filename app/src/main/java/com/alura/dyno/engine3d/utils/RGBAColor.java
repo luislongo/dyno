@@ -2,9 +2,9 @@ package com.alura.dyno.engine3d.utils;
 
 import android.graphics.Color;
 
-import com.alura.dyno.maths.VectorF;
+import com.alura.dyno.maths.linalg.FloatVector;
 
-public class RGBAColor extends VectorF<RGBAColor> {
+public class RGBAColor extends FloatVector<RGBAColor> {
 
     public RGBAColor(float r, float g, float b, float a) {
         super(new float[] {r,g,b,a});
