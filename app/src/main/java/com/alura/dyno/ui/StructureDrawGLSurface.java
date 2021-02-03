@@ -6,9 +6,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import com.alura.dyno.R;
-import com.alura.dyno.engine3d.components.AdaptableGridRenderer;
 import com.alura.dyno.engine3d.components.Camera;
-import com.alura.dyno.engine3d.components.TextRenderer;
 import com.alura.dyno.engine3d.scripting.Glyph;
 import com.alura.dyno.engine3d.objects.SceneObject;
 import com.alura.dyno.engine3d.system.SceneMaster;
