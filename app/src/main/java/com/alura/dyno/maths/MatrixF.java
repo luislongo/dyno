@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
-public class MatrixF {
+public class MatrixF<T extends MatrixF> {
     private int nrOfRows;
     private int nrOfCols;
     protected float[] x_ij;
@@ -23,7 +23,9 @@ public class MatrixF {
         Arrays.fill(x_ij, value);
     }
     public MatrixF(int nrOfRows, int nrOfCols, float[] x_ij) {
-        assert isDataDimensionValid(x_ij, nrOfRows, nrOfCols);
+        if(!MatrixDimensionChecker.isDataDimensionValid(x_ij, nrOfRows, nrOfCols)) {
+            throw new RuntimeException();
+        }
 
         this.nrOfRows = nrOfRows;
         this.nrOfCols = nrOfCols;
@@ -43,10 +45,10 @@ public class MatrixF {
         return (nrOfRows == nrOfCols);
     }
 
-    public MatrixF getDiagonal() {
-        assert (isSquareMatrix(this));
-
-        MatrixF diagonal = new MatrixF(1, cols());
+    public T getDiagonal() {
+        if(!MatrixDimensionChecker.isSquareMatrix(this)) {
+            throw new RuntimeException();
+        };
 
         for(int dgn = 0; dgn < cols(); dgn++)
         {
@@ -56,7 +58,7 @@ public class MatrixF {
         return diagonal;
     }
 
-    public MatrixF getRange(int row0, int rowMax, int col0, int colMax) {
+    public T getRange(int row0, int rowMax, int col0, int colMax) {
         assert (isSubMatrixDimensionValid(this, row0, rowMax, col0, colMax));
 
         int subRows = rowMax - row0 + 1;
@@ -74,7 +76,7 @@ public class MatrixF {
 
         return sub;
     }
-    public MatrixF setRange(MatrixF sub_m, int row0, int col0) {
+    public T setRange(MatrixF sub_m, int row0, int col0) {
         int rowMax = row0 + sub_m.rows() - 1;
         int colMax = col0 + sub_m.cols() - 1;
 
@@ -88,7 +90,7 @@ public class MatrixF {
 
         return this;
     }
-    public MatrixF addRange(MatrixF sub_m, int row0, int col0) {
+    public T addRange(MatrixF sub_m, int row0, int col0) {
         int rowMax = row0 + sub_m.rows() - 1;
         int colMax = col0 + sub_m.cols() - 1;
 
@@ -105,7 +107,7 @@ public class MatrixF {
 
         return this;
     }
-    public MatrixF subRange(MatrixF sub_m, int row0, int col0) {
+    public T subRange(MatrixF sub_m, int row0, int col0) {
         int rowMax = row0 + sub_m.rows() - 1;
         int colMax = col0 + sub_m.cols() - 1;
 
@@ -122,7 +124,7 @@ public class MatrixF {
 
         return this;
     }
-    public MatrixF multRange(float c, int row0, int rowMax, int col0, int colMax) {
+    public T multRange(float c, int row0, int rowMax, int col0, int colMax) {
         assert isSubMatrixDimensionValid(this, row0, rowMax, col0, colMax);
 
         for(int row = row0; row <= rowMax; row++) {
@@ -133,7 +135,7 @@ public class MatrixF {
 
         return this;
     }
-    public MatrixF divRange(float c, int row0, int rowMax, int col0, int colMax) {
+    public T divRange(float c, int row0, int rowMax, int col0, int colMax) {
         assert isSubMatrixDimensionValid(this, row0, rowMax, col0, colMax);
 
         return multRange(1.0f/c, row0, rowMax, col0, colMax);
@@ -142,28 +144,28 @@ public class MatrixF {
     public float getCell(int i, int j) {
         return x_ij[getIndex(i,j)];
     }
-    public MatrixF setCell(int i, int j, float value) {
+    public T setCell(int i, int j, float value) {
         x_ij[getIndex(i,j)] = value;
         return this;
     }
-    public MatrixF swapCells(int rowA, int colA, int rowB, int colB) {
+    public T swapCells(int rowA, int colA, int rowB, int colB) {
         float tempValue = getCell(rowA, colA);
         setCell(rowA, colA, getCell(rowB, colB));
         setCell(rowB, colB, tempValue);
 
         return this;
     }
-    public MatrixF addToCell(int i, int j, float value) {
+    public T addToCell(int i, int j, float value) {
         x_ij[getIndex(i,j)] += value;
 
         return this;
     }
-    public MatrixF subFromCell(int i, int j, float value) {
+    public T subFromCell(int i, int j, float value) {
         x_ij[getIndex(i,j)] -= value;
 
         return this;
     }
-    public MatrixF multiplyCell(int i, int j, float value) {
+    public T multiplyCell(int i, int j, float value) {
         x_ij[getIndex(i,j)] *= value;
 
         return this;
@@ -172,40 +174,40 @@ public class MatrixF {
         return i * nrOfCols + j;
     }
 
-    public MatrixF getRow(int row) {
+    public T getRow(int row) {
         return getRange(row, row, 0, cols() - 1);
     }
-    public MatrixF setRow(MatrixF rowData, int row) {
+    public T setRow(MatrixF rowData, int row) {
         assert MatrixF.isRowDimensionValid(this, rowData);
         setRange(rowData, row , 0);
 
         return this;
     }
-    public MatrixF addRow(MatrixF rowData, int row) {
+    public T addRow(MatrixF rowData, int row) {
         assert isRowDimensionValid(this, rowData);
         addRange(rowData, row, 0);
 
         return this;
     }
-    public MatrixF subRow(MatrixF rowData, int row) {
+    public T subRow(MatrixF rowData, int row) {
         assert isRowDimensionValid(this, rowData);
         subRange(rowData, row, 0);
 
         return this;
     }
-    public MatrixF multRow(int row, float c) {
+    public T multRow(int row, float c) {
         assert isRowIndexValid(this, row);
         multRange(c, row, row, 0 , cols() - 1);
 
         return this;
     }
-    public MatrixF divRow(int row, float c) {
+    public T divRow(int row, float c) {
         assert isRowIndexValid(this, row);
         divRange(c, row, row, 0 , cols() - 1);
 
         return this;
     }
-    public MatrixF swapRows(int rowA, int rowB) {
+    public T swapRows(int rowA, int rowB) {
         isRowIndexValid(this, rowA);
         isRowIndexValid(this, rowB);
 
@@ -216,43 +218,43 @@ public class MatrixF {
         return this;
     }
 
-    public MatrixF getCol(int col) {
+    public T getCol(int col) {
         return getRange(0, rows() - 1, col, col);
     }
-    public MatrixF setCol(MatrixF colData, int col) {
+    public T setCol(MatrixF colData, int col) {
         assert isColDimensionValid(this, colData);
         setRange(colData, 0, col);
 
         return this;
     }
-    public MatrixF addCol(MatrixF colData, int col) {
+    public T addCol(MatrixF colData, int col) {
         assert isColDimensionValid(this, colData);
         addRange(colData, 0, col);
 
         return this;
     }
-    public MatrixF subCol(MatrixF colData, int col) {
+    public T subCol(MatrixF colData, int col) {
 
         assert isColDimensionValid(this, colData);
         subRange(colData, 0,  col);
 
         return this;
     }
-    public MatrixF multCol(int col, float c) {
+    public T multCol(int col, float c) {
 
         assert isColIndexValid(this, col);
         multRange(c, 0, rows() - 1, col, col);
 
         return this;
     }
-    public MatrixF divCol(int col, float c) {
+    public T divCol(int col, float c) {
 
         assert isColIndexValid(this, col);
         divRange(c, 0, rows() - 1, col, col);
 
         return this;
     }
-    public MatrixF swapCols(int colA, int colB) {
+    public T swapCols(int colA, int colB) {
         isColIndexValid(this, colA);
         isColIndexValid(this, colB);
 
@@ -263,7 +265,7 @@ public class MatrixF {
         return this;
     }
 
-    public MatrixF add(MatrixF m_rhs) {
+    public T add(MatrixF m_rhs) {
         assert isSameDimensions(this, m_rhs);
 
         for(int i = 0; i < count(); i++)
@@ -273,7 +275,7 @@ public class MatrixF {
 
         return this;
     }
-    public MatrixF sub(MatrixF m_rhs) {
+    public T sub(MatrixF m_rhs) {
         assert isSameDimensions(this, m_rhs);
 
         for(int i = 0; i < count(); i++)
@@ -283,20 +285,20 @@ public class MatrixF {
 
         return this;
     }
-    public MatrixF mult(float c) {
+    public T mult(float c) {
         for(int i = 0; i < count(); i++)
         {
             x_ij[i] *= c;
         }
         return this;
     }
-    public MatrixF div(float c) {
+    public T div(float c) {
         assert (c != 0);
 
         this.mult(1.0f / c);
         return this;
     }
-    public MatrixF preMult(MatrixF m_lhs) {
+    public T preMult(MatrixF m_lhs) {
         MatrixF result = mult(m_lhs, this);
 
         this.x_ij = result.x_ij;
@@ -305,7 +307,7 @@ public class MatrixF {
 
         return this;
     }
-    public MatrixF postMult(MatrixF m_rhs) {
+    public T postMult(MatrixF m_rhs) {
         MatrixF result = MMath.mult(this, m_rhs);
 
         this.x_ij = result.x_ij;
@@ -314,7 +316,7 @@ public class MatrixF {
 
         return this;
     }
-    public MatrixF transpose() {
+    public T transpose() {
         MatrixF transposed = MMath.transpose(this);
 
         this.nrOfRows = transposed.rows();
@@ -397,56 +399,6 @@ public class MatrixF {
         }
 
         return result;
-    }
-
-    public static boolean isSquareMatrix(MatrixF m) {
-        return m.isSquare();
-    }
-    public static boolean isSameDimensions(MatrixF m_lhs, MatrixF m_rhs) {
-        return (m_lhs.rows() == m_rhs.rows() &&
-                m_lhs.cols() == m_rhs.cols());
-    }
-    public static boolean isMultiplicationDimension(MatrixF m_lhs, MatrixF m_rhs) {
-        if(m_lhs.cols() != m_rhs.rows()) {
-            return false;
-        }
-        return true;
-    }
-    public static boolean isRowIndexValid(MatrixF m, int row) {
-        return (row >= 0) && (row < m.rows());
-    }
-    public static boolean isColIndexValid(MatrixF m, int col) {
-        return (col >= 0) && (col < m.cols());
-    }
-    public static boolean isSubMatrixDimensionValid(MatrixF m, int iMin, int iMax, int jMin, int jMax) {
-        boolean isVerticalSpanValid = iMin <= iMax;
-        boolean isHorizontalSpanValid = jMin <= jMax;
-        boolean isBoundValid = isBoundValid(m, iMin, iMax, jMin, jMax);
-
-        return isVerticalSpanValid && isHorizontalSpanValid && isBoundValid;
-    }
-    public static boolean isBoundValid(MatrixF m, int iMin, int iMax, int jMin, int jMax) {
-        boolean isIMinValid = isRowIndexValid(m, iMin);
-        boolean isIMaxValid = isRowIndexValid(m, iMax);
-        boolean isJMinValid = isColIndexValid(m, jMin);
-        boolean isJMaxValid = isColIndexValid(m, jMax);
-
-        return isIMinValid && isIMaxValid && isJMinValid && isJMaxValid;
-    }
-    public static boolean isRowDimensionValid(MatrixF m, MatrixF row) {
-        boolean isSameNrOfCols = m.cols() == row.cols();
-        boolean isOnlyOneRow = row.rows() == 1;
-
-        return isSameNrOfCols && isOnlyOneRow;
-    }
-    public static boolean isColDimensionValid(MatrixF m, MatrixF col) {
-        boolean isSameNrOfRows = m.rows() == col.rows();
-        boolean isOnlyOneCol = col.cols() == 1;
-
-        return isSameNrOfRows && isOnlyOneCol;
-    }
-    public static boolean isDataDimensionValid(@NotNull float[] x_ij, int rows, int cols) {
-        return (x_ij.length == rows * cols);
     }
 
     public static MatrixF diagonal(int size, float value) {

@@ -26,8 +26,6 @@ dependencies {
     implementation 'org.jetbrains:annotations-java5:15.0'
     implementation 'org.jetbrains:annotations-java5:15.0'
     implementation 'junit:junit:4.12'
-    implementation files('libs\\colt.jar')
-    implementation files('libs\\concurrent.jar')
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.7.0'
     testImplementation 'org.junit.jupiter:junit-jupiter'
