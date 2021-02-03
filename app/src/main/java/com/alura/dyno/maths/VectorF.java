@@ -47,25 +47,35 @@ public abstract class VectorF<T extends VectorF> {
         this.x_i = Arrays.copyOf(x_i, count());
     }
 
-    public void add(VectorF v_rhs) {
+    public T add(VectorF v_rhs) {
         this.x_i = add(this, v_rhs);
+        return (T) this;
     }
-    public void subtract(VectorF v_rhs) {
+    public T subtract(VectorF v_rhs) {
         this.x_i = subtract(this, v_rhs);
+        return (T) this;
     }
-    public void divide(float c) {
+    public T divide(float c) {
         this.x_i = divide(this, c);
+        return (T) this;
     }
-    public void multiply(float c) {
+    public T multiply(float c) {
         this.x_i = multiply(this, c);
+        return (T) this;
     }
-    public void straightProduct(VectorF v_rhs) {
+    public T straightProduct(VectorF v_rhs) {
         this.x_i = straightProduct(this, v_rhs);
+        return (T) this;
     }
-    public void multiply(MatrixF m_lhs) {
+    public T multiply(MatrixF m_lhs) {
         this.x_i = multiply(m_lhs, this);
+        return (T) this;
+
     }
-    public void normalize() { this.x_i = normalize(this);}
+    public T normalize() {
+        this.x_i = normalize(this);
+        return (T) this;
+    }
 
     public static float[] add(VectorF v_lhs,VectorF v_rhs) {
         assert (isSameDimension(v_lhs, v_rhs));;

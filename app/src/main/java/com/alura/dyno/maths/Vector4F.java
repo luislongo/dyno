@@ -36,9 +36,10 @@ public class Vector4F extends VectorF<Vector4F> {
         return getX_(3);
     }
 
-    public void multiply(Matrix4F m_lhs)
+    public Vector4F multiply(Matrix4F m_lhs)
     {
         Matrix.multiplyMV(x_i, 0, m_lhs.x_ij, 0, x_i, 0);
+        return this;
     }
 
     public static Vector4F add(Vector4F v_lhs,Vector4F v_rhs) {

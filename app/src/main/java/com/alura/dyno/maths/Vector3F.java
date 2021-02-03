@@ -33,9 +33,9 @@ public class Vector3F extends VectorF<Vector3F> {
         setValues(new float[]{x, y, z});
     }
 
-    public void multiply(Matrix4F m_lhs, float w)
-    {
+    public Vector3F multiply(Matrix4F m_lhs, float w) {
         this.x_i = multiply(m_lhs, this, 1.0f).x_i;
+        return this;
     }
 
     public static Vector3F add(Vector3F v_lhs,Vector3F v_rhs) {
@@ -66,7 +66,9 @@ public class Vector3F extends VectorF<Vector3F> {
     public static Vector3F ZERO() {
         return new Vector3F(0.0f, 0.0f, 0.0f);
     }
-
+    public static Vector3F ONE() {
+        return new Vector3F(1.0f, 1.0f, 1.0f);
+    }
     @Override public Vector3F clone() {
         return new Vector3F(this);
     }
