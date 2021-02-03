@@ -7,9 +7,9 @@ import com.alura.dyno.engine3d.system.Texture;
 import com.alura.dyno.engine3d.shaders.uniforms.Uniform;
 import com.alura.dyno.engine3d.utils.RGBAColor;
 import com.alura.dyno.maths.graphics.GraphicMatrix;
-import com.alura.dyno.maths.graphics.Vector2F;
-import com.alura.dyno.maths.graphics.Vector3F;
-import com.alura.dyno.maths.graphics.Vector4F;
+import com.alura.dyno.maths.graphics.Vector2;
+import com.alura.dyno.maths.graphics.Vector3;
+import com.alura.dyno.maths.graphics.Vector4;
 
 import java.util.HashMap;
 import java.util.List;
@@ -44,21 +44,21 @@ public abstract class Shader {
 
         GLES20.glUniform1f(handle, value);
     }
-    protected final void setUniformVector2F(Uniform<Vector2F> uniform) {
+    protected final void setUniformVector2F(Uniform<Vector2> uniform) {
         int handle = getUniformHandle(uniform);
-        Vector2F value = uniform.getValue();
+        Vector2 value = uniform.getValue();
 
         GLES20.glUniform2f(handle, value.x(), value.y());
     }
-    protected final void setUniformVector3F(Uniform<Vector3F> uniform) {
+    protected final void setUniformVector3F(Uniform<Vector3> uniform) {
         int handle = getUniformHandle(uniform);
-        Vector3F value = uniform.getValue();
+        Vector3 value = uniform.getValue();
 
         GLES20.glUniform3f(handle, value.x(), value.y(), value.z());
     }
-    protected final void setUniformVector4F(Uniform<Vector4F> uniform) {
+    protected final void setUniformVector4F(Uniform<Vector4> uniform) {
         int handle = getUniformHandle(uniform);
-        Vector4F value = uniform.getValue();
+        Vector4 value = uniform.getValue();
 
         GLES20.glUniform4f(handle, value.x(), value.y(), value.z(), value.w());
     }

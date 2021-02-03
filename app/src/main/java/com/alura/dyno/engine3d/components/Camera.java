@@ -4,8 +4,8 @@ import android.graphics.RectF;
 
 import com.alura.dyno.maths.MathExtra;
 import com.alura.dyno.maths.graphics.GraphicMatrix;
-import com.alura.dyno.maths.graphics.Vector2F;
-import com.alura.dyno.maths.graphics.Vector3F;
+import com.alura.dyno.maths.graphics.Vector2;
+import com.alura.dyno.maths.graphics.Vector3;
 
 public class Camera extends MonoBehaviour implements
         ComponentEvent.IOnDragEventListener,
@@ -15,7 +15,7 @@ public class Camera extends MonoBehaviour implements
     private GraphicMatrix viewMatrix;
     private GraphicMatrix projectionMatrix;
 
-    private Vector2F screenSize;
+    private Vector2 screenSize;
 
     private float zNear;
     private float zFar;
@@ -48,7 +48,7 @@ public class Camera extends MonoBehaviour implements
         updateProjectionMatrix();
     }
     @Override public void onDrag(ComponentEvent.OnDragEvent event) {
-        Vector3F distance = new Vector3F(event.getViewDistance(), 0.0f);
+        Vector3 distance = new Vector3(event.getViewDistance(), 0.0f);
         getParent().getLocalTransform().move(distance);
 
         updateProjectionMatrix();
@@ -69,9 +69,9 @@ public class Camera extends MonoBehaviour implements
     }
 
     private void updateViewMatrix() {
-        Vector3F eye = getParent().getLocalTransform().getPosition();
-        Vector3F center = new Vector3F(0.0f, 0.0f, -1.0f);
-        Vector3F up = new Vector3F(0.0f, 1.0f, 0.0f);
+        Vector3 eye = getParent().getLocalTransform().getPosition();
+        Vector3 center = new Vector3(0.0f, 0.0f, -1.0f);
+        Vector3 up = new Vector3(0.0f, 1.0f, 0.0f);
 
         viewMatrix = GraphicMatrix.lookAt(eye, center, up);
     }
@@ -83,7 +83,7 @@ public class Camera extends MonoBehaviour implements
         }
     }
     private void updateViewSpaceCamBounds() {
-        Vector3F position = getParent().getGlobalTransform().getPosition();
+        Vector3 position = getParent().getGlobalTransform().getPosition();
 
         viewRect.left = position.x() - 0.5f * screenSize.x() / zoom;
         viewRect.right = position.x() + 0.5f * screenSize.x() / zoom;
@@ -118,31 +118,31 @@ public class Camera extends MonoBehaviour implements
     public static float fromScreenToView(Camera cam, float screenDistance) {
         return screenDistance / cam.zoom;
     }
-    public static Vector2F fromScreenToView(Camera cam, Vector2F screenCoords) {
+    public static Vector2 fromScreenToView(Camera cam, Vector2 screenCoords) {
         float normalizedX = 2.0f * (screenCoords.x() / cam.screenSize.x()) - 1.0f;
         float normalizedY = 1.0f - 2 * (screenCoords.y() / cam.screenSize.y());
 
         float viewX = cam.viewRect.centerX() + 0.5f * normalizedX * cam.viewRect.width();
         float viewY = cam.viewRect.centerY() + 0.5f * normalizedY * -cam.viewRect.height();
 
-        return new Vector2F(viewX, viewY);
+        return new Vector2(viewX, viewY);
     }
     public static float fromViewToScreen(Camera cam, float viewDistance) {
         return viewDistance * cam.zoom;
     }
-    public static Vector2F fromViewToScreen(Camera cam, Vector2F viewCoords) {
+    public static Vector2 fromViewToScreen(Camera cam, Vector2 viewCoords) {
         float normalizedX = 2.0f * (viewCoords.x() - cam.viewRect.centerX()) / cam.viewRect.width();
         float normalizedY = 2.0f * (viewCoords.y() - cam.viewRect.centerY()) / -cam.viewRect.height();
 
         float screenX = 0.5f * (normalizedX + 1.0f) * cam.screenSize.x();
         float screenY = 0.5f * (1.0f - normalizedY) * cam.screenSize.y();
 
-        return new Vector2F(screenX, screenY);
+        return new Vector2(screenX, screenY);
     }
 
     public static class CameraBuilder<T extends CameraBuilder<T>>
             extends MonoBehaviourBuilder<T> {
-        protected Vector2F screenSize;
+        protected Vector2 screenSize;
 
         protected float zNear = 0.0f;
         protected float zFar = 1.0f;
@@ -159,10 +159,10 @@ public class Camera extends MonoBehaviour implements
         }
 
         public T setScreenSize(float screenWidth, float screenHeight) {
-            this.screenSize = new Vector2F(screenWidth, screenHeight);
+            this.screenSize = new Vector2(screenWidth, screenHeight);
             return (T) this;
         }
-        public T setScreenSize(Vector2F screenSize) {
+        public T setScreenSize(Vector2 screenSize) {
             return setScreenSize(screenSize.x(), screenSize.y());
         }
         public T setClippingPlanes(float zNear, float zFar) {

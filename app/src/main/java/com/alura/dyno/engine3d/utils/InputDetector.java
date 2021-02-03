@@ -7,13 +7,13 @@ import android.view.ScaleGestureDetector;
 
 import com.alura.dyno.engine3d.components.Camera;
 import com.alura.dyno.engine3d.system.SceneMaster;
-import com.alura.dyno.maths.graphics.Vector2F;
+import com.alura.dyno.maths.graphics.Vector2;
 import com.alura.dyno.ui.StructureDrawGLSurface;
 
 public class InputDetector implements StructureDrawGLSurface.StructureDrawSurfaceListener {
 
-    Vector2F lastTouch;
-    Vector2F currentTouch;
+    Vector2 lastTouch;
+    Vector2 currentTouch;
     int mActivePointerId;
 
     private GestureDetector gestureDetector;
@@ -23,8 +23,8 @@ public class InputDetector implements StructureDrawGLSurface.StructureDrawSurfac
         scaleGestureDetector = new ScaleGestureDetector(context, new ScaleListener());
         gestureDetector = new GestureDetector(context, new SimpleGestureListener());
 
-        lastTouch = new Vector2F();
-        currentTouch = new Vector2F();
+        lastTouch = new Vector2();
+        currentTouch = new Vector2();
     }
 
     @Override
@@ -81,27 +81,27 @@ public class InputDetector implements StructureDrawGLSurface.StructureDrawSurfac
     private void onMoveEvent(MotionEvent event) {
         final int pointerIndex = event.findPointerIndex(mActivePointerId);
 
-        final Vector2F xy = new Vector2F(event.getX(), event.getY());
-        final Vector2F dxdy = Vector2F.subtract(xy, lastTouch);
+        final Vector2 xy = new Vector2(event.getX(), event.getY());
+        final Vector2 dxdy = Vector2.subtract(xy, lastTouch);
 
-        currentTouch = Vector2F.add(lastTouch, dxdy);
+        currentTouch = Vector2.add(lastTouch, dxdy);
         lastTouch = currentTouch;
 
         notifyOnDrag(dxdy);
     }
 
-    private void notifyOnTap(Vector2F screenCoords) {
+    private void notifyOnTap(Vector2 screenCoords) {
         ComponentEvent.OnTapEvent event = new ComponentEvent.OnTapEvent(screenCoords);
         TreeEventDispatcher.dispatcher.dispatchEvent(event);
     }
-    private void notifyOnDrag(Vector2F distance) {
-        final Vector2F viewDxDy = Vector2F.divide(distance, SceneMaster.getMainCamera().getZoom());
-        final Vector2F viewCurrentTouch = Camera.fromScreenToView(SceneMaster.getMainCamera(), currentTouch);
+    private void notifyOnDrag(Vector2 distance) {
+        final Vector2 viewDxDy = Vector2.divide(distance, SceneMaster.getMainCamera().getZoom());
+        final Vector2 viewCurrentTouch = Camera.fromScreenToView(SceneMaster.getMainCamera(), currentTouch);
         ComponentEvent.OnDragEvent event = new ComponentEvent.OnDragEvent(distance, viewDxDy, currentTouch, viewCurrentTouch);
 
         TreeEventDispatcher.dispatcher.dispatchEvent(event);
     }
-    private void notifyOnScale(float scaleFactor, Vector2F focusPoint) {
+    private void notifyOnScale(float scaleFactor, Vector2 focusPoint) {
         ComponentEvent.OnScaleEvent event = new ComponentEvent.OnScaleEvent(scaleFactor, focusPoint);
 
         TreeEventDispatcher.dispatcher.dispatchEvent(event);
@@ -112,7 +112,7 @@ public class InputDetector implements StructureDrawGLSurface.StructureDrawSurfac
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
             float scaleFactor = detector.getCurrentSpan() / detector.getPreviousSpan();
-            Vector2F focusPoint = new Vector2F(detector.getFocusX(), detector.getFocusY());
+            Vector2 focusPoint = new Vector2(detector.getFocusX(), detector.getFocusY());
 
             InputDetector.this.notifyOnScale(scaleFactor, focusPoint);
             return true;
@@ -122,7 +122,7 @@ public class InputDetector implements StructureDrawGLSurface.StructureDrawSurfac
     private class SimpleGestureListener implements GestureDetector.OnGestureListener {
 
         public boolean onSingleTapUp(MotionEvent e) {
-            Vector2F tapPoint = new Vector2F(e.getX(), e.getY());
+            Vector2 tapPoint = new Vector2(e.getX(), e.getY());
             notifyOnTap(tapPoint);
             return false;
         }

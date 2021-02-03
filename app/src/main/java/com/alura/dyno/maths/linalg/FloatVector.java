@@ -12,7 +12,7 @@ import static cern.jet.math.tfloat.FloatFunctions.plus;
 public abstract class FloatVector<DIM extends FloatVector> {
     public static final DenseFloatAlgebra fun = new DenseFloatAlgebra();
 
-    FloatMatrix1D data;
+    protected FloatMatrix1D data;
 
     public FloatVector(int size) {
         data = new DenseFloatMatrix1D(size);

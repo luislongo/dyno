@@ -2,26 +2,26 @@ package com.alura.dyno.maths.graphics;
 
 import com.alura.dyno.maths.linalg.FloatVector;
 
-public class Vector4F extends FloatVector<Vector4F> {
-    public Vector4F() {super(4);}
-    public Vector4F(float value) {super(4, value);}
-    public Vector4F(float[] values)
+public class Vector4 extends FloatVector<Vector4> {
+    public Vector4() {super(4);}
+    public Vector4(float value) {super(4, value);}
+    public Vector4(float[] values)
     {
         super(values);
     }
-    public Vector4F(float x, float y, float z, float w) {
+    public Vector4(float x, float y, float z, float w) {
         super(new float[]{x, y, z, w});
     }
 
-    public Vector4F(Vector2F origin, float z, float w)
+    public Vector4(Vector2 origin, float z, float w)
     {
         this(origin.x(), origin.y(), z, w);
     }
-    public Vector4F(Vector3F origin, float w)
+    public Vector4(Vector3 origin, float w)
     {
         this(origin.x(), origin.y(), origin.z(), w);
     }
-    public Vector4F(Vector4F origin)
+    public Vector4(Vector4 origin)
     {
         super(origin.toArray());
     }
@@ -42,13 +42,13 @@ public class Vector4F extends FloatVector<Vector4F> {
         setValues(new float[]{x, y, z, w});
     }
 
-    public Vector4F multiply(GraphicMatrix m_lhs) {
+    public Vector4 multiply(GraphicMatrix m_lhs) {
         data.assign(fun.mult(m_lhs.getData(), this.data));
         return this;
     }
 
-    @Override public Vector4F clone() {
-        return new Vector4F(this);
+    @Override public Vector4 clone() {
+        return new Vector4(this);
     }
 
 }

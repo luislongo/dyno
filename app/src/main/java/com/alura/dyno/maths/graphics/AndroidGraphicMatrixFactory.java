@@ -19,7 +19,7 @@ public class AndroidGraphicMatrixFactory implements IGraphicMatrixFactory {
         Matrix.perspectiveM(values, 0, fov, aspect, near, far);
         return new GraphicMatrix(values);
     }
-    public GraphicMatrix lookAt(Vector3F eye, Vector3F center, Vector3F up) {
+    public GraphicMatrix lookAt(Vector3 eye, Vector3 center, Vector3 up) {
         float[] values = new float[16];
         Matrix.setLookAtM(values, 0,
                 eye.x(), eye.y(), eye.z(),

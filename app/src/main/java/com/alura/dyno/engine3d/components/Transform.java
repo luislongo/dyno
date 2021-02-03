@@ -2,13 +2,13 @@ package com.alura.dyno.engine3d.components;
 
 import com.alura.dyno.engine3d.scripting.Script;
 import com.alura.dyno.maths.graphics.GraphicMatrix;
-import com.alura.dyno.maths.graphics.Vector3F;
+import com.alura.dyno.maths.graphics.Vector3;
 
 public class Transform extends Script {
 
-    private Vector3F position;
-    private Vector3F scale;
-    private Vector3F eulerAngles;
+    private Vector3 position;
+    private Vector3 scale;
+    private Vector3 eulerAngles;
 
     public Transform(TransformBuilder builder) {
         super(builder);
@@ -22,19 +22,19 @@ public class Transform extends Script {
         this.copyValues(origin);
     }
     public void copyValues(Transform origin) {
-        this.position = new Vector3F(origin.position);
-        this.scale = new Vector3F(origin.scale);
-        this.eulerAngles = new Vector3F(origin.eulerAngles);
+        this.position = new Vector3(origin.position);
+        this.scale = new Vector3(origin.scale);
+        this.eulerAngles = new Vector3(origin.eulerAngles);
     }
 
     public static Transform multiply(Transform t_lhs, Transform t_rhs) {
         GraphicMatrix rot_lhs = GraphicMatrix.identity();
         rot_lhs.rotate(t_lhs.eulerAngles);
 
-        Vector3F newPosition =
-                Vector3F.add(t_lhs.position, Vector3F.multiply(rot_lhs, t_rhs.position, 0.0f));
-        Vector3F newScale = Vector3F.add(t_lhs.scale, t_rhs.scale);
-        Vector3F newRotation = Vector3F.add(t_lhs.eulerAngles, t_rhs.eulerAngles);
+        Vector3 newPosition =
+                Vector3.add(t_lhs.position, Vector3.multiply(rot_lhs, t_rhs.position, 0.0f));
+        Vector3 newScale = Vector3.add(t_lhs.scale, t_rhs.scale);
+        Vector3 newRotation = Vector3.add(t_lhs.eulerAngles, t_rhs.eulerAngles);
 
         return TransformBuilder.builder("")
                 .setPosition(newPosition)
@@ -43,40 +43,40 @@ public class Transform extends Script {
                 .build();
     }
 
-    public void move(Vector3F distance) {
+    public void move(Vector3 distance) {
         this.position.plus(distance);
 
         notifyChanged();
     }
-    public void rotate(Vector3F eulerRotation) {
+    public void rotate(Vector3 eulerRotation) {
         this.eulerAngles.plus(eulerRotation);
 
         notifyChanged();
     }
-    public void scale(Vector3F multiplier) {
-        this.scale = Vector3F.straightProduct(this.scale, multiplier);
+    public void scale(Vector3 multiplier) {
+        this.scale = Vector3.straightProduct(this.scale, multiplier);
         notifyChanged();
     }
 
-    public Vector3F fromViewToModelSpace(Vector3F viewCoords) {
-        Vector3F modelCoords = Vector3F.multiply(modelMatrix, viewCoords, 1.0f);
+    public Vector3 fromViewToModelSpace(Vector3 viewCoords) {
+        Vector3 modelCoords = Vector3.multiply(modelMatrix, viewCoords, 1.0f);
         return modelCoords;
     }
-    public Vector3F fromModelToViewSpace(Vector3F modelCoords) {
+    public Vector3 fromModelToViewSpace(Vector3 modelCoords) {
         GraphicMatrix invModelMatrix = getModelmatrix();
         invModelMatrix.invert();
 
-        Vector3F viewCoords = Vector3F.multiply(invModelMatrix, modelCoords, 1.0f);
+        Vector3 viewCoords = Vector3.multiply(invModelMatrix, modelCoords, 1.0f);
         return viewCoords;
     }
 
-    public Vector3F getPosition() {
+    public Vector3 getPosition() {
         return position;
     }
-    public Vector3F getScale() {
+    public Vector3 getScale() {
         return scale;
     }
-    public Vector3F getAngles() {
+    public Vector3 getAngles() {
         return eulerAngles;
     }
     public GraphicMatrix getModelmatrix() {
@@ -85,15 +85,15 @@ public class Transform extends Script {
         }
         return modelMatrix;
     }
-    public void setPosition(Vector3F newPosition) {
+    public void setPosition(Vector3 newPosition) {
         this.position = newPosition;
         notifyChanged();
     }
-    public void setScale(Vector3F newScale) {
+    public void setScale(Vector3 newScale) {
         this.scale = newScale;
         notifyChanged();
     }
-    public void setEulerAngles(Vector3F eulerAngles) {
+    public void setEulerAngles(Vector3 eulerAngles) {
         this.eulerAngles = eulerAngles;
         notifyChanged();
     }
@@ -117,9 +117,9 @@ public class Transform extends Script {
     }
 
     public static class TransformBuilder {
-        private Vector3F position = new Vector3F(0.0f, 0.0f, 0.0f);
-        private Vector3F scale = new Vector3F( 1.0f, 1.0f, 1.0f);
-        private Vector3F eulerAngles = new Vector3F(0.0f, 0.0f, 0.0f);
+        private Vector3 position = new Vector3(0.0f, 0.0f, 0.0f);
+        private Vector3 scale = new Vector3( 1.0f, 1.0f, 1.0f);
+        private Vector3 eulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
 
         protected TransformBuilder() {
         }
@@ -127,15 +127,15 @@ public class Transform extends Script {
         public Transform build() {
             return new Transform(this);
         }
-        public TransformBuilder setPosition(Vector3F position) {
+        public TransformBuilder setPosition(Vector3 position) {
             this.position = position;
             return this;
         }
-        public TransformBuilder setScale(Vector3F scale) {
+        public TransformBuilder setScale(Vector3 scale) {
             this.scale = scale;
             return this;
         }
-        public TransformBuilder setEulerAngles(Vector3F eulerAngles) {
+        public TransformBuilder setEulerAngles(Vector3 eulerAngles) {
             this.eulerAngles = eulerAngles;
             return this;
         }

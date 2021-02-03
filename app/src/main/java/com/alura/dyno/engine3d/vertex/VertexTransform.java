@@ -1,12 +1,12 @@
 package com.alura.dyno.engine3d.vertex;
 
 import com.alura.dyno.engine3d.utils.RGBAColor;
-import com.alura.dyno.maths.graphics.Vector2F;
-import com.alura.dyno.maths.graphics.Vector3F;
+import com.alura.dyno.maths.graphics.Vector2;
+import com.alura.dyno.maths.graphics.Vector3;
 
 public interface VertexTransform {
-    Vector3F transformPosition(Vector3F v);
-    Vector3F transformNormal(Vector3F v);
+    Vector3 transformPosition(Vector3 v);
+    Vector3 transformNormal(Vector3 v);
     RGBAColor transformColor(RGBAColor c);
-    Vector2F transformUVs(Vector2F v);
+    Vector2 transformUVs(Vector2 v);
 }

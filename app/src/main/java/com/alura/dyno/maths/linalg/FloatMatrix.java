@@ -5,7 +5,7 @@ import cern.colt.matrix.tfloat.algo.DenseFloatAlgebra;
 import cern.colt.matrix.tfloat.impl.DenseFloatMatrix2D;
 
 public abstract class FloatMatrix<DIM extends FloatMatrix> {
-    FloatMatrix2D data;
+    protected FloatMatrix2D data;
 
     public FloatMatrix(int nrOfRows, int nrOfCols) {
         this.data = new DenseFloatMatrix2D(nrOfRows, nrOfCols);

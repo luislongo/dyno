@@ -16,7 +16,7 @@ import com.alura.dyno.engine3d.fonts.Font;
 import com.alura.dyno.engine3d.fonts.FontLoader;
 import com.alura.dyno.engine3d.shaders.ShaderMaster;
 import com.alura.dyno.engine3d.utils.ColorPalette;
-import com.alura.dyno.maths.graphics.Vector3F;
+import com.alura.dyno.maths.graphics.Vector3;
 
 public class StructureDrawGLSurface extends GLSurfaceView implements ColorPalette {
     StructureDrawRenderer renderer;
@@ -50,7 +50,7 @@ public class StructureDrawGLSurface extends GLSurfaceView implements ColorPalett
                 .build();
 
         Glyph cameraHandle = new Glyph.EmptyObjectBuilder<>("Camera handle")
-                .setPosition(new Vector3F(0.0f, 0.0f, 0.0f))
+                .setPosition(new Vector3(0.0f, 0.0f, 0.0f))
                 .build();
 
         cameraHandle.setParent(root);

@@ -2,15 +2,15 @@ package com.alura.dyno.engine3d.vertex;
 
 import com.alura.dyno.engine3d.utils.ColorPalette;
 import com.alura.dyno.engine3d.utils.RGBAColor;
-import com.alura.dyno.maths.graphics.Vector2F;
-import com.alura.dyno.maths.graphics.Vector3F;
+import com.alura.dyno.maths.graphics.Vector2;
+import com.alura.dyno.maths.graphics.Vector3;
 
 public class Vertex {
     public final static int BYTES = 9 * Float.BYTES;
-    public Vector3F position;
-    public Vector3F normal;
+    public Vector3 position;
+    public Vector3 normal;
     public RGBAColor color;
-    public Vector2F uvs;
+    public Vector2 uvs;
 
     public Vertex(VertexBuilder builder) {
         this.position = builder.position.clone();
@@ -30,19 +30,19 @@ public class Vertex {
 
 
     public static class VertexBuilder {
-        private Vector3F position;
+        private Vector3 position;
         private RGBAColor color;
-        private Vector3F normal;
-        private Vector2F uvs;
+        private Vector3 normal;
+        private Vector2 uvs;
 
         public VertexBuilder() {
-            position = Vector3F.ZERO();
+            position = Vector3.ZERO();
             color = ColorPalette.MAGENTA;
-            normal = Vector3F.ZERO();
-            uvs = Vector2F.ZERO();
+            normal = Vector3.ZERO();
+            uvs = Vector2.ZERO();
         }
 
-        public VertexBuilder setPosition(Vector3F position) {
+        public VertexBuilder setPosition(Vector3 position) {
             this.position = position;
             return this;
         }
@@ -50,11 +50,11 @@ public class Vertex {
             this.color = color;
             return this;
         }
-        public VertexBuilder setUVs(Vector2F uvs) {
+        public VertexBuilder setUVs(Vector2 uvs) {
             this.uvs = uvs;
             return this;
         }
-        public VertexBuilder setNormal(Vector3F normal) {
+        public VertexBuilder setNormal(Vector3 normal) {
             this.normal = normal;
 
             return this;
