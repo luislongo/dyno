@@ -1,15 +1,15 @@
 package com.alura.dyno.engine3d.system;
 
-import com.alura.dyno.engine3d.components.Camera;
+import com.alura.dyno.engine3d.script.CameraController;
 
 public class SceneMaster {
-    private static Camera mainCamera;
+    private static CameraController mainCamera;
 
-    public static Camera getMainCamera() {
+    public static CameraController getMainCamera() {
         return mainCamera;
     }
 
-    public static void setMainCamera(Camera mainCamera) {
+    public static void setMainCamera(CameraController mainCamera) {
         SceneMaster.mainCamera = mainCamera;
     }
 }

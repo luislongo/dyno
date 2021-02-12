@@ -52,7 +52,7 @@ public abstract class FloatVector<DIM extends FloatVector> {
         data.assign(v_rhs.data, plus);
         return (DIM) this;
     }
-    public DIM minus(FloatVector v_rhs) {
+    public DIM minus(DIM v_rhs) {
         data.assign(v_rhs.data, minus);
         return (DIM) this;
     }

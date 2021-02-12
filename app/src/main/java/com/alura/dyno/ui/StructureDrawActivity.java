@@ -9,11 +9,12 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import com.alura.dyno.R;
-import com.alura.dyno.engine3d.utils.InputDetector;
+import com.alura.dyno.engine3d.input.InputDetector;
 
 public class StructureDrawActivity extends Activity {
 
-    StructureDrawGLSurface drawSurface;
+    SceneView view;
+    SceneController controller;
     InputDetector detector;
 
     @Override
@@ -21,15 +22,16 @@ public class StructureDrawActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.act_structure_draw);
-        drawSurface = findViewById(R.id.act_structure_draw_glsurface);
+        view = findViewById(R.id.act_structure_draw_glsurface);
 
         final ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         final ConfigurationInfo configurationInfo = activityManager.getDeviceConfigurationInfo();
         final boolean supportsEs2 = configurationInfo.reqGlEsVersion >= 0x20000;
+        controller = new SceneController();
 
         if (supportsEs2) {
-            drawSurface.setEGLContextClientVersion(3);
-            drawSurface.setRenderer(new StructureDrawRenderer(getBaseContext()));
+            view.setEGLContextClientVersion(3);
+            view.setRenderer();
 
             detector = new InputDetector(this);
             drawSurface.setListener(detector);
