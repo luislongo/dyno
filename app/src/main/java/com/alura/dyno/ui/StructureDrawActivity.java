@@ -31,22 +31,20 @@ public class StructureDrawActivity extends Activity {
 
         if (supportsEs2) {
             view.setEGLContextClientVersion(3);
-            view.setRenderer();
-
-            detector = new InputDetector(this);
-            drawSurface.setListener(detector);
+            view.setController(controller);
+            detector = new InputDetector(this, view);
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        drawSurface.onPause();
+        view.onPause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        drawSurface.onResume();
+        view.onResume();
     }
 }

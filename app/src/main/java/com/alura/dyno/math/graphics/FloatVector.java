@@ -1,4 +1,4 @@
-package com.alura.dyno.math.linalg;
+package com.alura.dyno.math.graphics;
 
 import cern.colt.matrix.tfloat.FloatMatrix1D;
 import cern.colt.matrix.tfloat.algo.DenseFloatAlgebra;
@@ -61,19 +61,28 @@ public abstract class FloatVector<DIM extends FloatVector> {
         return (DIM) this;
     }
     public DIM divide(float c) {
-        data.assign(div(c));
-        return (DIM) this;
+        if(c != 0) {
+            data.assign(div(c));
+            return (DIM) this;
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
     public DIM straightProduct(DIM v_rhs) {
         data.assign(v_rhs.data, mult);
         return (DIM) this;
     }
-    public DIM multiply(FloatMatrix m_lhs) {
+    protected DIM multiply(FloatMatrix m_lhs) {
         this.data.assign(fun.mult(m_lhs.getData(), this.data));
         return (DIM) this;
     }
     public DIM normalize() {
-        data.normalize();
+        float norm2 = norm2();
+
+        if(norm2 != 0) {
+            divide(norm2());
+        }
+
         return (DIM) this;
     }
 

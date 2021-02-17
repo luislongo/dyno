@@ -3,7 +3,7 @@ package com.alura.dyno.math.graphics;
 import android.graphics.RectF;
 import android.opengl.Matrix;
 
-public class AndroiGraphicMatrixFactory implements IGraphicMatrixFactory {
+public class AndroidGraphicMatrixFactory implements IGraphicMatrixFactory {
     public GraphicMatrix frustum(RectF rect, float near, float far) {
         float[] values = new float[16];
         Matrix.frustumM(values, 0, rect.left, rect.right, rect.bottom, rect.top, near, far);

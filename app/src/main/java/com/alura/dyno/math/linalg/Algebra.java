@@ -1,7 +1,7 @@
 package com.alura.dyno.math.linalg;
 
-import com.alura.dyno.math.graphics.AndroiGraphicMatrixFactory;
 import com.alura.dyno.math.graphics.IGraphicMatrixFactory;
+import com.alura.dyno.math.graphics.RawGraphicMatrixFactory;
 
 import cern.colt.matrix.tfloat.algo.DenseFloatAlgebra;
 
@@ -16,10 +16,9 @@ public class Algebra {
 
         return denseFloat;
     }
-
     public static IGraphicMatrixFactory graphicMatrixFactory() {
         if(graphicMatrixFactory == null) {
-            graphicMatrixFactory = new AndroiGraphicMatrixFactory();
+            graphicMatrixFactory = new RawGraphicMatrixFactory();
         }
 
         return graphicMatrixFactory;

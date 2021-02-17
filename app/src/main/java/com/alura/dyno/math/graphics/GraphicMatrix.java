@@ -1,11 +1,9 @@
 package com.alura.dyno.math.graphics;
 
 import com.alura.dyno.math.linalg.Algebra;
-import com.alura.dyno.math.linalg.FloatMatrix;
 
 import cern.colt.matrix.tfloat.FloatFactory1D;
 import cern.colt.matrix.tfloat.FloatMatrix1D;
-import cern.colt.matrix.tfloat.impl.DenseFloatMatrix1D;
 
 public class GraphicMatrix extends FloatMatrix<GraphicMatrix> {
 

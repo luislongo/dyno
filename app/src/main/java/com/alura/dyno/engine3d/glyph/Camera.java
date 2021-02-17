@@ -2,7 +2,6 @@ package com.alura.dyno.engine3d.glyph;
 
 import android.graphics.RectF;
 
-import com.alura.dyno.math.graphics.AndroiGraphicMatrixFactory;
 import com.alura.dyno.math.graphics.GraphicMatrix;
 import com.alura.dyno.math.graphics.Vector2;
 import com.alura.dyno.math.graphics.Vector3;

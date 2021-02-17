@@ -1,7 +1,5 @@
 package com.alura.dyno.math.graphics;
 
-import com.alura.dyno.math.linalg.FloatVector;
-
 public class Vector4 extends FloatVector<Vector4> {
     public Vector4() {super(4);}
     public Vector4(float value) {super(4, value);}
