@@ -10,7 +10,7 @@ import java.util.LinkedList;
 
 public class EventTreeIterator implements Iterator<ITreeEventHandler> {
     LinkedList<ITreeEventHandler> ordered;
-    int curId;
+    int curId = -1;
 
     @Override public boolean hasNext() {
         boolean isIteratorEmpty = (ordered.isEmpty());
@@ -20,19 +20,19 @@ public class EventTreeIterator implements Iterator<ITreeEventHandler> {
     }
     @Override public ITreeEventHandler next() {
         if(hasNext()) {
-            ITreeEventHandler handler = this.ordered.get(curId);
             curId++;
-
-            return handler;
+            return this.ordered.get(curId);
         } else {
             throw new RuntimeException();
         }
+    }
+    public int count() {
+        return ordered.size();
     }
 
     protected EventTreeIterator() {
         super();
         ordered = new LinkedList<>();
-        curId = 0;
     }
 
     public static EventTreeIterator fromNodeUp(Glyph node, TreeEventType type) {

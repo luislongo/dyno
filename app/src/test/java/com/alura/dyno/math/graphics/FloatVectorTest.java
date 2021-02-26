@@ -417,6 +417,28 @@ class FloatVectorTest {
         assertArrayEquals(v1.straightProduct(v2).toArray(), v1.toArray(), DELTA);
     }
 
+    @Test void testCross_1() {
+        Vector3 x = new Vector3(1.0f, 0.0f, 0.0f);
+        Vector3 y = new Vector3(0.0f, 1.0f, 0.0f);
+
+        Vector3 expected = new Vector3(0.0f, 0.0f, 1.0f);
+        assertArrayEquals(expected.toArray(), x.cross(y).toArray(), DELTA);
+    }
+    @Test void testCross_2() {
+        Vector3 x = new Vector3(1.0f, 0.0f, 0.0f);
+        Vector3 z = new Vector3(0.0f, 0.0f, 1.0f);
+
+        Vector3 expected = new Vector3(0.0f, 1.0f, 0.0f);
+        assertArrayEquals(expected.toArray(), z.cross(x).toArray(), DELTA);
+    }
+    @Test void testCross_3() {
+        Vector3 y = new Vector3(0.0f, 1.0f, 0.0f);
+        Vector3 z = new Vector3(0.0f, 0.0f, 1.0f);
+
+        Vector3 expected = new Vector3(1.0f, 0.0f, 0.0f);
+        assertArrayEquals(expected.toArray(), y.cross(z).toArray(), DELTA);
+    }
+
     //Test normalize()
     @Test void testNormalize_1() {
         Vector2 v = new Vector2(-3.0f, 3.0f);

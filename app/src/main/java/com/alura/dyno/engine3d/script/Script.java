@@ -22,6 +22,10 @@ public class Script<NODE extends Glyph> extends TreeLeaf<NODE> {
             eventHandlers.put(handler.getType(), handler);
         }
     }
+    protected void removeEventHandler(TreeEventType type) {
+        this.eventHandlers.remove(type);
+    }
+
     protected HashMap<TreeEventType, ITreeEventHandler> getEventHandlers() {
         return eventHandlers;
     }

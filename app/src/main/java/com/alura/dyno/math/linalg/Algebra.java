@@ -1,13 +1,12 @@
 package com.alura.dyno.math.linalg;
 
-import com.alura.dyno.math.graphics.IGraphicMatrixFactory;
-import com.alura.dyno.math.graphics.RawGraphicMatrixFactory;
+import com.alura.dyno.math.graphics.GraphicMatrixFactory;
 
 import cern.colt.matrix.tfloat.algo.DenseFloatAlgebra;
 
 public class Algebra {
     private static DenseFloatAlgebra denseFloat;
-    private static IGraphicMatrixFactory graphicMatrixFactory;
+    private static GraphicMatrixFactory graphicMatrixFactory;
 
     public static DenseFloatAlgebra denseFloat() {
         if(denseFloat == null) {
@@ -16,9 +15,9 @@ public class Algebra {
 
         return denseFloat;
     }
-    public static IGraphicMatrixFactory graphicMatrixFactory() {
+    public static GraphicMatrixFactory graphicMatrixFactory() {
         if(graphicMatrixFactory == null) {
-            graphicMatrixFactory = new RawGraphicMatrixFactory();
+            graphicMatrixFactory = new GraphicMatrixFactory();
         }
 
         return graphicMatrixFactory;

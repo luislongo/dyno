@@ -1,5 +1,9 @@
 package com.alura.dyno.math.graphics;
 
+import com.alura.dyno.math.linalg.Algebra;
+
+import org.jetbrains.annotations.NotNull;
+
 import cern.colt.matrix.tfloat.FloatMatrix1D;
 import cern.colt.matrix.tfloat.algo.DenseFloatAlgebra;
 import cern.colt.matrix.tfloat.impl.DenseFloatMatrix1D;
@@ -10,8 +14,6 @@ import static cern.jet.math.tfloat.FloatFunctions.mult;
 import static cern.jet.math.tfloat.FloatFunctions.plus;
 
 public abstract class FloatVector<DIM extends FloatVector> {
-    public static final DenseFloatAlgebra fun = new DenseFloatAlgebra();
-
     protected FloatMatrix1D data;
 
     public FloatVector(int size) {
@@ -25,7 +27,7 @@ public abstract class FloatVector<DIM extends FloatVector> {
     }
 
     public final float norm2() {
-        return fun.norm2(data);
+        return Algebra.denseFloat().norm2(data);
     }
     public final int length() {
         return (int) data.size();
@@ -48,11 +50,11 @@ public abstract class FloatVector<DIM extends FloatVector> {
         return (DIM) this;
     }
 
-    public DIM plus(DIM v_rhs) {
+    public DIM plus(@NotNull DIM v_rhs) {
         data.assign(v_rhs.data, plus);
         return (DIM) this;
     }
-    public DIM minus(DIM v_rhs) {
+    public DIM minus(@NotNull DIM v_rhs) {
         data.assign(v_rhs.data, minus);
         return (DIM) this;
     }
@@ -68,12 +70,16 @@ public abstract class FloatVector<DIM extends FloatVector> {
             throw new IllegalArgumentException();
         }
     }
-    public DIM straightProduct(DIM v_rhs) {
+    public DIM straightProduct(@NotNull DIM v_rhs) {
         data.assign(v_rhs.data, mult);
         return (DIM) this;
     }
-    protected DIM multiply(FloatMatrix m_lhs) {
-        this.data.assign(fun.mult(m_lhs.getData(), this.data));
+    public float dotProduct(DIM v_rhs) {
+        return data.zDotProduct(v_rhs.data);
+    }
+
+    protected DIM multiply(@NotNull FloatMatrix m_lhs) {
+        this.data.assign(Algebra.denseFloat().mult(m_lhs.getData(), this.data));
         return (DIM) this;
     }
     public DIM normalize() {
@@ -88,6 +94,7 @@ public abstract class FloatVector<DIM extends FloatVector> {
 
     public abstract DIM clone();
 
+    @NotNull
     @Override
     public final String toString() {
         return data.toString();

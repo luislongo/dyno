@@ -1,6 +1,13 @@
 package com.alura.dyno.math.graphics;
 
 public class Vector2 extends FloatVector<Vector2> {
+    public final Vector2 vertical() {
+        return new Vector2(0.0f, 1.0f);
+    }
+    public final Vector2 horizontal() {
+        return new Vector2(1.0f, 0.0f);
+    }
+
     public Vector2()
     {
         super(2);

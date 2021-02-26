@@ -52,11 +52,8 @@ public class Transform extends Script {
         return modelMatrix;
     }
     private void updateModelMatrix() {
-        GraphicMatrix scaleM = Algebra.graphicMatrixFactory().scale(scale);
-        GraphicMatrix transM = Algebra.graphicMatrixFactory().translation(position);
-        GraphicMatrix rotatM = Algebra.graphicMatrixFactory().rotation(rotation);
-
-        modelMatrix = (scaleM.preMultiply(rotatM)).preMultiply(transM);
+        modelMatrix = Algebra.graphicMatrixFactory().identity();
+        modelMatrix.scale(scale).rotateEuler(rotation).translate(position);
         isUpdated = true;
     }
 

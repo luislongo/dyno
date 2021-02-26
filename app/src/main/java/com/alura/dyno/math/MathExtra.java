@@ -8,6 +8,18 @@ public class MathExtra {
     public static float map(float value, float min, float max, float mapMin, float mapMax) {
         return mapMin + (mapMax - mapMin) * (value - min) / (max - min);
     }
+    public static int assertArrayEquals(float[] a1, float[] a2, float delta) {
+        if(a1.length != a2.length) {
+            return -2;
+        } else {
+            for(int i = 0; i < a1.length; i++) {
+                if(Math.abs(a1[i] - a2[i]) > delta) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+    }
 
     public static class DeltaCompare {
         float delta;

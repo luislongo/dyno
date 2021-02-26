@@ -14,5 +14,8 @@ public enum TreeEventType {
 
     OnDrag,
     OnScale,
-    OnTap;
+    OnTap,
+
+    OnTest,
+    OnTest2;
 }

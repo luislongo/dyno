@@ -1,5 +1,11 @@
 package com.alura.dyno.math.graphics;
 
+import androidx.annotation.Nullable;
+
+import com.alura.dyno.math.linalg.Algebra;
+
+import org.jetbrains.annotations.NotNull;
+
 public class Vector3 extends FloatVector<Vector3> {
     public Vector3()
     {
@@ -23,7 +29,7 @@ public class Vector3 extends FloatVector<Vector3> {
     {
         super(origin.toArray());
     }
-    public Vector3(Vector4 origin) { this(origin.x(), origin.y(),origin.z());}
+    public Vector3(@NotNull Vector4 origin) { this(origin.x(), origin.y(),origin.z());}
 
     public float x() {
         return data.getQuick(0);
@@ -42,7 +48,16 @@ public class Vector3 extends FloatVector<Vector3> {
         Vector4 extended = new Vector4(this, w);
         extended.multiply(m_lhs);
 
-        return new Vector3(extended);
+        this.setValues(extended.x(), extended.y(), extended.z());
+        return this;
+    }
+    public Vector3 cross(Vector3 v_rhs) {
+        float newX = this.y() * v_rhs.z() - this.z() * v_rhs.y();
+        float newY = this.z() * v_rhs.x() - this.x() * v_rhs.z();
+        float newZ = this.x() * v_rhs.y() - this.y() * v_rhs.x();
+
+        this.setValues(newX, newY, newZ);
+        return this;
     }
 
     @Override public Vector3 clone() {

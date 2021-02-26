@@ -94,7 +94,8 @@ public class Camera extends Glyph implements ICamera {
         updateViewSpaceCamBounds();
 
         if (isViewRectValid()) {
-            projectionMatrix = Algebra.graphicMatrixFactory().orthogonal(viewRect, zNear, zFar);
+            projectionMatrix = Algebra.graphicMatrixFactory()
+                    .orthogonal(viewRect.left, viewRect.right, viewRect.bottom, viewRect.top, zNear, zFar);
         }
     }
     private void updateViewSpaceCamBounds() {
