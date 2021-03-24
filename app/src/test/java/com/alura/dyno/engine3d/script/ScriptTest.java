@@ -1,15 +1,9 @@
 package com.alura.dyno.engine3d.script;
 
-import android.provider.Settings;
-
-import androidx.annotation.TransitionRes;
-
-import com.alura.dyno.engine3d.eventsystem.IEvent;
-import com.alura.dyno.engine3d.eventsystem.ITreeEventHandler;
 import com.alura.dyno.engine3d.eventsystem.TreeEventType;
+import com.alura.dyno.engine3d.eventsystem.events.OnCreateEvent;
 import com.alura.dyno.engine3d.eventsystem.handlers.OnCreateEventHandler;
 import com.alura.dyno.engine3d.eventsystem.handlers.OnTestEventHandler;
-import com.alura.dyno.engine3d.glyph.Glyph;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;

@@ -70,31 +70,21 @@ class TreeTest {
         parent.addLeaf(scriptA);
         parent.addLeaf(scriptB);
 
-        assertEquals(2, parent.getLeaves().size());
+        assertEquals(3, parent.getLeaves().size());
     }
     @Test public void addLeafTest_2() {
-        Glyph parent = new Glyph("parent");
-        Script scriptA = new Script("scriptA");
-        Script scriptA2 = new Script("scriptA");
-
-        parent.addLeaf(scriptA);
-        parent.addLeaf(scriptA2);
-
-        assertEquals(2, parent.getLeaves().size());
-    }
-    @Test public void addLeafTest_3() {
         Glyph parentA = new Glyph("parent");
         Glyph parentB = new Glyph("parentB");
         Script script = new Script("script");
 
         parentA.addLeaf(script);
-        assertEquals(1, parentA.getLeaves().size());
-        assertEquals(0, parentB.getLeaves().size());
+        assertEquals(2, parentA.getLeaves().size());
+        assertEquals(1, parentB.getLeaves().size());
         assertEquals(parentA, script.parent);
 
         parentB.addLeaf(script);
-        assertEquals(0, parentA.getLeaves().size());
-        assertEquals(1, parentB.getLeaves().size());
+        assertEquals(1, parentA.getLeaves().size());
+        assertEquals(2, parentB.getLeaves().size());
         assertEquals(parentB, script.parent);
     }
     @Test public void removeLeafTest_1() {
@@ -107,8 +97,8 @@ class TreeTest {
 
         parent.removeLeaf(scriptA);
 
-        assertEquals(1, parent.getLeaves().size());
-        assertEquals(scriptB, parent.getLeaves().getFirst());
+        assertEquals(2, parent.getLeaves().size());
+        assertEquals(scriptB, parent.getLeaves().get(1));
     }
     @Test public void removeLeavesTest_1() {
         Glyph parent = new Glyph("parent");
@@ -122,8 +112,8 @@ class TreeTest {
 
         parent.removeLeaves("scriptA");
 
-        assertEquals(1, parent.getLeaves().size());
-        assertEquals(scriptB, parent.getLeaves().getFirst());
+        assertEquals(2, parent.getLeaves().size());
+        assertEquals(scriptB, parent.getLeaves().get(1));
     }
 
     @Test public void getRootTest_1() {

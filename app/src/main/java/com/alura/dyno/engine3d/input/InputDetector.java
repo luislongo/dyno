@@ -6,14 +6,14 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 
-import com.alura.dyno.engine3d.eventsystem.handlers.OnDragEventHandler;
-import com.alura.dyno.engine3d.eventsystem.handlers.OnDragEventHandler.OnDragEvent;
+import com.alura.dyno.engine3d.eventsystem.events.OnDragEvent;
+import com.alura.dyno.engine3d.eventsystem.events.OnScaleEvent;
+import com.alura.dyno.engine3d.eventsystem.events.OnTapEvent;
 import com.alura.dyno.engine3d.eventsystem.handlers.OnScaleEventHandler;
 import com.alura.dyno.engine3d.eventsystem.handlers.OnTapEventHandler;
 import com.alura.dyno.math.graphics.Vector2;
-import com.alura.dyno.ui.SceneView;
 
-public class InputDetector {
+public class InputDetector implements View.OnTouchListener {
 
     Vector2 lastTouch;
     Vector2 currentTouch;
@@ -24,14 +24,14 @@ public class InputDetector {
 
     IInputListener listener;
 
-    public InputDetector(Context context, SceneView sceneView) {
+    public InputDetector(Context context) {
         scaleGestureDetector = new ScaleGestureDetector(context, new ScaleListener());
         gestureDetector = new GestureDetector(context, new SimpleGestureListener());
         lastTouch = new Vector2();
         currentTouch = new Vector2();
     }
 
-    public boolean notifyMotionEvent(MotionEvent event) {
+    @Override public boolean onTouch(View v, MotionEvent event) {
         final int action = event.getAction();
 
         gestureDetector.onTouchEvent(event);
@@ -58,6 +58,9 @@ public class InputDetector {
             }
         }
         return true;
+    }
+    public void setInputListener(IInputListener listener) {
+        this.listener = listener;
     }
 
     private void onPointerUpEvent(MotionEvent event) {
@@ -102,20 +105,17 @@ public class InputDetector {
     }
     private void notifyOnTap(Vector2 screenCoords) {
         if(listener != null) {
-            OnTapEventHandler.OnTapEvent engineEvent = new OnTapEventHandler.OnTapEvent(screenCoords);
+            OnTapEvent engineEvent = new OnTapEvent(screenCoords);
             listener.onTap(engineEvent);
         }
     }
     private void notifyOnScale(float scaleFactor, Vector2 focusPoint) {
         if(listener != null) {
-            OnScaleEventHandler.OnScaleEvent engineEvent = new OnScaleEventHandler.OnScaleEvent(scaleFactor, focusPoint);
+            OnScaleEvent engineEvent = new OnScaleEvent(scaleFactor, focusPoint);
             listener.onScale(engineEvent);
         }
     }
 
-    public void setInputListener(IInputListener listener) {
-        this.listener = listener;
-    }
 
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
 

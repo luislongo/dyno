@@ -5,22 +5,16 @@ import com.alura.dyno.engine3d.script.Transform;
 import com.alura.dyno.engine3d.tree.TreeNode;
 
 public class Glyph extends TreeNode<Glyph, Script> {
-    private static final String LOCALTRANSFORMKEY = "LOCAL_TRANSFORM";
-    private static final String GLOBALTRANSFORMKEY = "GLOBAL_TRANSFORM";
-    private Transform localTransform;
-    private Transform globalTransform;
+    private static final String TRANSFORMKEY = "TRANSFORM";
+    private Transform transform;
 
     public Glyph(String name) {
         super(name);
 
-        localTransform = new Transform(LOCALTRANSFORMKEY);
-        globalTransform = new Transform(GLOBALTRANSFORMKEY);
+        transform = new Transform(TRANSFORMKEY);
+        this.addLeaf(transform);
     }
-
-    public Transform localTransform() {
-        return localTransform;
-    }
-    public Transform globalTransform() {
-        return localTransform;
+    public Transform transform() {
+        return transform;
     }
 }

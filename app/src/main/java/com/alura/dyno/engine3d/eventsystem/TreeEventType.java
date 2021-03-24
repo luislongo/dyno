@@ -1,13 +1,15 @@
 package com.alura.dyno.engine3d.eventsystem;
 
 public enum TreeEventType {
+    OnViewCreated,
+    OnViewChanged,
+
     OnCreate,
     OnUpdate,
     OnRender,
     OnDestroy,
-    OnScreenSizeChanged,
 
-    OnParentTransformChanged,
+    OnParentAxiiChanged,
     OnChildAdded,
     OnChildRemoved,
     OnParentChanged,

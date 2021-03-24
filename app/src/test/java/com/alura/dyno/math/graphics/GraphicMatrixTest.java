@@ -2,6 +2,7 @@ package com.alura.dyno.math.graphics;
 
 import android.opengl.Matrix;
 
+import com.alura.dyno.engine3d.render.GraphicObjectData;
 import com.alura.dyno.math.linalg.Algebra;
 
 import org.junit.jupiter.api.Test;
@@ -84,6 +85,26 @@ public class GraphicMatrixTest {
         m.translate(v);
 
         assertArrayEquals(expected, m.toArray());
+    }
+    @Test public void translateTest_5() {
+        Vector3 v0 = randomVec3();
+        Vector3 vDelta = randomVec3();
+        GraphicMatrix m = Algebra.graphicMatrixFactory().translation(vDelta);
+
+        Vector3 expected = v0.clone().plus(vDelta);
+        Vector3 actual = v0.clone().multiply(m, 1.0f);
+
+        assertArrayEquals(expected.toArray(), actual.toArray());
+    }
+    @Test public void translateTest_6() {
+        Vector3 v0 = randomVec3();
+        Vector3 vDelta = randomVec3();
+        GraphicMatrix m = Algebra.graphicMatrixFactory().translation(vDelta);
+
+        Vector3 expected = v0.clone();
+        Vector3 actual = v0.clone().multiply(m, 0.0f);
+
+        assertArrayEquals(expected.toArray(), actual.toArray());
     }
 
     @Test public void scaleTest_1() {

@@ -1,9 +1,5 @@
 package com.alura.dyno.math.graphics;
 
-import androidx.annotation.Nullable;
-
-import com.alura.dyno.math.linalg.Algebra;
-
 import org.jetbrains.annotations.NotNull;
 
 public class Vector3 extends FloatVector<Vector3> {

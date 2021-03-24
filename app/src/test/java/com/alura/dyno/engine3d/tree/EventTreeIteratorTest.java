@@ -1,8 +1,8 @@
 package com.alura.dyno.engine3d.tree;
 
-import android.view.DragEvent;
-
 import com.alura.dyno.engine3d.eventsystem.TreeEventType;
+import com.alura.dyno.engine3d.eventsystem.events.OnCreateEvent;
+import com.alura.dyno.engine3d.eventsystem.events.OnDragEvent;
 import com.alura.dyno.engine3d.eventsystem.handlers.OnCreateEventHandler;
 import com.alura.dyno.engine3d.eventsystem.handlers.OnDragEventHandler;
 import com.alura.dyno.engine3d.eventsystem.handlers.OnTestEventHandler;
@@ -135,7 +135,7 @@ class EventTreeIteratorTest {
             super(name);
             this.addEventHandler(new OnCreateEventHandler() {
                 @Override
-                public void onExecute(OnCreateEventHandler.OnCreateEvent event) {
+                public void onExecute(OnCreateEvent event) {
 
                 }
             });

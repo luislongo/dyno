@@ -1,10 +1,12 @@
 package com.alura.dyno.engine3d.script;
 
+import com.alura.dyno.engine3d.eventsystem.events.OnDragEvent;
+import com.alura.dyno.engine3d.eventsystem.events.OnScaleEvent;
+import com.alura.dyno.engine3d.eventsystem.events.OnViewChangedEvent;
 import com.alura.dyno.engine3d.eventsystem.handlers.OnDragEventHandler;
 import com.alura.dyno.engine3d.eventsystem.handlers.OnScaleEventHandler;
-import com.alura.dyno.engine3d.eventsystem.handlers.OnScreenSizeChangedEventHandler;
+import com.alura.dyno.engine3d.eventsystem.handlers.OnViewChangedHandler;
 import com.alura.dyno.engine3d.glyph.Camera;
-import com.alura.dyno.math.MathExtra;
 import com.alura.dyno.math.graphics.Vector3;
 
 public class CameraController extends Script<Camera> {
@@ -15,16 +17,14 @@ public class CameraController extends Script<Camera> {
 
         this.addEventHandler(new OnDrag());
         this.addEventHandler(new OnScale());
-        this.addEventHandler(new OnScreenSizeChanged());
+        this.addEventHandler(new OnViewChanged());
     }
 
     private class OnDrag extends OnDragEventHandler {
 
         @Override public void onExecute(OnDragEvent event) {
             Vector3 distance = new Vector3(event.getDeltaScreen().divide(parent.getZoom()), 0.0f);
-            parent.localTransform().move(distance);
-
-            parent.invalidate();
+            getParent().transform().move(distance);;
         }
     }
     private class OnScale extends OnScaleEventHandler {
@@ -34,11 +34,11 @@ public class CameraController extends Script<Camera> {
             parent.setZoom(parent.getZoom() * scaleFactor);
         }
     }
-    private class OnScreenSizeChanged extends OnScreenSizeChangedEventHandler {
+    private class OnViewChanged extends OnViewChangedHandler {
 
         @Override
-        public void onExecute(OnScreenSizeChangedEvent event) {
-            parent.setScreenSize(event.getScreenSize());
+        public void onExecute(OnViewChangedEvent event) {
+            parent.setScreenSize(event.screenSize());
         }
     }
 }

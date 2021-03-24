@@ -39,22 +39,18 @@ public class Texture {
     public int id() {
         return textureId[0];
     }
-
     public int getSlot() {
         return slot;
     }
-
     public void bind(int slot) {
         this.slot = slot;
 
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + slot);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId[0]);
     }
-
     public int getImageSize() {
         return imageSize;
     }
-
     public void unbind() {
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + slot);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);

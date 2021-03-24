@@ -2,6 +2,7 @@ package com.alura.dyno.engine3d.text;
 
 import com.alura.dyno.engine3d.render.Texture;
 import com.alura.dyno.engine3d.render.Vertex;
+import com.alura.dyno.engine3d.render.VertexBuilder;
 import com.alura.dyno.engine3d.utils.RGBAColor;
 import com.alura.dyno.math.graphics.Vector2;
 import com.alura.dyno.math.graphics.Vector3;
@@ -80,25 +81,25 @@ public class Font {
         float top = fontCh.top;
         float bottom = fontCh.bottom;
 
-        Vertex v1 = new Vertex.VertexBuilder()
+        Vertex v1 = new VertexBuilder()
                 .setPosition(new Vector3(left, bottom, 0))
                 .setNormal(new Vector3(0.0f, 0.0f, 1.0f))
                 .setUVs(new Vector2(fontCh.uvLeft, fontCh.uvBottom))
                 .setColor(new RGBAColor(1.0f,1.0f,1.0f,1.0f))
                 .build();
-        Vertex v2 = new Vertex.VertexBuilder()
+        Vertex v2 = new VertexBuilder()
                 .setPosition(new Vector3(right, bottom, 0))
                 .setNormal(new Vector3(0.0f, 0.0f, 1.0f))
                 .setUVs(new Vector2(fontCh.uvRight, fontCh.uvBottom))
                 .setColor(new RGBAColor(1.0f,1.0f,1.0f,1.0f))
                 .build();
-        Vertex v3 = new Vertex.VertexBuilder()
+        Vertex v3 = new VertexBuilder()
                 .setPosition(new Vector3(right, top, 0))
                 .setNormal(new Vector3(0.0f, 0.0f, 1.0f))
                 .setUVs(new Vector2(fontCh.uvLeft, fontCh.uvBottom))
                 .setColor(new RGBAColor(1.0f,1.0f,1.0f,1.0f))
                 .build();
-        Vertex v4 = new Vertex.VertexBuilder()
+        Vertex v4 = new VertexBuilder()
                 .setPosition(new Vector3(left, top, 0))
                 .setNormal(new Vector3(0.0f, 0.0f, 1.0f))
                 .setUVs(new Vector2(fontCh.uvLeft, fontCh.uvTop))

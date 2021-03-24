@@ -1,7 +1,5 @@
 package com.alura.dyno.math.graphics;
 
-import android.opengl.Matrix;
-
 import com.alura.dyno.math.linalg.Algebra;
 
 import cern.colt.matrix.tfloat.FloatFactory1D;
@@ -23,9 +21,7 @@ public class GraphicMatrix extends FloatMatrix<GraphicMatrix> {
     }
 
     public GraphicMatrix translate(Vector3 delta) {
-        this.data.setQuick(0, 3, this.data.getQuick(0,3) + delta.x());
-        this.data.setQuick(1, 3, this.data.getQuick(1,3) + delta.y());
-        this.data.setQuick(2, 3, this.data.getQuick(2,3) + delta.z());
+        this.preMultiply(Algebra.graphicMatrixFactory().translation(delta));
         return this;
     }
     public GraphicMatrix rotateEuler(Vector3 euler) {
@@ -37,9 +33,7 @@ public class GraphicMatrix extends FloatMatrix<GraphicMatrix> {
         return this;
     }
     public GraphicMatrix scale(Vector3 delta) {
-        this.data.setQuick(0,0, this.data.getQuick(0,0) * delta.x());
-        this.data.setQuick(1,1, this.data.getQuick(1,1) * delta.y());
-        this.data.setQuick(2,2, this.data.getQuick(2,2) * delta.z());
+        this.preMultiply(Algebra.graphicMatrixFactory().scale(delta));
         return this;
     }
 
@@ -51,6 +45,16 @@ public class GraphicMatrix extends FloatMatrix<GraphicMatrix> {
 
         FloatMatrix1D as1D = FloatFactory1D.dense.make(new FloatMatrix1D[]
                 {row1, row2, row3, row4});
+        return as1D.toArray();
+    }
+    public float[] toTransposedArray() {
+        FloatMatrix1D col0 = data.viewColumn(0);
+        FloatMatrix1D col1 = data.viewColumn(1);
+        FloatMatrix1D col2 = data.viewColumn(2);
+        FloatMatrix1D col3 = data.viewColumn(3);
+
+        FloatMatrix1D as1D = FloatFactory1D.dense.make(new FloatMatrix1D[]
+                {col0, col1, col2, col3});
         return as1D.toArray();
     }
     @Override public GraphicMatrix clone() {

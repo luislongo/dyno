@@ -20,6 +20,12 @@ class TreeEventDispatcherTest {
         dispatcher.sendDownTheTree(event);
         assertEquals(6, event.count);
     }
+    @Test public void sendDownTheChildrenOfTest_1() {
+        OnTestEventHandler.OnTestEvent event = new OnTestEventHandler.OnTestEvent();
+
+        dispatcher.sendDownTheChildrenOf(root(), event);
+        assertEquals(5, event.count);
+    }
 
 
     private Glyph root() {

@@ -57,9 +57,11 @@ public class EventTreeIterator implements Iterator<ITreeEventHandler> {
     private void propagateDown(Glyph node, TreeEventType type) {
         this.putValue(node, type);
 
-        LinkedList<Glyph> children = node.getChildren();
-        for(Glyph child : children) {
-            this.propagateDown(child, type);
+        if(node.hasChildren()) {
+            LinkedList<Glyph> children = node.getChildren();
+            for(Glyph child : children) {
+                this.propagateDown(child, type);
+            }
         }
     }
 

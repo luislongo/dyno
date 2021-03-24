@@ -1,103 +1,105 @@
 package com.alura.dyno.engine3d.script;
 
-import com.alura.dyno.math.graphics.GraphicMatrix;
+import com.alura.dyno.engine3d.eventsystem.events.OnParentAxiiChangedEvent;
+import com.alura.dyno.engine3d.eventsystem.handlers.OnParentAxiiChangedHandler;
+import com.alura.dyno.engine3d.scene.SceneController;
+import com.alura.dyno.math.graphics.Axii;
 import com.alura.dyno.math.graphics.Vector3;
-import com.alura.dyno.math.linalg.Algebra;
 
 public class Transform extends Script {
-
-    private Vector3 position;
-    private Vector3 scale;
-    private Vector3 rotation;
-
-    private GraphicMatrix modelMatrix;
-    private boolean isUpdated;
+    private Axii localAxii;
+    private Axii globalAxii;
 
     public Transform(String name) {
         super(name);
-        initializeVariables();
-    }
-    public Transform(String name, Transform origin) {
-        super(name);
-        this.copyValues(origin);
-    }
-    public Transform(String name, Vector3 position, Vector3 scale, Vector3 rotation) {
-        super(name);
-        initializeVariables();
-    }
-    private void initializeVariables() {
-        this.position = new Vector3(0.0f);
-        this.scale = new Vector3(0.0f);
-        this.rotation = new Vector3(0.0f);
-    }
-    private void copyValues(Transform other) {
-        this.position = other.position.clone();
-        this.scale = other.scale.clone();
-        this.rotation = other.rotation.clone();
+
+        localAxii = new Axii();
+        globalAxii = new Axii();
+
+        addEventHandler(new OnParentAxiiChanged());
     }
 
-    public Vector3 getPosition() {
-        return position.clone();
+    public Axii getLocalAxii() {
+        return localAxii.clone();
     }
-    public Vector3 getScale() {
-        return scale.clone();
+    public Axii getGlobalAxii() {
+        return globalAxii.clone();
     }
-    public Vector3 getAngles() {
-        return rotation.clone();
+    public void setLocalAxii(Axii localAxii) {
+        this.localAxii = localAxii.clone();
+        updateGlobalAxii();
+        notifyChildren();
     }
-    public GraphicMatrix getModelmatrix() {
-        if (!isUpdated) {
-            updateModelMatrix();
+
+    private void updateGlobalAxii() {
+        if(getParent().hasParent()) {
+            globalAxii = Axii.compose(getParent().getParent().transform().globalAxii, localAxii);
+        } else {
+            globalAxii = localAxii.clone();
         }
-        return modelMatrix;
     }
-    private void updateModelMatrix() {
-        modelMatrix = Algebra.graphicMatrixFactory().identity();
-        modelMatrix.scale(scale).rotateEuler(rotation).translate(position);
-        isUpdated = true;
+    private void notifyChildren() {
+        OnParentAxiiChangedEvent event = new OnParentAxiiChangedEvent(this.parent);
+        SceneController.getDispatcher().sendDownTheChildrenOf(this.getParent(), event);
     }
 
-    public void setPosition(Vector3 newPosition) {
-        this.position = newPosition;
-        notifyChanged();
+    public void move(Vector3 delta) {
+        localAxii.move(delta);
+        invalidate();
     }
-    public void setScale(Vector3 newScale) {
-        this.scale = newScale;
-        notifyChanged();
+    public void scalePlus(Vector3 delta) {
+        localAxii.scalePlus(delta);
+        invalidate();
     }
-    public void setRotation(Vector3 eulerAngles) {
-        this.rotation = rotation;
-        notifyChanged();
+    public void scaleTimes(Vector3 delta) {
+        localAxii.scaleTimes(delta);
+        invalidate();
     }
-
-    public void move(Vector3 distance) {
-        this.position.plus(distance);
-        notifyChanged();
-    }
-    public void rotate(Vector3 eulerRotation) {
-        this.rotation.plus(eulerRotation);
-        notifyChanged();
-    }
-    public void scale(Vector3 multiplier) {
-        this.scale.straightProduct(multiplier);
-        notifyChanged();
+    public void eulerPlus(Vector3 delta) {
+        localAxii.eulerPlus(delta);
+        invalidate();
     }
 
-    public static Transform compose(String name, Transform t_lhs, Transform t_rhs) {
-        GraphicMatrix modelMatrix_lhs = t_lhs.getModelmatrix();
-
-        Vector3 composedPos = t_rhs.position.clone().multiply(modelMatrix_lhs, 1.0f);
-        Vector3 composedScale = t_rhs.scale.clone().multiply(modelMatrix_lhs, 0.0f);
-        Vector3 composedRotation = t_rhs.rotation.clone().multiply(modelMatrix_lhs, 0.0f);
-
-        return new Transform(name, composedPos, composedScale, composedRotation);
+    public Vector3 getLocalPosition() {
+        return localAxii.getPosition();
+    }
+    public Vector3 getGlobalPosition() {
+        return globalAxii.getPosition();
+    }
+    public void setPosition(Vector3 position) {
+        localAxii.setPosition(position);
+        invalidate();
+    }
+    public Vector3 getLocalScale() {
+        return localAxii.getScale();
+    }
+    public Vector3 getGlobalScale() {
+        return globalAxii.getScale();
+    }
+    public void setScale(Vector3 scale) {
+        localAxii.setScale(scale);
+        invalidate();
+    }
+    public Vector3 getLocalEuler() {
+            return localAxii.getEuler();
+    }
+    public Vector3 getGlobalEuler() {
+        return globalAxii.getEuler();
+    }
+    public void setEuler(Vector3 euler) {
+        localAxii.setEuler(euler);
+        invalidate();
     }
 
-    private void notifyChanged() {
-        isUpdated = false;
+    private void invalidate() {
+        updateGlobalAxii();
+        notifyChildren();
+    }
 
-        if (getParent() != null) {
-            //TODO Send event down the tree;
+    private class OnParentAxiiChanged extends OnParentAxiiChangedHandler {
+
+        @Override public void onExecute(OnParentAxiiChangedEvent event) {
+            updateGlobalAxii();
         }
     }
 }

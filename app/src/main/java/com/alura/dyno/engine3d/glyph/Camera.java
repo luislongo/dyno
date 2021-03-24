@@ -1,7 +1,5 @@
 package com.alura.dyno.engine3d.glyph;
 
-import android.graphics.RectF;
-
 import com.alura.dyno.math.graphics.GraphicMatrix;
 import com.alura.dyno.math.graphics.Vector2;
 import com.alura.dyno.math.graphics.Vector3;
@@ -16,7 +14,6 @@ public class Camera extends Glyph implements ICamera {
 
     private float zFar;
     private float zoom;
-    private RectF viewRect;
 
     public Camera(String name, float zNear, float zFar, float zoom) {
         super(name);
@@ -24,24 +21,15 @@ public class Camera extends Glyph implements ICamera {
         this.zNear = zNear;
         this.zFar = zFar;
         this.zoom = zoom;
-
-        viewRect = new RectF();
-        updateViewMatrix();
-        updateProjectionMatrix();
     }
 
     public GraphicMatrix getProjectionMatrix() {
-        updateProjectionMatrix();
         return projectionMatrix;
     }
     public GraphicMatrix getViewMatrix() {
-        updateViewMatrix();
         return viewMatrix;
     }
     public GraphicMatrix getVPMatrix() {
-        updateProjectionMatrix();
-        updateViewMatrix();
-
         return viewMatrix.clone().preMultiply(projectionMatrix);
     }
     public float getZoom() {
@@ -53,17 +41,13 @@ public class Camera extends Glyph implements ICamera {
     public float getzFar() {
         return zFar;
     }
-    public RectF getViewRect() {
-        return viewRect;
-    }
     public Vector2 getScreenSize() {
         return screenSize;
     }
 
     public void setScreenSize(Vector2 screenSize) {
         this.screenSize = screenSize;
-        updateProjectionMatrix();
-        updateViewMatrix();
+        invalidate();
     }
     public void setzNear(float zNear) {
         this.zNear = zNear;
@@ -75,8 +59,7 @@ public class Camera extends Glyph implements ICamera {
     }
     public void setZoom(float zoom) {
         this.zoom = zoom;
-        updateProjectionMatrix();
-        updateViewMatrix();
+        invalidate();
     }
 
     public void invalidate() {
@@ -84,38 +67,27 @@ public class Camera extends Glyph implements ICamera {
         updateProjectionMatrix();
     }
     private void updateViewMatrix() {
-        Vector3 eye = localTransform().getPosition();
-        Vector3 center = new Vector3(0.0f, 0.0f, -1.0f);
+        Vector3 eye = transform().getGlobalPosition();
+        Vector3 center = transform().getGlobalPosition().plus(new Vector3(0.0f, 0.0f, -1.0f));
         Vector3 up = new Vector3(0.0f, 1.0f, 0.0f);
 
         viewMatrix = Algebra.graphicMatrixFactory().lookAt(eye, center, up);
     }
     private void updateProjectionMatrix() {
-        updateViewSpaceCamBounds();
+        if (screenSize.norm2() != 0) {
+            Vector3 position = transform().getGlobalPosition();
 
-        if (isViewRectValid()) {
+            float left = position.x() - screenSize.x() / zoom ;
+            float right = position.x() + screenSize.x() / zoom ;
+            float bottom = position.y() - screenSize.y() / zoom;
+            float top = position.y() + screenSize.y() / zoom;
+
             projectionMatrix = Algebra.graphicMatrixFactory()
-                    .orthogonal(viewRect.left, viewRect.right, viewRect.bottom, viewRect.top, zNear, zFar);
+                    .orthogonal(left, right, bottom, top, zNear, zFar);
         }
     }
-    private void updateViewSpaceCamBounds() {
-        Vector3 position = globalTransform().getPosition();
 
-        viewRect.left = position.x() - 0.5f * screenSize.x() / zoom;
-        viewRect.right = position.x() + 0.5f * screenSize.x() / zoom;
-        viewRect.bottom = position.y() - 0.5f * screenSize.y() / zoom;
-        viewRect.top = position.y() + 0.5f * screenSize.y() / zoom;
-    }
-    private boolean isViewRectValid() {
-        boolean hasHeight = viewRect.height() < 0;
-        boolean hasWidth = viewRect.width() > 0;
-        boolean leftLessThanRight = viewRect.left < viewRect.right;
-        boolean bottomLassThanTop = viewRect.bottom < viewRect.top;
-
-        return hasHeight && hasWidth && leftLessThanRight && bottomLassThanTop;
-    }
-
-    public float fromScreenToView(float screenDistance) {
+    /*public float fromScreenToView(float screenDistance) {
         return screenDistance / zoom;
     }
     public Vector2 fromScreenToView(Vector2 screenCoords) {
@@ -139,5 +111,5 @@ public class Camera extends Glyph implements ICamera {
 
         return new Vector2(screenX, screenY);
     }
-
+*/
 }

@@ -15,7 +15,6 @@ public abstract class TreeNode<NODE extends TreeNode, LEAF extends TreeLeaf> ext
 
         leaves = new LinkedList<>();
         children = new LinkedList<>();
-
     }
 
     public void addChild(NODE child) {
@@ -74,7 +73,7 @@ public abstract class TreeNode<NODE extends TreeNode, LEAF extends TreeLeaf> ext
     }
     public NODE getChild(String name) {
         for(NODE child : children) {
-            if(child.getName() == name) {
+            if(child.getName().equals(name)) {
                 return child;
             }
         }
@@ -116,6 +115,10 @@ public abstract class TreeNode<NODE extends TreeNode, LEAF extends TreeLeaf> ext
         }
 
         return selected;
+    }
+
+    public boolean hasChildren() {
+        return children.size() > 0;
     }
 }
 

@@ -1,11 +1,14 @@
 package com.alura.dyno.math.graphics;
 
+import androidx.annotation.Nullable;
+
 import com.alura.dyno.math.linalg.Algebra;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+
 import cern.colt.matrix.tfloat.FloatMatrix1D;
-import cern.colt.matrix.tfloat.algo.DenseFloatAlgebra;
 import cern.colt.matrix.tfloat.impl.DenseFloatMatrix1D;
 
 import static cern.jet.math.tfloat.FloatFunctions.div;
@@ -94,9 +97,18 @@ public abstract class FloatVector<DIM extends FloatVector> {
 
     public abstract DIM clone();
 
-    @NotNull
-    @Override
-    public final String toString() {
+    @Override public boolean equals(@Nullable Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof FloatVector)) {
+            return false;
+        }
+        FloatVector fv = (FloatVector) obj;
+
+        return Arrays.equals(this.toArray(), fv.toArray());
+    }
+    @NotNull @Override public final String toString() {
         return data.toString();
     }
 }
