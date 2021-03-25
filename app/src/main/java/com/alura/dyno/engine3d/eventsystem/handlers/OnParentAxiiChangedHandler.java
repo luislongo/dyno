@@ -6,7 +6,7 @@ import com.alura.dyno.engine3d.eventsystem.TreeEventType;
 import com.alura.dyno.engine3d.eventsystem.events.OnParentAxiiChangedEvent;
 import com.alura.dyno.engine3d.tree.TreeNode;
 
-public abstract class OnParentAxiiChangedHandler implements ITreeEventHandler<OnParentAxiiChangedEvent> {
+public abstract class OnParentAxiiChangedHandler extends ITreeEventHandler<OnParentAxiiChangedEvent> {
 
     @Override public TreeEventType getType() {
         return TreeEventType.OnParentAxiiChanged;

@@ -5,7 +5,7 @@ import com.alura.dyno.engine3d.eventsystem.ITreeEventHandler;
 import com.alura.dyno.engine3d.eventsystem.TreeEventType;
 import com.alura.dyno.engine3d.eventsystem.events.OnRenderEvent;
 
-public abstract class OnRenderEventHandler implements ITreeEventHandler<OnRenderEvent> {
+public abstract class OnRenderEventHandler extends ITreeEventHandler<OnRenderEvent> {
 
     @Override public TreeEventType getType() {
         return TreeEventType.OnRender;

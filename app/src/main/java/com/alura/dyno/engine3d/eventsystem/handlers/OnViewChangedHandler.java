@@ -6,7 +6,7 @@ import com.alura.dyno.engine3d.eventsystem.TreeEventType;
 import com.alura.dyno.engine3d.eventsystem.events.OnViewChangedEvent;
 import com.alura.dyno.math.graphics.Vector2;
 
-public abstract class OnViewChangedHandler implements ITreeEventHandler<OnViewChangedEvent> {
+public abstract class OnViewChangedHandler extends ITreeEventHandler<OnViewChangedEvent> {
 
     @Override
     public TreeEventType getType() {
