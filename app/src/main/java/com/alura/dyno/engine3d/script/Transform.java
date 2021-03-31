@@ -1,14 +1,20 @@
 package com.alura.dyno.engine3d.script;
 
+import com.alura.dyno.engine3d.eventsystem.events.OnCreateEvent;
 import com.alura.dyno.engine3d.eventsystem.events.OnParentAxiiChangedEvent;
+import com.alura.dyno.engine3d.eventsystem.events.OnUpdateEvent;
+import com.alura.dyno.engine3d.eventsystem.handlers.OnCreateEventHandler;
 import com.alura.dyno.engine3d.eventsystem.handlers.OnParentAxiiChangedHandler;
+import com.alura.dyno.engine3d.eventsystem.handlers.OnUpdateEventHandler;
 import com.alura.dyno.engine3d.scene.SceneController;
 import com.alura.dyno.math.graphics.Axii;
+import com.alura.dyno.math.graphics.GraphicMatrix;
 import com.alura.dyno.math.graphics.Vector3;
 
 public class Transform extends Script {
     private Axii localAxii;
     private Axii globalAxii;
+    boolean hasToBeUpdated = false;
 
     public Transform(String name) {
         super(name);
@@ -16,14 +22,13 @@ public class Transform extends Script {
         localAxii = new Axii();
         globalAxii = new Axii();
 
+        addEventHandler(new FirstCreateGlobal());
         addEventHandler(new OnParentAxiiChanged());
+        addEventHandler(new UpdateGlobalMatrix());
     }
 
-    public Axii getLocalAxii() {
-        return localAxii.clone();
-    }
-    public Axii getGlobalAxii() {
-        return globalAxii.clone();
+    public GraphicMatrix getModelMatrix() {
+        return globalAxii.getModelMatrix();
     }
     public void setLocalAxii(Axii localAxii) {
         this.localAxii = localAxii.clone();
@@ -45,19 +50,19 @@ public class Transform extends Script {
 
     public void move(Vector3 delta) {
         localAxii.move(delta);
-        invalidate();
+        notifyChildren();
     }
     public void scalePlus(Vector3 delta) {
         localAxii.scalePlus(delta);
-        invalidate();
+        notifyChildren();
     }
     public void scaleTimes(Vector3 delta) {
         localAxii.scaleTimes(delta);
-        invalidate();
+        notifyChildren();
     }
     public void eulerPlus(Vector3 delta) {
         localAxii.eulerPlus(delta);
-        invalidate();
+        notifyChildren();
     }
 
     public Vector3 getLocalPosition() {
@@ -68,7 +73,7 @@ public class Transform extends Script {
     }
     public void setPosition(Vector3 position) {
         localAxii.setPosition(position);
-        invalidate();
+        notifyChildren();
     }
     public Vector3 getLocalScale() {
         return localAxii.getScale();
@@ -78,7 +83,7 @@ public class Transform extends Script {
     }
     public void setScale(Vector3 scale) {
         localAxii.setScale(scale);
-        invalidate();
+        notifyChildren();
     }
     public Vector3 getLocalEuler() {
             return localAxii.getEuler();
@@ -88,17 +93,25 @@ public class Transform extends Script {
     }
     public void setEuler(Vector3 euler) {
         localAxii.setEuler(euler);
-        invalidate();
-    }
-
-    private void invalidate() {
-        updateGlobalAxii();
         notifyChildren();
     }
 
+    private class FirstCreateGlobal extends OnCreateEventHandler {
+
+        @Override
+        public void onExecute(OnCreateEvent event) {
+            updateGlobalAxii();
+        }
+    }
     private class OnParentAxiiChanged extends OnParentAxiiChangedHandler {
 
         @Override public void onExecute(OnParentAxiiChangedEvent event) {
+            hasToBeUpdated = true;
+        }
+    }
+    private class UpdateGlobalMatrix extends OnUpdateEventHandler {
+
+        @Override public void onExecute(OnUpdateEvent event) {
             updateGlobalAxii();
         }
     }

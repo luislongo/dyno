@@ -1,6 +1,6 @@
 package com.alura.dyno.engine3d.tree;
 
-import com.alura.dyno.engine3d.eventsystem.ITreeEventHandler;
+import com.alura.dyno.engine3d.eventsystem.handlers.ITreeEventHandler;
 import com.alura.dyno.engine3d.eventsystem.TreeEventType;
 import com.alura.dyno.engine3d.glyph.Glyph;
 import com.alura.dyno.engine3d.script.Script;
@@ -69,7 +69,7 @@ public class EventTreeIterator implements Iterator<ITreeEventHandler> {
         LinkedList<Script> scripts = node.getLeaves();
         for(Script script : scripts) {
             ITreeEventHandler handler = script.getEventHandler(type);
-            if(!(handler == null)) {
+            if(!(handler == null) && script.isActive()) {
                 ordered.add(script.getEventHandler(type));
             }
         }

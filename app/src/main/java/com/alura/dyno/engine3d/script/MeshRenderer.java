@@ -5,6 +5,7 @@ import android.opengl.Matrix;
 
 import com.alura.dyno.engine3d.eventsystem.events.OnRenderEvent;
 import com.alura.dyno.engine3d.eventsystem.handlers.OnRenderEventHandler;
+import com.alura.dyno.engine3d.glyph.Glyph;
 import com.alura.dyno.engine3d.render.Material;
 import com.alura.dyno.engine3d.render.Triangle;
 import com.alura.dyno.engine3d.render.Vertex;
@@ -27,7 +28,7 @@ public class MeshRenderer extends Script {
 
     private FloatBuffer vbo;
     private IntBuffer ibo;
-    private SimpleShader shader;
+    private static SimpleShader shader;
     private BufferLayout layout;
     private Material material;
 
@@ -90,7 +91,7 @@ public class MeshRenderer extends Script {
                 invalidate();
             }
 
-            shader.setModelMatrix(getParent().transform().getGlobalAxii().getModelMatrix());
+            shader.setModelMatrix(getParent().transform().getModelMatrix());
             shader.setViewMatrix(SceneController.getModel().getMainCamera().getViewMatrix());
             shader.setProjectionMatrix(SceneController.getModel().getMainCamera().getProjectionMatrix());
 

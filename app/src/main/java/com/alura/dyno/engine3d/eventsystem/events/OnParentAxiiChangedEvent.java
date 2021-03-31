@@ -1,6 +1,5 @@
 package com.alura.dyno.engine3d.eventsystem.events;
 
-import com.alura.dyno.engine3d.eventsystem.IEvent;
 import com.alura.dyno.engine3d.eventsystem.TreeEventType;
 import com.alura.dyno.engine3d.tree.TreeNode;
 

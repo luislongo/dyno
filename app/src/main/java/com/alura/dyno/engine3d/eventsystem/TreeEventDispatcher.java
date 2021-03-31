@@ -1,6 +1,7 @@
 package com.alura.dyno.engine3d.eventsystem;
-import android.util.Log;
 
+import com.alura.dyno.engine3d.eventsystem.events.IEvent;
+import com.alura.dyno.engine3d.eventsystem.handlers.ITreeEventHandler;
 import com.alura.dyno.engine3d.glyph.Glyph;
 import com.alura.dyno.engine3d.tree.EventTreeIterator;
 
@@ -29,9 +30,13 @@ public class TreeEventDispatcher {
 
             while(iterator.hasNext()) {
                 ITreeEventHandler handler = iterator.next();
-                handler.onExecute(event);
+                executeIfActive(handler, event);
             }
         }
+
+    }
+    public void executeIfActive(ITreeEventHandler handler, IEvent event) {
+            handler.onExecute(event);
 
     }
 

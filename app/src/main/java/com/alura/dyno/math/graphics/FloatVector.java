@@ -53,6 +53,15 @@ public abstract class FloatVector<DIM extends FloatVector> {
         return (DIM) this;
     }
 
+    public DIM normalize() {
+        float norm2 = norm2();
+
+        if(norm2 != 0) {
+            divide(norm2());
+        }
+
+        return (DIM) this;
+    }
     public DIM plus(@NotNull DIM v_rhs) {
         data.assign(v_rhs.data, plus);
         return (DIM) this;
@@ -77,21 +86,11 @@ public abstract class FloatVector<DIM extends FloatVector> {
         data.assign(v_rhs.data, mult);
         return (DIM) this;
     }
-    public float dotProduct(DIM v_rhs) {
+    public float dotProduct(@NotNull DIM v_rhs) {
         return data.zDotProduct(v_rhs.data);
     }
-
     protected DIM multiply(@NotNull FloatMatrix m_lhs) {
         this.data.assign(Algebra.denseFloat().mult(m_lhs.getData(), this.data));
-        return (DIM) this;
-    }
-    public DIM normalize() {
-        float norm2 = norm2();
-
-        if(norm2 != 0) {
-            divide(norm2());
-        }
-
         return (DIM) this;
     }
 

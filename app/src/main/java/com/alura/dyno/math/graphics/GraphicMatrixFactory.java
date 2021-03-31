@@ -48,20 +48,23 @@ public class GraphicMatrixFactory {
         return new GraphicMatrix(data);
     }
     public GraphicMatrix lookAt(Vector3 eye, Vector3 center, Vector3 up) {
-        Vector3 f = center.clone().minus(eye);
-        f.normalize();
-
-        Vector3 s = f.clone().cross(up);
-        s.normalize();
-
+        Vector3 f = center.clone().minus(eye).normalize();
+        Vector3 s = f.clone().cross(up).normalize();
         Vector3 u = s.clone().cross(f);
 
         float[] rm = new float[] {
-                  s.x(),    u.x(),  -f.x(), -eye.x(),
-                  s.y(),    u.y(),  -f.y(), -eye.y(),
-                  s.z(),    u.z(),  -f.z(), -eye.z(),
-                   0.0f,     0.0f,    0.0f,     1.0f};
-        return new GraphicMatrix(rm);
+                   s.x(),  s.y(),  s.z(), -eye.dotProduct(s),
+                   u.x(),  u.y(),  u.y(), -eye.dotProduct(u),
+                  -f.x(), -f.y(), -f.z(), -eye.dotProduct(f),
+                   0.0f,    0.0f,   0.0f, 1.0f};
+
+        GraphicMatrix fromRay = new GraphicMatrix(rm);
+
+        float[] data = new float[16];
+        Matrix.setLookAtM(data, 0, eye.x(), eye.y(), eye.z(), center.x(), center.y(), center.z(),
+                up.x(), up.y(), up.z());
+        GraphicMatrix fromAndroid = new GraphicMatrix(data).transpose();
+        return fromAndroid;
     }
 
     public GraphicMatrix translation(Vector3 delta) {
@@ -133,7 +136,24 @@ public class GraphicMatrixFactory {
             });
         }
     }
+    public GraphicMatrix rotate(Quaternion quat) {
+        float a11 = 2.0f * (quat.a()*quat.a() + quat.b() * quat.b()) -1;
+        float a12 = 2.0f * (quat.b()*quat.c() - quat.a() * quat.d());
+        float a13 = 2.0f * (quat.b()*quat.d() + quat.a() * quat.c());
+        float a21 = 2.0f * (quat.b()*quat.c() + quat.a() * quat.d());
+        float a22 = 2.0f * (quat.a()*quat.a() + quat.c() * quat.c()) -1;
+        float a23 = 2.0f * (quat.c()*quat.d() - quat.a() * quat.b());
+        float a31 = 2.0f * (quat.b()*quat.d() - quat.a() * quat.c());
+        float a32 = 2.0f * (quat.c()*quat.d() + quat.a() * quat.b());
+        float a33 = 2.0f * (quat.a()*quat.a() + quat.d() * quat.d()) -1;
 
+        return new GraphicMatrix(new float[] {
+                a11, a12, a13, 0,
+                a21, a22, a23, 0,
+                a31, a32, a33, 0,
+                  0,   0,   0, 1
+        });
+    }
     public GraphicMatrix frustum(float left, float right, float bottom, float top, float near, float far) {
         if (left == right) {
             throw new IllegalArgumentException("left == right");

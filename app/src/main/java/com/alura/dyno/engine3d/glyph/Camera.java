@@ -8,18 +8,19 @@ import com.alura.dyno.math.linalg.Algebra;
 public class Camera extends Glyph implements ICamera {
     private GraphicMatrix viewMatrix;
     private GraphicMatrix projectionMatrix;
-
+    private ProjectionType projectionType = ProjectionType.PERSPECTIVE;
     private Vector2 screenSize;
-    private float zNear;
 
-    private float zFar;
+    private float near;
+    private float far;
+
     private float zoom;
 
     public Camera(String name, float zNear, float zFar, float zoom) {
         super(name);
 
-        this.zNear = zNear;
-        this.zFar = zFar;
+        this.near = zNear;
+        this.far = zFar;
         this.zoom = zoom;
     }
 
@@ -35,11 +36,11 @@ public class Camera extends Glyph implements ICamera {
     public float getZoom() {
         return zoom;
     }
-    public float getzNear() {
-        return zNear;
+    public float getNear() {
+        return near;
     }
-    public float getzFar() {
-        return zFar;
+    public float getFar() {
+        return far;
     }
     public Vector2 getScreenSize() {
         return screenSize;
@@ -49,12 +50,12 @@ public class Camera extends Glyph implements ICamera {
         this.screenSize = screenSize;
         invalidate();
     }
-    public void setzNear(float zNear) {
-        this.zNear = zNear;
+    public void setNear(float near) {
+        this.near = near;
         updateProjectionMatrix();
     }
-    public void setzFar(float zFar) {
-        this.zFar = zFar;
+    public void setFar(float far) {
+        this.far = far;
         updateProjectionMatrix();
     }
     public void setZoom(float zoom) {
@@ -68,12 +69,22 @@ public class Camera extends Glyph implements ICamera {
     }
     private void updateViewMatrix() {
         Vector3 eye = transform().getGlobalPosition();
-        Vector3 center = transform().getGlobalPosition().plus(new Vector3(0.0f, 0.0f, -1.0f));
+        Vector3 center = eye.clone().plus(new Vector3(0.0f, 0.0f, -1.0f));
         Vector3 up = new Vector3(0.0f, 1.0f, 0.0f);
 
         viewMatrix = Algebra.graphicMatrixFactory().lookAt(eye, center, up);
     }
     private void updateProjectionMatrix() {
+        switch(projectionType) {
+            case ORTHOGONAL:
+                calculateOrthogonalProjectionMatrix();
+                break;
+            case PERSPECTIVE:
+                calculatePerspectiveProjectionMatrix();
+                break;
+        }
+    }
+    private void calculateOrthogonalProjectionMatrix() {
         if (screenSize.norm2() != 0) {
             Vector3 position = transform().getGlobalPosition();
 
@@ -83,8 +94,14 @@ public class Camera extends Glyph implements ICamera {
             float top = position.y() + screenSize.y() / zoom;
 
             projectionMatrix = Algebra.graphicMatrixFactory()
-                    .orthogonal(left, right, bottom, top, zNear, zFar);
+                    .orthogonal(left, right, bottom, top, near, far);
         }
+    }
+    private void calculatePerspectiveProjectionMatrix() {
+        float aspect = screenSize.x() / screenSize.y();
+
+        projectionMatrix = Algebra.graphicMatrixFactory()
+                .perspective(60, aspect, near, far);
     }
 
     /*public float fromScreenToView(float screenDistance) {

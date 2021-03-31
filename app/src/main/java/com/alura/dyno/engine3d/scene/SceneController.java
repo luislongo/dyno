@@ -5,6 +5,9 @@ import android.opengl.Matrix;
 
 import com.alura.dyno.R;
 import com.alura.dyno.engine3d.draw.ShapeDrawer;
+import com.alura.dyno.engine3d.draw.samplers.PositionColorSampler;
+import com.alura.dyno.engine3d.draw.samplers.SolidColorSampler;
+import com.alura.dyno.engine3d.draw.shapes.Circle;
 import com.alura.dyno.engine3d.draw.shapes.Cube;
 import com.alura.dyno.engine3d.eventsystem.TreeEventDispatcher;
 import com.alura.dyno.engine3d.eventsystem.events.OnDragEvent;
@@ -24,6 +27,10 @@ import com.alura.dyno.engine3d.render.shader.ShaderType;
 import com.alura.dyno.engine3d.render.shader.SimpleShader;
 import com.alura.dyno.engine3d.script.CameraController;
 import com.alura.dyno.engine3d.script.MeshRenderer;
+import com.alura.dyno.engine3d.script.RotateScript;
+import com.alura.dyno.engine3d.script.Script;
+import com.alura.dyno.engine3d.utils.RGBAColor;
+import com.alura.dyno.math.MathExtra;
 import com.alura.dyno.math.graphics.Vector3;
 
 public class SceneController implements IInputListener, ISceneRendererListener {
@@ -65,7 +72,14 @@ public class SceneController implements IInputListener, ISceneRendererListener {
 
         loadShader();
         loadCamera();
-        loadMesh1();
+
+        Glyph a= new Glyph("");
+        a.transform().setPosition(new Vector3(0,0,-10));
+        RotateScript scriptA = new RotateScript("Rotate", new Vector3(0.1f,0.1f,0.1f));
+        a.addLeaf(scriptA);
+        model.root.addChild(a);
+
+        createTriad(a, 20, 0.8f, 4, 0.5f);
     }
 
     private void loadShader() {
@@ -74,55 +88,66 @@ public class SceneController implements IInputListener, ISceneRendererListener {
         loader.loadFromRawResource(ShaderType.Fragment, R.raw.shaderf_object);
 
         model.setShader(new SimpleShader(loader.getSources()));
+
     }
     private void loadCamera() {
-        Camera camera = new Camera("MainCam", 0.01f, 100.0f, 250f);
-        camera.transform().move(new Vector3(0.0f, 0.0f, 10.0f));
+        Camera camera = new Camera("MainCam", 0.01f, 100.0f, 50f);
+        camera.transform().move(new Vector3(0.0f, 0.0f, 50.0f));
         camera.addLeaf(new CameraController("CameraController"));
 
         model.setMainCamera(camera);
         model.getRoot().addChild(camera);
     }
-    private void loadMesh1() {
-        ShapeDrawer drawer = new ShapeDrawer();
-        drawer.addShape(new Cube(0.75f, 0.75f, 0.75f));
-
-        glyphA = new Glyph("A");
-        model.getRoot().addChild(glyphA);
-
-
-        for(int i = 0; i < 5; i++) {
-            Mesh mesh = drawer.asMesh();
-            MeshRenderer renderer = new MeshRenderer("Mesh");
-            renderer.setMesh(mesh);
-            renderer.setShader((SimpleShader) model.getShader());
-            renderer.invalidate();
-
-            Glyph glyph = new Glyph("Cube " + i);
-            glyph.addLeaf(renderer);
-            glyph.transform().move(new Vector3(i, 0, 0));
-
-            glyphA.addChild(glyph);
+    private void createTriad(Glyph parent, float radius, float vel, int n, float  factor) {
+        if(n == 0) {
+            return;
         }
 
+        Glyph a = createRotatingCubaAt(new Vector3(radius, 0,0 ), vel);
+        Glyph b = createRotatingCubaAt(new Vector3(-radius, 0,0), vel);
+        Glyph c = createRotatingCubaAt(new Vector3(0, radius,0), vel);
+        Glyph d = createRotatingCubaAt(new Vector3(0, -radius,0), vel);
+
+        parent.addChild(a);
+        parent.addChild(b);
+        parent.addChild(c);
+        parent.addChild(d);
+
+        createTriad(a, radius * factor, vel/factor,n-1, factor);
+        createTriad(b, radius * factor, vel/factor,n-1, factor);
+        createTriad(c, radius * factor, vel/factor,n-1, factor);
+        createTriad(d, radius * factor, vel/factor,n-1, factor);
+    }
+    private Glyph createRotatingCubaAt(Vector3 pos, float vel) {
+        ShapeDrawer drawer = new ShapeDrawer();
+        drawer.setColorSampler(new PositionColorSampler());
+        drawer.addShape(new Cube(0.75f, 0.75f,0.75f));
+
+        RotateScript script = new RotateScript("Rotation", new Vector3(0.1f, 0.1f, 0.1f).multiply(vel));
+
+
+        Mesh mesh = drawer.asMesh();
+        MeshRenderer renderer = new MeshRenderer("Mesh");
+        renderer.setMesh(mesh);
+        renderer.setShader((SimpleShader) model.getShader());
+        renderer.invalidate();
+
+        Glyph glyph = new Glyph("Cube");
+
+        glyph.addLeaf(renderer);
+        glyph.addLeaf(script);
+
+        glyph.transform().move(pos);
+
+        return glyph;
     }
 
     @Override public void OnViewChanged(OnViewChangedEvent event) {
         dispatcher.sendDownTheTree(event);
     }
 
-    float angle = 0.0f;
     @Override public void OnRender(OnRenderEvent event) {
         dispatcher.sendDownTheTree(new OnUpdateEvent());
-
-        angle += 0.01f;
-        glyphA.transform().setEuler(new Vector3(0,0,angle * 100));
-
-        for(int i = 0; i < 5; i++) {
-            Glyph glyph = glyphA.getChild("Cube " + i);
-            glyph.transform().setEuler(new Vector3(0,angle * 100,0));
-        }
-
         dispatcher.sendDownTheTree(event);
     }
     public static TreeEventDispatcher getDispatcher() {

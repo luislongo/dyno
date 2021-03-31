@@ -82,6 +82,7 @@ public class InputDetector implements View.OnTouchListener {
 
         lastTouch.setValues(event.getX(pointerIndex),
                 event.getY(pointerIndex));
+        currentTouch = lastTouch;
 
         mActivePointerId = event.getPointerId(0);
     }
@@ -92,7 +93,7 @@ public class InputDetector implements View.OnTouchListener {
         final Vector2 deltaScreen = xy.clone().minus(lastTouch);
 
         lastTouch = currentTouch;
-        currentTouch = lastTouch.clone().plus(deltaScreen);
+        currentTouch = xy;
 
         notifyOnDrag(deltaScreen);
     }

@@ -1,5 +1,6 @@
 package com.alura.dyno.engine3d.draw;
 
+import com.alura.dyno.engine3d.draw.samplers.IColorSampler;
 import com.alura.dyno.engine3d.draw.shapes.Shape;
 import com.alura.dyno.engine3d.render.Line;
 import com.alura.dyno.engine3d.render.Triangle;
@@ -45,6 +46,9 @@ public class ShapeDrawer {
        return this;
    }
 
+   public void setColorSampler(IColorSampler sampler) {
+       options.colorSampler = sampler;
+   }
    public Mesh asMesh() {
        return new Mesh(vertices, triangles);
     }
