@@ -33,6 +33,20 @@ public class Quaternion extends FloatVector<Quaternion> {
                 cosX * sinY * cosZ - sinX * cosY * sinZ
         );
     }
+    public static Quaternion fromToRotation(Vector3 from, Vector3 to) {
+        float fromLength = from.length();
+        float toLength = to.length();
+
+        Vector3 axis = from.clone().cross(to);
+        float angle = (float) Math.sqrt(fromLength * fromLength * toLength * toLength)
+                + from.dotProduct(to);
+
+        Quaternion q = new Quaternion(angle, axis.x(), axis.y(), axis.z());
+        q.normalize();
+
+        return q;
+    }
+
     public static Quaternion multiply(Quaternion q_lhs, Quaternion q_rhs) {
         float newA = q_lhs.a() * q_rhs.a() - q_lhs.b() * q_rhs.b() - q_lhs.c() * q_rhs.c() - q_lhs.d() * q_rhs.d();
         float newB = q_lhs.a() * q_rhs.b() + q_lhs.b() * q_rhs.a() + q_lhs.c() * q_rhs.d() - q_lhs.d() * q_rhs.c();
