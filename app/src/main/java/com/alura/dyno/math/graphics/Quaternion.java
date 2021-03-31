@@ -1,5 +1,7 @@
 package com.alura.dyno.math.graphics;
 
+import org.jetbrains.annotations.NotNull;
+
 public class Quaternion extends FloatVector<Quaternion> {
     public Quaternion() {
         super(4);
@@ -69,7 +71,7 @@ public class Quaternion extends FloatVector<Quaternion> {
         return getX_(3);
     }
 
-    public Quaternion multiply(Quaternion q_lhs) {
+    public Quaternion multiply(@NotNull Quaternion q_lhs) {
         float newA = q_lhs.a() * a() - q_lhs.b() * b() - q_lhs.c() * c() - q_lhs.d() * d();
         float newB = q_lhs.a() * b() + q_lhs.b() * a() + q_lhs.c() * d() - q_lhs.d() * c();
         float newC = q_lhs.a() * c() - q_lhs.b() * d() + q_lhs.c() * a() + q_lhs.d() * b();
