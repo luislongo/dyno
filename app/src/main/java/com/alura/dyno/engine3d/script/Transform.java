@@ -9,6 +9,7 @@ import com.alura.dyno.engine3d.eventsystem.handlers.OnUpdateEventHandler;
 import com.alura.dyno.engine3d.scene.SceneController;
 import com.alura.dyno.math.graphics.Axii;
 import com.alura.dyno.math.graphics.GraphicMatrix;
+import com.alura.dyno.math.graphics.Quaternion;
 import com.alura.dyno.math.graphics.Vector3;
 
 public class Transform extends Script {
@@ -65,6 +66,11 @@ public class Transform extends Script {
         notifyChildren();
     }
 
+    public void rotate(Quaternion q) {
+        localAxii.rotate(q);
+        notifyChildren();
+    }
+
     public Vector3 getLocalPosition() {
         return localAxii.getPosition();
     }
@@ -86,10 +92,10 @@ public class Transform extends Script {
         notifyChildren();
     }
     public Vector3 getLocalEuler() {
-            return localAxii.getEuler();
+            return localAxii.getEulerAngles();
     }
     public Vector3 getGlobalEuler() {
-        return globalAxii.getEuler();
+        return globalAxii.getEulerAngles();
     }
     public void setEuler(Vector3 euler) {
         localAxii.setEuler(euler);

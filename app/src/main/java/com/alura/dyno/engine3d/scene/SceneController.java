@@ -31,6 +31,7 @@ import com.alura.dyno.engine3d.script.RotateScript;
 import com.alura.dyno.engine3d.script.Script;
 import com.alura.dyno.engine3d.utils.RGBAColor;
 import com.alura.dyno.math.MathExtra;
+import com.alura.dyno.math.graphics.Quaternion;
 import com.alura.dyno.math.graphics.Vector3;
 
 public class SceneController implements IInputListener, ISceneRendererListener {
@@ -75,7 +76,8 @@ public class SceneController implements IInputListener, ISceneRendererListener {
 
         Glyph a= new Glyph("");
         a.transform().setPosition(new Vector3(0,0,-10));
-        RotateScript scriptA = new RotateScript("Rotate", new Vector3(0.1f,0.1f,0.1f));
+        RotateScript scriptA = new RotateScript("Rotate",
+                Quaternion.fromAxisAndAngle(new Vector3(1.0f,0.0f, 0.0f), 1.0f));
         a.addLeaf(scriptA);
         model.root.addChild(a);
 
@@ -123,7 +125,8 @@ public class SceneController implements IInputListener, ISceneRendererListener {
         drawer.setColorSampler(new PositionColorSampler());
         drawer.addShape(new Cube(0.75f, 0.75f,0.75f));
 
-        RotateScript script = new RotateScript("Rotation", new Vector3(0.1f, 0.1f, 0.1f).multiply(vel));
+        RotateScript script = new RotateScript("Rotation",
+                Quaternion.fromAxisAndAngle(new Vector3(0.0f,1.0f,0.0f), 1.0f));
 
 
         Mesh mesh = drawer.asMesh();

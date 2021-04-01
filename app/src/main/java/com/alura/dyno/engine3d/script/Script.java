@@ -45,4 +45,6 @@ public class Script<GLYPH extends Glyph> extends TreeLeaf<GLYPH> {
     protected HashMap<TreeEventType, ITreeEventHandler> getEventHandlers() {
         return eventHandlers;
     }
+
+
 }

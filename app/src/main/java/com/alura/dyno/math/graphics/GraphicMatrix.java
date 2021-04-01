@@ -32,6 +32,10 @@ public class GraphicMatrix extends FloatMatrix<GraphicMatrix> {
         this.preMultiply(Algebra.graphicMatrixFactory().rotate(axis,angle));
         return this;
     }
+    public GraphicMatrix rotate(Quaternion q) {
+        this.preMultiply(Algebra.graphicMatrixFactory().rotate(q));
+        return this;
+    }
     public GraphicMatrix scale(Vector3 delta) {
         this.preMultiply(Algebra.graphicMatrixFactory().scale(delta));
         return this;

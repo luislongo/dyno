@@ -3,14 +3,15 @@ package com.alura.dyno.engine3d.script;
 import com.alura.dyno.engine3d.eventsystem.events.OnUpdateEvent;
 import com.alura.dyno.engine3d.eventsystem.handlers.OnUpdateEventHandler;
 import com.alura.dyno.math.MathExtra;
+import com.alura.dyno.math.graphics.Quaternion;
 import com.alura.dyno.math.graphics.Vector3;
 
 public class RotateScript extends Script {
-    Vector3 deltaEuler;
+    Quaternion q;
 
-    public RotateScript(String name, Vector3 deltaEuler) {
+    public RotateScript(String name, Quaternion q) {
         super(name);
-        this.deltaEuler = deltaEuler;
+        this.q = q;
 
         addEventHandler(new OnUpdate());
     }
@@ -19,7 +20,7 @@ public class RotateScript extends Script {
 
         @Override
         public void onExecute(OnUpdateEvent event) {
-            getParent().transform().eulerPlus(deltaEuler);
+            getParent().transform().rotate(q);
         }
     }
 }

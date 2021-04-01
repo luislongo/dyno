@@ -5,24 +5,29 @@ import com.alura.dyno.math.linalg.Algebra;
 public class Axii {
     private Vector3 position;
     private Vector3 scale;
-    private Vector3 euler;
+    private Quaternion rotation;
     private boolean isUpdated;
     private GraphicMatrix modelMatrix;
 
     public Axii() {
         this.position = new Vector3(0.0f);
         this.scale = new Vector3(1.0f);
-        this.euler = new Vector3(0.0f);
+        this.rotation = Quaternion.fromEulerAngles(new Vector3(0.0f));
     }
     public Axii(Vector3 position) {
         this.position = position.clone();
         this.scale = new Vector3(1.0f);
-        this.euler = new Vector3(0.0f);
+        this.rotation = Quaternion.fromEulerAngles(new Vector3(0.0f));
     }
-    public Axii(Vector3 position, Vector3 scale, Vector3 rotation) {
+    public Axii(Vector3 position, Vector3 scale, Vector3 euler) {
         this.position = position.clone();
         this.scale = scale.clone();
-        this.euler = rotation.clone();
+        this.rotation = Quaternion.fromEulerAngles(euler);
+    }
+    public Axii(Vector3 position, Vector3 scale, Quaternion rotation) {
+        this.position = position.clone();
+        this.scale = scale.clone();
+        this.rotation = rotation.clone();
     }
 
     public GraphicMatrix getModelMatrix() {
@@ -33,7 +38,7 @@ public class Axii {
     }
     private void updateModelMatrix() {
         modelMatrix = Algebra.graphicMatrixFactory().identity();
-        modelMatrix.scale(scale).rotateEuler(euler).translate(position);
+        modelMatrix.scale(scale).rotate(rotation).translate(position);
         isUpdated = true;
     }
 
@@ -46,7 +51,7 @@ public class Axii {
         isUpdated = false;
     }
     public void setEuler(Vector3 euler) {
-        this.euler = euler.clone();
+        this.rotation.setEulerAngles(euler);
         isUpdated = false;
     }
     public Vector3 getPosition() {
@@ -55,8 +60,8 @@ public class Axii {
     public Vector3 getScale() {
         return scale.clone();
     }
-    public Vector3 getEuler() {
-        return euler.clone();
+    public Vector3 getEulerAngles() {
+        return rotation.getEulerAngles();
     }
 
     public void move(Vector3 delta) {
@@ -72,17 +77,24 @@ public class Axii {
         isUpdated = false;
     }
     public void eulerPlus(Vector3 delta) {
+        Vector3 euler = rotation.getEulerAngles();
         euler.plus(delta);
+        rotation.setEulerAngles(euler);
+
+        isUpdated = false;
+    }
+    public void rotate(Quaternion q) {
+        rotation.preMultiply(q);
         isUpdated = false;
     }
 
     public Axii clone() {
-        return new Axii(this.position, this.scale, this.euler);
+        return new Axii(this.position, this.scale, this.rotation);
     }
     public static Axii compose(Axii lhs, Axii rhs) {
         Vector3 composedPos = rhs.position.clone().multiply(lhs.getModelMatrix(), 1.0f);
         Vector3 composedScale = rhs.scale.clone().straightProduct(lhs.scale);
-        Vector3 composedRotation = rhs.euler.clone().plus(lhs.euler);
+        Quaternion composedRotation = rhs.rotation.clone().preMultiply(lhs.rotation);
 
         return new Axii(composedPos, composedScale, composedRotation);
     }

@@ -37,7 +37,6 @@ public class MeshRenderer extends Script {
         addEventHandler(new OnRender());
         isLoaded = false;
     }
-
     public void setMesh(Mesh mesh) {
         this.sharedMesh = mesh;
         isLoaded = false;
@@ -101,5 +100,4 @@ public class MeshRenderer extends Script {
             GLES20.glDrawElements(GLES20.GL_TRIANGLES,3 * sharedMesh.getFaceCount(), GLES20.GL_UNSIGNED_INT, ibo);
         }
     }
-
 }
