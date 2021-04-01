@@ -8,7 +8,7 @@ import com.alura.dyno.math.linalg.Algebra;
 public class Camera extends Glyph implements ICamera {
     private GraphicMatrix viewMatrix;
     private GraphicMatrix projectionMatrix;
-    private ProjectionType projectionType = ProjectionType.PERSPECTIVE;
+    private ProjectionType projectionType = ProjectionType.ORTHOGONAL;
     private Vector2 screenSize;
 
     private float near;

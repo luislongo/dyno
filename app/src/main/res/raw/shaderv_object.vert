@@ -13,6 +13,6 @@ varying vec3 v_Normal;
 
 void main() {
     gl_Position = u_ProjectionMatrix * u_ViewMatrix * u_ModelMatrix * vec4(a_Position, 1);
-    v_Color = vec4((a_Position.x + 0.5), (a_Position.y + 0.5), (a_Position.z + 0.5), 1.0);
+    v_Color = a_Color;
     v_Normal = vec3(u_ViewMatrix * u_ModelMatrix * vec4(a_Normal, 0.0));
 }

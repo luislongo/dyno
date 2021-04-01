@@ -2,15 +2,12 @@ package com.alura.dyno.engine3d.script;
 
 import android.opengl.GLES20;
 
-import com.alura.dyno.engine3d.render.Material;
-import com.alura.dyno.engine3d.render.Triangle;
-import com.alura.dyno.engine3d.render.buffer.Mesh;
+import com.alura.dyno.engine3d.render.buffer.Wire;
 import com.alura.dyno.engine3d.scene.SceneController;
 
-public class MeshRenderer extends Renderer<Mesh> {
-    private Material material;
+public class WireRenderer extends Renderer<Wire> {
 
-    public MeshRenderer(String name) {
+    public WireRenderer(String name) {
         super(name);
     }
 
@@ -20,7 +17,6 @@ public class MeshRenderer extends Renderer<Mesh> {
         shader.setProjectionMatrix(SceneController.getModel().getMainCamera().getProjectionMatrix());
     }
     @Override public int getDrawMode() {
-        return GLES20.GL_TRIANGLES;
+        return GLES20.GL_LINES;
     }
-
 }

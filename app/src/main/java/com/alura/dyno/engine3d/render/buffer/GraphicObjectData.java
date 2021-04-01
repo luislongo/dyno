@@ -1,4 +1,7 @@
-package com.alura.dyno.engine3d.render;
+package com.alura.dyno.engine3d.render.buffer;
+
+import com.alura.dyno.engine3d.render.IFaceAbstraction;
+import com.alura.dyno.engine3d.render.Vertex;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,6 +42,10 @@ public abstract class GraphicObjectData<FACE extends IFaceAbstraction> {
     public int getVertexCount() {
         return vertices.size();
     }
+
+    public abstract int getVertexPerFace();
+    public int getIndexCount() { return faces.size() * getVertexPerFace();}
+
     public List<Vertex> getVertices() { return vertices;   }
     public List<FACE> getFaces() {return faces;   }
 }

@@ -6,6 +6,7 @@ import com.alura.dyno.engine3d.render.Line;
 import com.alura.dyno.engine3d.render.Triangle;
 import com.alura.dyno.engine3d.render.Vertex;
 import com.alura.dyno.engine3d.render.buffer.Mesh;
+import com.alura.dyno.engine3d.render.buffer.Wire;
 import com.alura.dyno.engine3d.tree.TreeNode;
 import com.alura.dyno.math.graphics.Axii;
 import com.alura.dyno.math.graphics.GraphicMatrix;
@@ -52,4 +53,5 @@ public class ShapeDrawer {
    public Mesh asMesh() {
        return new Mesh(vertices, triangles);
     }
+    public Wire asWire() {return new Wire(vertices, lines); }
 }

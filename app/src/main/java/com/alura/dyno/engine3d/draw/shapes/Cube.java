@@ -115,9 +115,9 @@ public class Cube extends Shape {
         lines.add(new Line(6, 7));
         lines.add(new Line(7, 4));
         //BackToFront
-        lines.add(new Line(0,4));
-        lines.add(new Line(1,5));
-        lines.add(new Line(2,6));
-        lines.add(new Line(3,7));
+        lines.add(new Line(0,5));
+        lines.add(new Line(1,4));
+        lines.add(new Line(2,7));
+        lines.add(new Line(3,6));
     }
 }

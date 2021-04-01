@@ -1,6 +1,7 @@
 package com.alura.dyno.engine3d.scene;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.opengl.Matrix;
 
 import com.alura.dyno.R;
@@ -22,6 +23,7 @@ import com.alura.dyno.engine3d.glyph.Glyph;
 import com.alura.dyno.engine3d.input.IInputListener;
 import com.alura.dyno.engine3d.input.InputDetector;
 import com.alura.dyno.engine3d.render.buffer.Mesh;
+import com.alura.dyno.engine3d.render.buffer.Wire;
 import com.alura.dyno.engine3d.render.shader.ShaderLoader;
 import com.alura.dyno.engine3d.render.shader.ShaderType;
 import com.alura.dyno.engine3d.render.shader.SimpleShader;
@@ -29,6 +31,7 @@ import com.alura.dyno.engine3d.script.CameraController;
 import com.alura.dyno.engine3d.script.MeshRenderer;
 import com.alura.dyno.engine3d.script.RotateScript;
 import com.alura.dyno.engine3d.script.Script;
+import com.alura.dyno.engine3d.script.WireRenderer;
 import com.alura.dyno.engine3d.utils.RGBAColor;
 import com.alura.dyno.math.MathExtra;
 import com.alura.dyno.math.graphics.Quaternion;
@@ -77,11 +80,11 @@ public class SceneController implements IInputListener, ISceneRendererListener {
         Glyph a= new Glyph("");
         a.transform().setPosition(new Vector3(0,0,-10));
         RotateScript scriptA = new RotateScript("Rotate",
-                Quaternion.fromAxisAndAngle(new Vector3(1.0f,0.0f, 0.0f), 1.0f));
+                Quaternion.fromAxisAndAngle(new Vector3(0.1f,0.1f, 0.0f), 1.0f));
         a.addLeaf(scriptA);
         model.root.addChild(a);
 
-        createTriad(a, 20, 0.8f, 4, 0.5f);
+        createTriad(a, 20, 0.8f, 2, 0.5f);
     }
 
     private void loadShader() {
@@ -105,10 +108,10 @@ public class SceneController implements IInputListener, ISceneRendererListener {
             return;
         }
 
-        Glyph a = createRotatingCubaAt(new Vector3(radius, 0,0 ), vel);
-        Glyph b = createRotatingCubaAt(new Vector3(-radius, 0,0), vel);
-        Glyph c = createRotatingCubaAt(new Vector3(0, radius,0), vel);
-        Glyph d = createRotatingCubaAt(new Vector3(0, -radius,0), vel);
+        Glyph a = createRotatingCubaAt(new Vector3(radius, 0,0 ));
+        Glyph b = createRotatingCubaAt(new Vector3(-radius, 0,0));
+        Glyph c = createRotatingCubaAt(new Vector3(0, radius,0));
+        Glyph d = createRotatingCubaAt(new Vector3(0, -radius,0));
 
         parent.addChild(a);
         parent.addChild(b);
@@ -120,25 +123,20 @@ public class SceneController implements IInputListener, ISceneRendererListener {
         createTriad(c, radius * factor, vel/factor,n-1, factor);
         createTriad(d, radius * factor, vel/factor,n-1, factor);
     }
-    private Glyph createRotatingCubaAt(Vector3 pos, float vel) {
+    private Glyph createRotatingCubaAt(Vector3 pos) {
         ShapeDrawer drawer = new ShapeDrawer();
-        drawer.setColorSampler(new PositionColorSampler());
-        drawer.addShape(new Cube(0.75f, 0.75f,0.75f));
-
-        RotateScript script = new RotateScript("Rotation",
-                Quaternion.fromAxisAndAngle(new Vector3(0.0f,1.0f,0.0f), 1.0f));
-
+        drawer.setColorSampler(new SolidColorSampler(RGBAColor.WHITE));
+        drawer.addShape(new Cube(2f, 2f,2f));
 
         Mesh mesh = drawer.asMesh();
         MeshRenderer renderer = new MeshRenderer("Mesh");
-        renderer.setMesh(mesh);
+        renderer.setData(mesh);
         renderer.setShader((SimpleShader) model.getShader());
         renderer.invalidate();
 
         Glyph glyph = new Glyph("Cube");
 
         glyph.addLeaf(renderer);
-        glyph.addLeaf(script);
 
         glyph.transform().move(pos);
 

@@ -1,14 +1,8 @@
 package com.alura.dyno.math.graphics;
 
-import android.opengl.Matrix;
-
-import com.alura.dyno.engine3d.render.GraphicObjectData;
 import com.alura.dyno.math.linalg.Algebra;
 
 import org.junit.jupiter.api.Test;
-
-import java.security.AlgorithmParameterGenerator;
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertLinesMatch;

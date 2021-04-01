@@ -6,16 +6,6 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import com.alura.dyno.R;
-import com.alura.dyno.engine3d.draw.ShapeDrawer;
-import com.alura.dyno.engine3d.draw.shapes.Cube;
-import com.alura.dyno.engine3d.draw.shapes.Shape;
-import com.alura.dyno.engine3d.render.buffer.BufferLayout;
-import com.alura.dyno.engine3d.render.buffer.Mesh;
-import com.alura.dyno.engine3d.render.shader.Shader;
-import com.alura.dyno.engine3d.render.shader.ShaderCompiler;
-import com.alura.dyno.engine3d.render.shader.ShaderLoader;
-import com.alura.dyno.engine3d.render.shader.ShaderType;
-import com.alura.dyno.engine3d.render.shader.SimpleShader;
 import com.alura.dyno.engine3d.scene.SceneController;
 import com.alura.dyno.engine3d.scene.SceneModel;
 import com.alura.dyno.engine3d.scene.SceneView;
