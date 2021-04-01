@@ -2,8 +2,6 @@ package com.alura.dyno.math.graphics;
 
 import android.opengl.Matrix;
 
-import com.alura.dyno.math.linalg.Algebra;
-
 public class GraphicMatrixFactory {
     public GraphicMatrix identity() {
         return new GraphicMatrix(new float[]{
@@ -12,12 +10,6 @@ public class GraphicMatrixFactory {
                 0.0f, 0.0f, 1.0f, 0.0f,
                 0.0f, 0.0f, 0.0f, 1.0f
         });
-    }
-    public GraphicMatrix orthogonal(float width, float height, float near, float far) {
-        float halfHeight = 0.5f * height;
-        float halfWidth = 0.5f * width;
-
-        return orthogonal(-halfWidth, halfWidth, -halfHeight, halfHeight, near, far);
     }
     public GraphicMatrix orthogonal(float left, float right, float bottom, float top, float near, float far) {
         if (left == right) {
@@ -137,15 +129,15 @@ public class GraphicMatrixFactory {
         }
     }
     public GraphicMatrix rotate(Quaternion quat) {
-        float a11 = 2.0f * (quat.a()*quat.a() + quat.b() * quat.b()) -1;
-        float a12 = 2.0f * (quat.b()*quat.c() - quat.a() * quat.d());
-        float a13 = 2.0f * (quat.b()*quat.d() + quat.a() * quat.c());
-        float a21 = 2.0f * (quat.b()*quat.c() + quat.a() * quat.d());
-        float a22 = 2.0f * (quat.a()*quat.a() + quat.c() * quat.c()) -1;
-        float a23 = 2.0f * (quat.c()*quat.d() - quat.a() * quat.b());
-        float a31 = 2.0f * (quat.b()*quat.d() - quat.a() * quat.c());
-        float a32 = 2.0f * (quat.c()*quat.d() + quat.a() * quat.b());
-        float a33 = 2.0f * (quat.a()*quat.a() + quat.d() * quat.d()) -1;
+        float a11 = 2.0f * (quat.w()*quat.w() + quat.x() * quat.x()) -1;
+        float a12 = 2.0f * (quat.x()*quat.y() - quat.w() * quat.z());
+        float a13 = 2.0f * (quat.x()*quat.z() + quat.w() * quat.y());
+        float a21 = 2.0f * (quat.x()*quat.y() + quat.w() * quat.z());
+        float a22 = 2.0f * (quat.w()*quat.w() + quat.y() * quat.y()) -1;
+        float a23 = 2.0f * (quat.y()*quat.z() - quat.w() * quat.x());
+        float a31 = 2.0f * (quat.x()*quat.z() - quat.w() * quat.y());
+        float a32 = 2.0f * (quat.y()*quat.z() + quat.w() * quat.x());
+        float a33 = 2.0f * (quat.w()*quat.w() + quat.z() * quat.z()) -1;
 
         return new GraphicMatrix(new float[] {
                 a11, a12, a13, 0,

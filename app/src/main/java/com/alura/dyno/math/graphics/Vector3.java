@@ -17,7 +17,6 @@ public class Vector3 extends FloatVector<Vector3> {
     public Vector3(float x, float y, float z) {
         super(new float[]{x, y, z});
     }
-
     public Vector3(Vector2 other, float z) {
         this(other.x(), other.y(), z);
     }
@@ -26,6 +25,9 @@ public class Vector3 extends FloatVector<Vector3> {
         super(origin.toArray());
     }
     public Vector3(@NotNull Vector4 origin) { this(origin.x(), origin.y(),origin.z());}
+    @Override public Vector3 clone() {
+        return new Vector3(this);
+    }
 
     public float x() {
         return data.getQuick(0);
@@ -56,7 +58,22 @@ public class Vector3 extends FloatVector<Vector3> {
         return this;
     }
 
-    @Override public Vector3 clone() {
-        return new Vector3(this);
+    public static Vector3 left() {
+        return new Vector3(-1.0f, 0.0f, 0.0f);
+    }
+    public static Vector3 right() {
+        return new Vector3(1.0f, 0.0f, 0.0f);
+    }
+    public static Vector3 up() {
+        return new Vector3(0.0f, 1.0f, 0.0f);
+    }
+    public static Vector3 down() {
+        return new Vector3(0.0f, -1.0f, 0.0f);
+    }
+    public static Vector3 forward() {
+        return new Vector3(0.0f, 0.0f, -1.0f);
+    }
+    public static Vector3 backward() {
+        return new Vector3(0.0f, 0.0f, 1.0f);
     }
 }
