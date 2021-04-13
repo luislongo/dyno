@@ -1,17 +1,11 @@
 package com.alura.dyno.engine3d.render;
 
-import com.alura.dyno.engine3d.render.shader.uniforms.Uniform;
+import com.alura.dyno.engine3d.utils.RGBAColor;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Material {
-    List<Uniform> uniforms;
+public abstract class Material {
+    Texture albedo;
+    RGBAColor color;
 
     public Material() {
-        uniforms = new ArrayList<>();
-    }
-    public void addUniform(Uniform uniform) {
-        uniforms.add(uniform);
     }
 }

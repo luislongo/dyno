@@ -1,27 +1,28 @@
 package com.alura.dyno.engine3d.render.shader.uniforms;
 
-public class Uniform<T> {
-    T value;
-    String name;
+import com.alura.dyno.engine3d.render.shader.Shader;
 
-    public Uniform(String name, T value) {
-        this.name = name;
-        this.value = value;
+public abstract class Uniform<T> {
+            T value;
+            int handle;
+
+        public Uniform(T value) {
+            this.value = value;
+        }
+
+        public void setValue(T value) {
+            this.value = value;
+        }
+        public T getValue() {
+            return this.value;
+        }
+        public void setHandle(int handle) {
+            this.handle = handle;
+        }
+        public int getHandle() {
+            return this.handle;
+        }
+        public abstract void insertInto();
+
     }
 
-    public void setValue(T value) {
-        this.value = value;
-    }
-    public T getValue() {
-        return this.value;
-    }
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public int hashCode() {
-        return name.hashCode();
-    }
-
-}
