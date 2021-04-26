@@ -86,6 +86,10 @@ public abstract class FloatVector<DIM extends FloatVector> {
         data.assign(v_rhs.data, mult);
         return (DIM) this;
     }
+    public DIM straightDivision(@NotNull DIM v_rhs) {
+        data.assign(v_rhs.data, div);
+        return (DIM) this;
+    }
     public float dotProduct(@NotNull DIM v_rhs) {
         return data.zDotProduct(v_rhs.data);
     }

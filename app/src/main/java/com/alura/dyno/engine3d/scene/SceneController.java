@@ -1,15 +1,12 @@
 package com.alura.dyno.engine3d.scene;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.opengl.Matrix;
+import android.opengl.GLES20;
 
 import com.alura.dyno.R;
 import com.alura.dyno.engine3d.draw.ShapeDrawer;
-import com.alura.dyno.engine3d.draw.samplers.PositionColorSampler;
-import com.alura.dyno.engine3d.draw.samplers.SolidColorSampler;
-import com.alura.dyno.engine3d.draw.shapes.Circle;
-import com.alura.dyno.engine3d.draw.shapes.Cube;
+import com.alura.dyno.engine3d.draw.deformer.IDeformer;
+import com.alura.dyno.engine3d.draw.shapes.Quad;
 import com.alura.dyno.engine3d.eventsystem.TreeEventDispatcher;
 import com.alura.dyno.engine3d.eventsystem.events.OnDragEvent;
 import com.alura.dyno.engine3d.eventsystem.events.OnRenderEvent;
@@ -22,18 +19,15 @@ import com.alura.dyno.engine3d.glyph.Camera;
 import com.alura.dyno.engine3d.glyph.Glyph;
 import com.alura.dyno.engine3d.input.IInputListener;
 import com.alura.dyno.engine3d.input.InputDetector;
+import com.alura.dyno.engine3d.render.Texture;
+import com.alura.dyno.engine3d.render.Vertex;
 import com.alura.dyno.engine3d.render.buffer.Mesh;
-import com.alura.dyno.engine3d.render.buffer.Wire;
 import com.alura.dyno.engine3d.render.shader.ShaderLoader;
 import com.alura.dyno.engine3d.render.shader.ShaderType;
 import com.alura.dyno.engine3d.render.shader.SimpleShader;
 import com.alura.dyno.engine3d.script.CameraController;
 import com.alura.dyno.engine3d.script.MeshRenderer;
 import com.alura.dyno.engine3d.script.RotateScript;
-import com.alura.dyno.engine3d.script.Script;
-import com.alura.dyno.engine3d.script.WireRenderer;
-import com.alura.dyno.engine3d.utils.RGBAColor;
-import com.alura.dyno.math.MathExtra;
 import com.alura.dyno.math.graphics.Quaternion;
 import com.alura.dyno.math.graphics.Vector3;
 
@@ -45,6 +39,8 @@ public class SceneController implements IInputListener, ISceneRendererListener {
 
     InputDetector detector;
     Context context;
+    Texture textureA;
+    Texture textureB;
 
     Glyph glyphA;
 
@@ -72,27 +68,29 @@ public class SceneController implements IInputListener, ISceneRendererListener {
         dispatcher.sendDownTheTree(event);
     }
     @Override public void OnViewCreated(OnViewCreatedEvent event) {
-        dispatcher.sendDownTheTree(event);
-
+        chechMaxTextureSlot();
+        loadTextures();
         loadShader();
         loadCamera();
+        loadObjects();
 
-        Glyph a= new Glyph("");
-        a.transform().setPosition(new Vector3(0,0,-10));
-        RotateScript scriptA = new RotateScript("Rotate",
-                Quaternion.fromAxisAndAngle(new Vector3(0.1f,0.1f, 0.0f), 1.0f));
-        a.addLeaf(scriptA);
-        model.root.addChild(a);
-
-        createTriad(a, 20, 0.8f, 2, 0.5f);
+        dispatcher.sendDownTheTree(event);
     }
-
+    private void chechMaxTextureSlot() {
+        int[] maxTextureUnits = new int[1];
+        GLES20.glGetIntegerv(GLES20.GL_MAX_TEXTURE_IMAGE_UNITS, maxTextureUnits, 0);
+        Texture.setMaxTextureUnits(maxTextureUnits[0]);
+    }
     private void loadShader() {
         ShaderLoader loader = new ShaderLoader(context);
         loader.loadFromRawResource(ShaderType.Vertex, R.raw.shaderv_object);
         loader.loadFromRawResource(ShaderType.Fragment, R.raw.shaderf_object);
 
         model.setShader(new SimpleShader(loader.getSources()));
+    }
+    private void loadTextures() {
+        textureA = new Texture(R.drawable.box, context);
+        textureB = new Texture(R.drawable.grid_texture, context);
 
     }
     private void loadCamera() {
@@ -102,6 +100,16 @@ public class SceneController implements IInputListener, ISceneRendererListener {
 
         model.setMainCamera(camera);
         model.getRoot().addChild(camera);
+    }
+    private void loadObjects() {
+        Glyph a= new Glyph("");
+        a.transform().setPosition(new Vector3(0,0,-10));
+        RotateScript scriptA = new RotateScript("Rotate",
+                Quaternion.fromAxisAndAngle(new Vector3(0.1f,0.1f, 0.0f), 1.0f));
+        a.addLeaf(scriptA);
+        model.root.addChild(a);
+
+        createTriad(a, 20, 0.8f, 2, 0.5f);
     }
     private void createTriad(Glyph parent, float radius, float vel, int n, float  factor) {
         if(n == 0) {
@@ -123,13 +131,16 @@ public class SceneController implements IInputListener, ISceneRendererListener {
         createTriad(c, radius * factor, vel/factor,n-1, factor);
         createTriad(d, radius * factor, vel/factor,n-1, factor);
     }
+    int count = 0;
     private Glyph createRotatingCubaAt(Vector3 pos) {
         ShapeDrawer drawer = new ShapeDrawer();
-        drawer.setColorSampler(new SolidColorSampler(RGBAColor.WHITE));
-        drawer.addShape(new Cube(2f, 2f,2f));
+
+        Quad quad = new Quad(2f,2f);
+        drawer.addShape(quad);
 
         Mesh mesh = drawer.asMesh();
         MeshRenderer renderer = new MeshRenderer("Mesh");
+        renderer.setTexture(textureA);
         renderer.setData(mesh);
         renderer.setShader((SimpleShader) model.getShader());
         renderer.invalidate();

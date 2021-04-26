@@ -22,7 +22,9 @@ public abstract class Uniform<T> {
         public int getHandle() {
             return this.handle;
         }
-        public abstract void insertInto();
 
+        public abstract void insertInto();
+        public void bind() {}
+        public void unbind() {}
     }
 

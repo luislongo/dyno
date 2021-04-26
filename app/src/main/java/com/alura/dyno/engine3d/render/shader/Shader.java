@@ -10,11 +10,13 @@ import com.alura.dyno.engine3d.render.attr.IAttribute;
 import com.alura.dyno.engine3d.render.buffer.BufferLayout;
 import com.alura.dyno.engine3d.render.shader.uniforms.Uniform;
 import com.alura.dyno.engine3d.utils.RGBAColor;
+import com.alura.dyno.math.MathExtra;
 import com.alura.dyno.math.graphics.GraphicMatrix;
 import com.alura.dyno.math.graphics.Vector2;
 import com.alura.dyno.math.graphics.Vector3;
 import com.alura.dyno.math.graphics.Vector4;
 
+import java.nio.FloatBuffer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,8 +31,7 @@ public class Shader {
         initializeVariables();
         compileShader(sources);
     }
-    private void initializeVariables()
-    {
+    private void initializeVariables() {
         uniforms = new HashMap<>();
         layout = new BufferLayout();
     }
@@ -70,7 +71,18 @@ public class Shader {
     public int getProgramId() {
         return programHandle;
     }
-    public void setUniforms() {
+
+    private void bindUniforms() {
+        for(Uniform u : uniforms.values()) {
+            u.bind();
+        }
+    }
+    private void unbindUniforms() {
+        for(Uniform u : uniforms.values()) {
+            u.unbind();
+        }
+    }
+    private void setUniforms() {
         for(Uniform u : uniforms.values()) {
             u.insertInto();
         }
@@ -78,12 +90,19 @@ public class Shader {
     public BufferLayout getLayout() {
         return layout;
     }
-    public final void use() {
+
+
+    public final void use(FloatBuffer vbo) {
         GLES20.glUseProgram(programHandle);
+
+        layout.bind(vbo, this.programHandle);
+        bindUniforms();
         setUniforms();
     }
     public final void unuse() {
         GLES20.glUseProgram(0);
+
+        unbindUniforms();
     }
 
 }

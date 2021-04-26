@@ -1,13 +1,11 @@
 package com.alura.dyno.engine3d.draw;
 
-import com.alura.dyno.engine3d.draw.samplers.IColorSampler;
 import com.alura.dyno.engine3d.draw.shapes.Shape;
 import com.alura.dyno.engine3d.render.Line;
 import com.alura.dyno.engine3d.render.Triangle;
 import com.alura.dyno.engine3d.render.Vertex;
 import com.alura.dyno.engine3d.render.buffer.Mesh;
 import com.alura.dyno.engine3d.render.buffer.Wire;
-import com.alura.dyno.engine3d.tree.TreeNode;
 import com.alura.dyno.math.graphics.Axii;
 import com.alura.dyno.math.graphics.GraphicMatrix;
 import com.alura.dyno.math.linalg.Algebra;
@@ -21,7 +19,7 @@ public class ShapeDrawer {
    List<Triangle> triangles;
    List<Line> lines;
 
-   DrawOptions options;
+   Cursor options;
    GraphicMatrix preMatrix;
 
    public ShapeDrawer() {
@@ -30,13 +28,13 @@ public class ShapeDrawer {
        triangles = new ArrayList<>();
        lines = new ArrayList<>();
 
-       options = new DrawOptions();
+       options = new Cursor();
        preMatrix = Algebra.graphicMatrixFactory().identity();
    }
 
    public ShapeDrawer addShape(Shape shape) {
        int curVertexCount = vertices.size();
-       vertices.addAll(shape.getVertices(options));
+       vertices.addAll(shape.getVertices());
 
        for(Triangle t : shape.getTriangles()) {
            triangles.add(t.offset(curVertexCount));
@@ -47,9 +45,6 @@ public class ShapeDrawer {
        return this;
    }
 
-   public void setColorSampler(IColorSampler sampler) {
-       options.colorSampler = sampler;
-   }
    public Mesh asMesh() {
        return new Mesh(vertices, triangles);
     }

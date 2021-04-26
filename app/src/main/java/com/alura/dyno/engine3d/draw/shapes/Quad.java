@@ -1,9 +1,10 @@
 package com.alura.dyno.engine3d.draw.shapes;
 
-import com.alura.dyno.engine3d.draw.DrawOptions;
 import com.alura.dyno.engine3d.render.Line;
 import com.alura.dyno.engine3d.render.Triangle;
 import com.alura.dyno.engine3d.render.Vertex;
+import com.alura.dyno.engine3d.render.VertexBuilder;
+import com.alura.dyno.math.graphics.Vector2;
 import com.alura.dyno.math.graphics.Vector3;
 
 public class Quad extends Shape {
@@ -19,18 +20,32 @@ public class Quad extends Shape {
         invalidate();
     }
 
-    @Override protected void calculatePositions() {
-        positions.add(new Vector3(-halfWidth, -halfHeight, 0.0f));
-        positions.add(new Vector3( halfWidth, -halfHeight, 0.0f));
-        positions.add(new Vector3( halfWidth,  halfHeight, 0.0f));
-        positions.add(new Vector3(-halfWidth,  halfHeight, 0.0f));
+    @Override protected void calculateVertices() {
+        vertices.add(new VertexBuilder()
+            .setPosition(new Vector3(-halfWidth, -halfHeight, 0.0f))
+            .setNormal(new Vector3(0.0f, 0.0f, 1.0f))
+            .setUVs(new Vector2(0.0f, 0.0f))
+            .build());
+
+        vertices.add(new VertexBuilder()
+            .setPosition(new Vector3(halfWidth, -halfHeight, 0.0f))
+            .setNormal(new Vector3(0.0f, 0.0f, 1.0f))
+            .setUVs(new Vector2(1.0f, 0.0f))
+            .build());
+
+        vertices.add(new VertexBuilder()
+            .setPosition(new Vector3(halfWidth, halfHeight, 0.0f))
+            .setNormal(new Vector3(0.0f, 0.0f, 1.0f))
+            .setUVs(new Vector2(1.0f, 1.0f))
+            .build());
+
+        vertices.add(new VertexBuilder()
+            .setPosition(new Vector3(-halfWidth,  halfHeight, 0.0f))
+            .setNormal(new Vector3(0.0f, 0.0f, 1.0f))
+            .setUVs(new Vector2(0.0f, 1.0f))
+            .build());
     }
-    @Override protected void calculateNormals() {
-        normals.add(new Vector3(0.0f, 0.0f, 1.0f));
-        normals.add(new Vector3(0.0f, 0.0f, 1.0f));
-        normals.add(new Vector3(0.0f, 0.0f, 1.0f));
-        normals.add(new Vector3(0.0f, 0.0f, 1.0f));
-    }
+
     @Override protected void calculateTriangles() {
         triangles.add(new Triangle(0, 1, 2));
         triangles.add(new Triangle(0, 2, 3));

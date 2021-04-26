@@ -66,7 +66,7 @@ public class FontLoader implements FontLoaderConstants {
     private void loadFontAtlas(int atlasResourceId) {
         Texture fontAtlas = new Texture(atlasResourceId, context);
         fontBuilder.setFontAtlas(fontAtlas);
-        imageSize = fontAtlas.getImageSize();
+        imageSize = fontAtlas.getHeight();
     }
 
     private FontCharacter parseFontCharacterFromLine(String line) {

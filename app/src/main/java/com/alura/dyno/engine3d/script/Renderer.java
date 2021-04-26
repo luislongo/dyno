@@ -5,6 +5,7 @@ import android.opengl.GLES20;
 import com.alura.dyno.engine3d.eventsystem.events.OnRenderEvent;
 import com.alura.dyno.engine3d.eventsystem.handlers.OnRenderEventHandler;
 import com.alura.dyno.engine3d.render.IFaceAbstraction;
+import com.alura.dyno.engine3d.render.Material;
 import com.alura.dyno.engine3d.render.Vertex;
 import com.alura.dyno.engine3d.render.buffer.GraphicObjectData;
 import com.alura.dyno.engine3d.render.buffer.BufferLayout;
@@ -89,11 +90,12 @@ public abstract class Renderer<T extends GraphicObjectData> extends Script {
             if(!isLoaded) {
                 invalidate();
             }
-            setUniforms();
-            shader.use();
-            shader.getLayout().bind(vbo, shader.getProgramId());
 
-            GLES20.glDrawElements(getDrawMode(), 3 * sharedData.getFaceCount(), GLES20.GL_UNSIGNED_INT, ibo);
+            setUniforms();
+            shader.use(vbo);
+
+            GLES20.glDrawElements(getDrawMode(),
+                    3 * sharedData.getFaceCount(), GLES20.GL_UNSIGNED_INT, ibo);
         }
     }
 }
