@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Shader {
-    HashMap<String, Uniform> uniforms;
+    HashMap<Integer, Uniform> uniforms;
     private BufferLayout layout;
 
     private int programHandle;
@@ -45,36 +45,30 @@ public class Shader {
         programHandle = compiler.compile();
     }
 
-    protected void putUniform(String name, Uniform uniform) {
-        if(uniforms.containsKey(name)) {
-            uniforms.get(name).setValue(uniform.getValue());
+    protected void putUniform(Uniform uniform) {
+        int uniformHandle = uniform.getHandleFromShader(this);
+
+        if(uniforms.containsKey(uniformHandle)) {
+            uniforms.get(uniformHandle).setValue(uniform.getValue());
         } else
         {
-            int handle = GLES20.glGetUniformLocation(programHandle, name);
-
-            if(doesHandleExist(handle)) {
-                uniform.setHandle(handle);
-                uniforms.put(name, uniform);
-            } else {
-                Log.e("SHADER", "SHADER::UNIFORM::COULD NOT FIND UNIFORM::NAME: " + name);
-            }
-
+            uniforms.put(uniformHandle, uniform);
         }
     }
     protected void pushAttribute(IAttribute attribute) {
         layout.pushAttribute(attribute);
     }
-    private boolean doesHandleExist(int handle) {
-        return !(handle == -1);
-    }
-
     public int getProgramId() {
         return programHandle;
     }
-
     private void bindUniforms() {
         for(Uniform u : uniforms.values()) {
             u.bind();
+        }
+    }
+    private void setUniforms() {
+        for (HashMap.Entry<Integer, Uniform> entry : uniforms.entrySet()) {
+            entry.getValue().insertInto(entry.getKey());
         }
     }
     private void unbindUniforms() {
@@ -82,15 +76,10 @@ public class Shader {
             u.unbind();
         }
     }
-    private void setUniforms() {
-        for(Uniform u : uniforms.values()) {
-            u.insertInto();
-        }
-    }
+
     public BufferLayout getLayout() {
         return layout;
     }
-
 
     public final void use(FloatBuffer vbo) {
         GLES20.glUseProgram(programHandle);

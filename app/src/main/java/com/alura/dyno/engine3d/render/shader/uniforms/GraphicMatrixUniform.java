@@ -5,14 +5,14 @@ import android.opengl.GLES20;
 import com.alura.dyno.engine3d.render.shader.Shader;
 import com.alura.dyno.math.graphics.GraphicMatrix;
 
-public class UniformGraphicMatrix extends Uniform<GraphicMatrix> {
+public abstract class GraphicMatrixUniform extends Uniform<GraphicMatrix> {
 
-    public UniformGraphicMatrix(GraphicMatrix value) {
+    public GraphicMatrixUniform(GraphicMatrix value) {
         super(value);
     }
 
     @Override
-    public void insertInto() {
+    public void insertInto(int handle) {
         GLES20.glUniformMatrix4fv(handle, 1, false, value.toTransposedArray(), 0);
 
     }

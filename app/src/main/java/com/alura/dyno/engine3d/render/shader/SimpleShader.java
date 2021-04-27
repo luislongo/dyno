@@ -5,9 +5,11 @@ import com.alura.dyno.engine3d.render.attr.ColorAttribute;
 import com.alura.dyno.engine3d.render.attr.NormalAttribute;
 import com.alura.dyno.engine3d.render.attr.PositionAttribute;
 import com.alura.dyno.engine3d.render.attr.UVAttribute;
-import com.alura.dyno.engine3d.render.buffer.BufferLayout;
-import com.alura.dyno.engine3d.render.shader.uniforms.UniformGraphicMatrix;
-import com.alura.dyno.engine3d.render.shader.uniforms.UniformTexture;
+import com.alura.dyno.engine3d.render.shader.uniforms.GraphicMatrixUniform;
+import com.alura.dyno.engine3d.render.shader.uniforms.ModelMatrixUniform;
+import com.alura.dyno.engine3d.render.shader.uniforms.ProjectionMatrixUniform;
+import com.alura.dyno.engine3d.render.shader.uniforms.TextureUniform;
+import com.alura.dyno.engine3d.render.shader.uniforms.ViewMatrixUniform;
 import com.alura.dyno.math.graphics.GraphicMatrix;
 import com.alura.dyno.math.linalg.Algebra;
 
@@ -15,9 +17,6 @@ import java.util.List;
 
 public class SimpleShader extends Shader {
 
-    public final static String MODELMATRIX_UNIFORM_NAME = "u_ModelMatrix";
-    public final static String VIEWMATRIX_UNIFORM_NAME = "u_ViewMatrix";
-    public final static String PROJECTIONMATRIX_UNIFORM_NAME = "u_ProjectionMatrix";
     public final static String TEXTURE_UNIFORM_NAME = "u_Texture";
 
     public SimpleShader(List<ShaderSource> sources) {
@@ -37,16 +36,22 @@ public class SimpleShader extends Shader {
         pushAttribute(new NormalAttribute());
         pushAttribute(new UVAttribute());
     }
+
     public void setModelMatrix(GraphicMatrix modelMatrix) {
-        putUniform(MODELMATRIX_UNIFORM_NAME, new UniformGraphicMatrix(modelMatrix));
+        putUniform(new ModelMatrixUniform(modelMatrix));
     }
     public void setViewMatrix(GraphicMatrix viewMatrix) {
-        putUniform(VIEWMATRIX_UNIFORM_NAME, new UniformGraphicMatrix(viewMatrix));
+        putUniform(new ViewMatrixUniform(viewMatrix));
     }
     public void setProjectionMatrix(GraphicMatrix projectionMatrix) {
-        putUniform(PROJECTIONMATRIX_UNIFORM_NAME, new UniformGraphicMatrix(projectionMatrix));
+        putUniform(new ProjectionMatrixUniform(projectionMatrix));
     }
     public void setTexture(Texture texture) {
-        putUniform(TEXTURE_UNIFORM_NAME, new UniformTexture(texture));
+        putUniform(new TextureUniform(texture) {
+
+            @Override public String getName() {
+                return TEXTURE_UNIFORM_NAME;
+            }
+        });
     }
 }

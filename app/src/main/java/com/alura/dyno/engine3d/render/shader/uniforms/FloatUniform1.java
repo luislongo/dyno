@@ -4,14 +4,14 @@ import android.opengl.GLES20;
 
 import com.alura.dyno.engine3d.render.shader.Shader;
 
-public class Uniform1f extends Uniform<Float> {
+public abstract class FloatUniform1 extends Uniform<Float> {
 
-    public Uniform1f(Float value) {
+    public FloatUniform1(Float value) {
         super(value);
     }
 
     @Override
-    public void insertInto() {
+    public void insertInto(int handle) {
         GLES20.glUniform1f(handle, value);
     }
 }
