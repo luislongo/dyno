@@ -9,7 +9,9 @@ import com.alura.dyno.engine3d.render.Material;
 import com.alura.dyno.engine3d.render.Vertex;
 import com.alura.dyno.engine3d.render.buffer.GraphicObjectData;
 import com.alura.dyno.engine3d.render.buffer.BufferLayout;
+import com.alura.dyno.engine3d.render.shader.Shader;
 import com.alura.dyno.engine3d.render.shader.SimpleShader;
+import com.alura.dyno.math.MathExtra;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -19,26 +21,35 @@ import java.util.List;
 
 public abstract class Renderer<T extends GraphicObjectData> extends Script {
     protected T sharedData;
+    protected Material material;
+    protected Shader shader;
+    protected boolean isLoaded = false;
+
     private FloatBuffer vbo;
     private IntBuffer ibo;
-
-    protected SimpleShader shader;
-    protected boolean isLoaded = false;
 
     public Renderer(String name) {
         super(name);
         addEventHandler(new OnRender());
         isLoaded = false;
     }
+    public abstract int getDrawMode();
 
-    public void setShader(SimpleShader shader) {
+    public void setMaterial(Material material) {
+        this.material = material;
+    }
+    public void setShader(Shader shader) {
         this.shader = shader;
-
-        isLoaded = false;
     }
     public void setData(T data) {
         this.sharedData = data;
         isLoaded = false;
+    }
+    public Material getMaterial() {
+        return material;
+    }
+    public Shader getShader() {
+        return shader;
     }
 
     public void invalidate() {
@@ -58,7 +69,7 @@ public abstract class Renderer<T extends GraphicObjectData> extends Script {
         allocateVBO();
         allocateIBO();
     }
-    public void allocateVBO() {
+    private void allocateVBO() {
         BufferLayout layout = shader.getLayout();
 
         vbo = ByteBuffer.allocateDirect(sharedData.getVertexCount() * layout.getLayoutSize())
@@ -69,7 +80,7 @@ public abstract class Renderer<T extends GraphicObjectData> extends Script {
             layout.layoutVertex(v, vbo);
         }
     }
-    public void allocateIBO() {
+    private void allocateIBO() {
         ibo = ByteBuffer.allocateDirect(3 * sharedData.getFaceCount() * Integer.BYTES)
                 .order(ByteOrder.nativeOrder()).asIntBuffer();
 
@@ -81,9 +92,6 @@ public abstract class Renderer<T extends GraphicObjectData> extends Script {
         ibo.position(0);
     }
 
-    public abstract void setUniforms();
-    public abstract int getDrawMode();
-
     private class OnRender extends OnRenderEventHandler {
 
         @Override public void onExecute(OnRenderEvent event) {
@@ -91,8 +99,8 @@ public abstract class Renderer<T extends GraphicObjectData> extends Script {
                 invalidate();
             }
 
-            setUniforms();
             shader.use(vbo);
+            shader.setUniformsFromRenderer(Renderer.this);
 
             GLES20.glDrawElements(getDrawMode(),
                     3 * sharedData.getFaceCount(), GLES20.GL_UNSIGNED_INT, ibo);

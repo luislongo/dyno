@@ -21,12 +21,6 @@ public class MeshRenderer extends Renderer<Mesh> {
         this.texture = texture;
     }
 
-    @Override public void setUniforms() {
-        shader.setModelMatrix(getParent().transform().getModelMatrix());
-        shader.setViewMatrix(SceneController.getModel().getMainCamera().getViewMatrix());
-        shader.setProjectionMatrix(SceneController.getModel().getMainCamera().getProjectionMatrix());
-        shader.setTexture(texture);
-    }
     @Override public int getDrawMode() {
         return GLES20.GL_TRIANGLES;
     }

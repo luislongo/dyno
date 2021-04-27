@@ -86,10 +86,12 @@ public class SceneController implements IInputListener, ISceneRendererListener {
         loader.loadFromRawResource(ShaderType.Vertex, R.raw.shaderv_object);
         loader.loadFromRawResource(ShaderType.Fragment, R.raw.shaderf_object);
 
+
+
         model.setShader(new SimpleShader(loader.getSources()));
     }
     private void loadTextures() {
-        textureA = new Texture(R.drawable.box, context);
+        textureA = new Texture(R.drawable.grid_texture, context);
         textureB = new Texture(R.drawable.grid_texture, context);
 
     }

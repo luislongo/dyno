@@ -9,6 +9,7 @@ import com.alura.dyno.engine3d.render.Texture;
 import com.alura.dyno.engine3d.render.attr.IAttribute;
 import com.alura.dyno.engine3d.render.buffer.BufferLayout;
 import com.alura.dyno.engine3d.render.shader.uniforms.Uniform;
+import com.alura.dyno.engine3d.script.Renderer;
 import com.alura.dyno.engine3d.utils.RGBAColor;
 import com.alura.dyno.math.MathExtra;
 import com.alura.dyno.math.graphics.GraphicMatrix;
@@ -49,49 +50,34 @@ public class Shader {
         int uniformHandle = uniform.getHandleFromShader(this);
 
         if(uniforms.containsKey(uniformHandle)) {
-            uniforms.get(uniformHandle).setValue(uniform.getValue());
-        } else
-        {
-            uniforms.put(uniformHandle, uniform);
+            uniforms.remove(uniformHandle);
         }
+
+        uniforms.put(uniformHandle, uniform);
     }
     protected void pushAttribute(IAttribute attribute) {
         layout.pushAttribute(attribute);
     }
+
+    public void setUniformsFromRenderer(Renderer renderer) {
+        for (HashMap.Entry<Integer, Uniform> entry : uniforms.entrySet()) {
+            entry.getValue().insertInto(entry.getKey(), renderer);
+        }
+    }
+
     public int getProgramId() {
         return programHandle;
     }
-    private void bindUniforms() {
-        for(Uniform u : uniforms.values()) {
-            u.bind();
-        }
-    }
-    private void setUniforms() {
-        for (HashMap.Entry<Integer, Uniform> entry : uniforms.entrySet()) {
-            entry.getValue().insertInto(entry.getKey());
-        }
-    }
-    private void unbindUniforms() {
-        for(Uniform u : uniforms.values()) {
-            u.unbind();
-        }
-    }
-
     public BufferLayout getLayout() {
         return layout;
     }
-
     public final void use(FloatBuffer vbo) {
         GLES20.glUseProgram(programHandle);
 
         layout.bind(vbo, this.programHandle);
-        bindUniforms();
-        setUniforms();
     }
     public final void unuse() {
         GLES20.glUseProgram(0);
-
-        unbindUniforms();
     }
 
 }

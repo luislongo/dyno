@@ -4,22 +4,13 @@ import android.opengl.GLES20;
 import android.util.Log;
 
 import com.alura.dyno.engine3d.render.shader.Shader;
+import com.alura.dyno.engine3d.script.Renderer;
 
 public abstract class Uniform<T> {
-        protected T value;
-
-        public Uniform(T value) {
-            this.value = value;
+    public Uniform() {
         }
 
-        public void setValue(T value) {
-            this.value = value;
-        }
-        public T getValue() {
-            return this.value;
-        }
-
-        public int getHandleFromShader(Shader shader) {
+    public int getHandleFromShader(Shader shader) {
             int handle = GLES20.glGetUniformLocation(shader.getProgramId(), getName());
 
             if(!doesHandleExist(handle)) {
@@ -28,14 +19,14 @@ public abstract class Uniform<T> {
 
             return handle;
         }
-        private boolean doesHandleExist(int handle) {
+    private boolean doesHandleExist(int handle) {
         return !(handle == -1);
     }
 
-        public abstract void insertInto(int handle);
-        public abstract String getName();
+    public abstract T getValue(Renderer renderer);
+    public abstract void insertInto(int handle, Renderer renderer);
 
-        public void bind() {}
-        public void unbind() {}
-    }
+    public abstract String getName();
+
+}
 

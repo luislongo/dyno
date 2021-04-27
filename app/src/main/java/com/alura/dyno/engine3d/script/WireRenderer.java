@@ -11,11 +11,6 @@ public class WireRenderer extends Renderer<Wire> {
         super(name);
     }
 
-    @Override public void setUniforms() {
-        shader.setModelMatrix(getParent().transform().getModelMatrix());
-        shader.setViewMatrix(SceneController.getModel().getMainCamera().getViewMatrix());
-        shader.setProjectionMatrix(SceneController.getModel().getMainCamera().getProjectionMatrix());
-    }
     @Override public int getDrawMode() {
         return GLES20.GL_LINES;
     }
