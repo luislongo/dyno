@@ -1,11 +1,15 @@
 package com.alura.dyno.engine3d.text;
 
 import com.alura.dyno.engine3d.render.Texture;
+import com.alura.dyno.engine3d.render.Triangle;
 import com.alura.dyno.engine3d.render.Vertex;
 import com.alura.dyno.engine3d.render.VertexBuilder;
+import com.alura.dyno.engine3d.render.buffer.Mesh;
 import com.alura.dyno.engine3d.utils.RGBAColor;
 import com.alura.dyno.math.graphics.Vector2;
 import com.alura.dyno.math.graphics.Vector3;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,22 +38,6 @@ public class Font {
         this.scaleH = builder.scaleW;
     }
 
-    public int getLineHeight() {
-        return lineHeight;
-    }
-
-    public int getBase() {
-        return base;
-    }
-
-    public int getScaleW() {
-        return scaleW;
-    }
-
-    public int getScaleH() {
-        return scaleH;
-    }
-
     public FontCharacter find(char ch) {
         int key = ch;
 
@@ -61,20 +49,27 @@ public class Font {
 
     }
 
-    public Vertex[] layOutQuads(String text) {
-        ArrayList<Vertex> quads = new ArrayList<>();
+    public Mesh layOutQuads(String text) {
+        Mesh mesh = new Mesh();
+
         float cursorX = 0.0f;
 
+        int last = 0;
         for (char ch : text.toCharArray()) {
             FontCharacter fontCh = find(ch);
-            quads.addAll(Arrays.asList(calculateCharQuad(fontCh, cursorX)));
+
+            mesh.addVertex(Arrays.asList(calculateCharQuad(fontCh, cursorX)));
+            mesh.addFace(new Triangle(last, last + 1, last + 2));
+            mesh.addFace(new Triangle(last, last + 2, last + 3));
 
             cursorX += fontCh.xadvance;
+            last += 4;
         }
 
-        return quads.toArray(new Vertex[4 * text.length()]);
+        return mesh;
     }
 
+    @NotNull
     private Vertex[] calculateCharQuad(FontCharacter fontCh, float cursorX) {
         float left = cursorX + fontCh.left;
         float right = cursorX + fontCh.right;

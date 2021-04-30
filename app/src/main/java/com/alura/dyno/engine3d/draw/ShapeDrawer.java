@@ -13,26 +13,25 @@ import com.alura.dyno.math.linalg.Algebra;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShapeDrawer {
-   public Axii axii;
-   List<Vertex> vertices;
-   List<Triangle> triangles;
-   List<Line> lines;
-
-   Cursor options;
-   GraphicMatrix preMatrix;
-
-   public ShapeDrawer() {
+    public class ShapeDrawer {
+    public Axii axii;
+    List<Vertex> vertices;
+    List<Triangle> triangles;
+    List<Line> lines;
+    
+    Cursor options;
+    GraphicMatrix preMatrix;
+    public ShapeDrawer() {
        axii = new Axii();
        vertices = new ArrayList<>();
        triangles = new ArrayList<>();
        lines = new ArrayList<>();
-
+    
        options = new Cursor();
        preMatrix = Algebra.graphicMatrixFactory().identity();
-   }
+    }
 
-   public ShapeDrawer addShape(Shape shape) {
+    public ShapeDrawer addShape(Shape shape) {
        int curVertexCount = vertices.size();
        vertices.addAll(shape.getVertices());
 
@@ -44,8 +43,7 @@ public class ShapeDrawer {
 
        return this;
    }
-
-   public Mesh asMesh() {
+    public Mesh asMesh() {
        return new Mesh(vertices, triangles);
     }
     public Wire asWire() {return new Wire(vertices, lines); }

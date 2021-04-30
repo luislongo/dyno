@@ -6,8 +6,6 @@ import com.alura.dyno.math.graphics.GraphicMatrixFactory;
 
 public class Cursor {
     public GraphicMatrix preMatrix;
-
-
     public Cursor() {
         preMatrix = new GraphicMatrixFactory().identity();
     }

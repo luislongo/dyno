@@ -17,19 +17,21 @@ public class CreateBoxOnTap extends Script {
     }
 
     private class OnTap extends OnTapEventHandler {
-        float size = 1.0f;
+        float pos = 0;
         @Override
         public void onExecute(OnTapEvent event) {
-            Mesh mesh = new ShapeDrawer().addShape(new Quad(size, size))
-                    .asMesh();
-            size++;
+            Glyph text = new Glyph("Text Glyph " + pos);
+            text.getTransform().setPosition(new Vector3(pos, pos,-10));
 
-            MeshRenderer renderer = new MeshRenderer("Quad");
-            renderer.setMaterial(SceneController.getModel().getMaterial("Box"));
+            pos += 10;
+
+            TextRenderer renderer = new TextRenderer("Text Renderer", SceneController.getModel().getFont("Font"));
+            renderer.setMaterial(SceneController.getModel().getMaterial("FontMaterial"));
             renderer.setShader(SceneController.getModel().getShader("ObjShader"));
-            renderer.setData(mesh);
+            renderer.setText("ABCDEFGHIJKLM");
 
-            parent.addLeaf(renderer);
+            text.addLeaf(renderer);
+            parent.addChild(text);
         }
     }
 }

@@ -6,6 +6,7 @@ import com.alura.dyno.engine3d.render.Material;
 import com.alura.dyno.engine3d.render.Texture;
 import com.alura.dyno.engine3d.render.shader.Shader;
 import com.alura.dyno.engine3d.script.Script;
+import com.alura.dyno.engine3d.text.Font;
 import com.alura.dyno.engine3d.tree.Tree;
 
 import java.util.HashMap;
@@ -14,6 +15,7 @@ public class SceneModel {
     private Tree<Glyph, Script> tree;
     Camera mainCamera;
 
+    private HashMap<String, Font> fonts;
     private HashMap<String, Shader> shaders;
     private HashMap<String, Texture> textures;
     private HashMap<String, Material> materials;
@@ -25,6 +27,7 @@ public class SceneModel {
         textures = new HashMap<>();
         materials = new HashMap<>();
         shaders = new HashMap<>();
+        fonts = new HashMap<>();
     }
     public Glyph getRoot() {
         return tree.getRoot();
@@ -35,6 +38,13 @@ public class SceneModel {
         tree.setTreeChangedListener(listener);
     }
 
+    public void cacheFont(String name, Font font) {
+        if(fonts.containsKey(name)) {
+            fonts.remove(name);
+        }
+
+        this.fonts.put(name, font);
+    }
     public void cacheShader(String name, Shader shader) {
         if(shaders.containsKey(name)) {
             shaders.remove(name);
@@ -56,6 +66,8 @@ public class SceneModel {
 
         this.materials.put(name, material);
     }
+
+    public Font getFont(String name) { return fonts.get(name); }
     public Shader getShader(String name)
     {
         return shaders.get(name);

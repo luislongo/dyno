@@ -26,7 +26,11 @@ import com.alura.dyno.engine3d.render.shader.SimpleShader;
 import com.alura.dyno.engine3d.script.CameraController;
 import com.alura.dyno.engine3d.script.CreateBoxOnTap;
 import com.alura.dyno.engine3d.script.Script;
+import com.alura.dyno.engine3d.text.Font;
+import com.alura.dyno.engine3d.text.FontLoader;
 import com.alura.dyno.math.graphics.Vector3;
+
+import org.junit.internal.runners.statements.FailOnTimeout;
 
 import java.util.Iterator;
 
@@ -69,7 +73,9 @@ public class SceneController implements
         loadMaterial();
         loadShader();
         loadCamera();
+        loadFonts();
         loadObjects();
+
 
         dispatcher.sendDownTheTree(event);
     }
@@ -96,6 +102,10 @@ public class SceneController implements
         Texture.setMaxTextureUnits(maxTextureUnits[0]);
     }
 
+    private void loadFonts() {
+        Font font = new FontLoader(context).load(R.drawable.font_atlas_handwritten, R.raw.font_map_handwritten);
+        model.cacheFont("Font", font);
+    }
     private void loadShader() {
         ShaderLoader loader = new ShaderLoader(context);
         loader.loadFromRawResource(ShaderType.Vertex, R.raw.shaderv_object);
@@ -110,6 +120,13 @@ public class SceneController implements
         Material material = new Material("Box");
         material.setAlbedo(model.getTexture("Box"));
         model.cacheMaterial("Box", material);
+
+        Texture fontAtlas = new Texture(R.drawable.font_atlas_pengelupright, context);
+        model.cacheTexture("FontAtlas", fontAtlas);
+
+        Material fontMaterial = new Material("FontMaterial");
+        fontMaterial.setAlbedo(model.getTexture("FontAtlas"));
+        model.cacheMaterial("FontMaterial", fontMaterial);
     }
     private void loadCamera() {
         Camera camera = new Camera("MainCam", 0.01f, 100.0f, 50f);
