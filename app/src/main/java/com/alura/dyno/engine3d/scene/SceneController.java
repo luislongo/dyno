@@ -103,7 +103,7 @@ public class SceneController implements
     }
 
     private void loadFonts() {
-        Font font = new FontLoader(context).load(R.drawable.font_atlas_handwritten, R.raw.font_map_handwritten);
+        Font font = new FontLoader(context).load(R.drawable.pengel, R.raw.pengel);
         model.cacheFont("Font", font);
     }
     private void loadShader() {
@@ -121,7 +121,7 @@ public class SceneController implements
         material.setAlbedo(model.getTexture("Box"));
         model.cacheMaterial("Box", material);
 
-        Texture fontAtlas = new Texture(R.drawable.font_atlas_pengelupright, context);
+        Texture fontAtlas = new Texture(R.drawable.pengel, context);
         model.cacheTexture("FontAtlas", fontAtlas);
 
         Material fontMaterial = new Material("FontMaterial");

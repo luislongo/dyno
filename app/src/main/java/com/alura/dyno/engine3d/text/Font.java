@@ -91,7 +91,7 @@ public class Font {
         Vertex v3 = new VertexBuilder()
                 .setPosition(new Vector3(right, top, 0))
                 .setNormal(new Vector3(0.0f, 0.0f, 1.0f))
-                .setUVs(new Vector2(fontCh.uvLeft, fontCh.uvBottom))
+                .setUVs(new Vector2(fontCh.uvRight, fontCh.uvTop))
                 .setColor(new RGBAColor(1.0f,1.0f,1.0f,1.0f))
                 .build();
         Vertex v4 = new VertexBuilder()
