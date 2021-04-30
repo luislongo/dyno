@@ -1,0 +1,141 @@
+Index: app/src/main/java/com/alura/dyno/engine3d/render/Material.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.alura.dyno.engine3d.render;\r\n\r\nimport com.alura.dyno.engine3d.utils.RGBAColor;\r\n\r\npublic abstract class Material {\r\n    Texture albedo;\r\n    RGBAColor color;\r\n\r\n    public Material() {\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/alura/dyno/engine3d/render/Material.java	(revision af96573011d4500ead1761291256f258fb7a3033)
++++ app/src/main/java/com/alura/dyno/engine3d/render/Material.java	(date 1619536060216)
+@@ -1,11 +1,35 @@
+ package com.alura.dyno.engine3d.render;
+ 
++import com.alura.dyno.engine3d.render.shader.Shader;
+ import com.alura.dyno.engine3d.utils.RGBAColor;
+ 
+ public abstract class Material {
+     Texture albedo;
+     RGBAColor color;
++    Shader shader;
+ 
+-    public Material() {
++    public Material(Texture albedo, RGBAColor color, Shader shader) {
++        this.albedo = albedo;
++        this.color = color;
++        this.shader = shader;
++    }
++
++    public void setAlbedo(Texture albedo) {
++        this.albedo = albedo;
++    }
++    public void setColor(RGBAColor color) {
++        this.color = color;
++    }
++    public void setShader(Shader shader) {
++        this.shader = shader;
++    }
++    public Texture getAlbedo() {
++        return albedo;
++    }
++    public RGBAColor getColor() {
++        return color;
++    }
++    public Shader getShader() {
++        return shader;
+     }
+ }
+Index: app/src/main/java/com/alura/dyno/engine3d/render/shader/Shader.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.alura.dyno.engine3d.render.shader;\r\n\r\nimport android.opengl.GLES20;\r\nimport android.util.AttributeSet;\r\nimport android.util.LayoutDirection;\r\nimport android.util.Log;\r\n\r\nimport com.alura.dyno.engine3d.render.Texture;\r\nimport com.alura.dyno.engine3d.render.attr.IAttribute;\r\nimport com.alura.dyno.engine3d.render.buffer.BufferLayout;\r\nimport com.alura.dyno.engine3d.render.shader.uniforms.Uniform;\r\nimport com.alura.dyno.engine3d.utils.RGBAColor;\r\nimport com.alura.dyno.math.MathExtra;\r\nimport com.alura.dyno.math.graphics.GraphicMatrix;\r\nimport com.alura.dyno.math.graphics.Vector2;\r\nimport com.alura.dyno.math.graphics.Vector3;\r\nimport com.alura.dyno.math.graphics.Vector4;\r\n\r\nimport java.nio.FloatBuffer;\r\nimport java.util.HashMap;\r\nimport java.util.List;\r\nimport java.util.Map;\r\n\r\npublic class Shader {\r\n    HashMap<Integer, Uniform> uniforms;\r\n    private BufferLayout layout;\r\n\r\n    private int programHandle;\r\n\r\n    public Shader(List<ShaderSource> sources) {\r\n        initializeVariables();\r\n        compileShader(sources);\r\n    }\r\n    private void initializeVariables() {\r\n        uniforms = new HashMap<>();\r\n        layout = new BufferLayout();\r\n    }\r\n    private void compileShader(List<ShaderSource> sources) {\r\n        ShaderCompiler compiler = new ShaderCompiler();\r\n\r\n        for(ShaderSource source : sources) {\r\n            compiler.putShader(source);\r\n        }\r\n\r\n        programHandle = compiler.compile();\r\n    }\r\n\r\n    protected void putUniform(Uniform uniform) {\r\n        int uniformHandle = uniform.getHandleFromShader(this);\r\n\r\n        if(uniforms.containsKey(uniformHandle)) {\r\n            uniforms.get(uniformHandle).setValue(uniform.getValue());\r\n        } else\r\n        {\r\n            uniforms.put(uniformHandle, uniform);\r\n        }\r\n    }\r\n    protected void pushAttribute(IAttribute attribute) {\r\n        layout.pushAttribute(attribute);\r\n    }\r\n    public int getProgramId() {\r\n        return programHandle;\r\n    }\r\n    private void bindUniforms() {\r\n        for(Uniform u : uniforms.values()) {\r\n            u.bind();\r\n        }\r\n    }\r\n    private void setUniforms() {\r\n        for (HashMap.Entry<Integer, Uniform> entry : uniforms.entrySet()) {\r\n            entry.getValue().insertInto(entry.getKey());\r\n        }\r\n    }\r\n    private void unbindUniforms() {\r\n        for(Uniform u : uniforms.values()) {\r\n            u.unbind();\r\n        }\r\n    }\r\n\r\n    public BufferLayout getLayout() {\r\n        return layout;\r\n    }\r\n\r\n    public final void use(FloatBuffer vbo) {\r\n        GLES20.glUseProgram(programHandle);\r\n\r\n        layout.bind(vbo, this.programHandle);\r\n        bindUniforms();\r\n        setUniforms();\r\n    }\r\n    public final void unuse() {\r\n        GLES20.glUseProgram(0);\r\n\r\n        unbindUniforms();\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/alura/dyno/engine3d/render/shader/Shader.java	(revision af96573011d4500ead1761291256f258fb7a3033)
++++ app/src/main/java/com/alura/dyno/engine3d/render/shader/Shader.java	(date 1619536164876)
+@@ -5,10 +5,12 @@
+ import android.util.LayoutDirection;
+ import android.util.Log;
+ 
++import com.alura.dyno.engine3d.render.Material;
+ import com.alura.dyno.engine3d.render.Texture;
+ import com.alura.dyno.engine3d.render.attr.IAttribute;
+ import com.alura.dyno.engine3d.render.buffer.BufferLayout;
+ import com.alura.dyno.engine3d.render.shader.uniforms.Uniform;
++import com.alura.dyno.engine3d.script.Renderer;
+ import com.alura.dyno.engine3d.utils.RGBAColor;
+ import com.alura.dyno.math.MathExtra;
+ import com.alura.dyno.math.graphics.GraphicMatrix;
+@@ -66,9 +68,9 @@
+             u.bind();
+         }
+     }
+-    private void setUniforms() {
++    public void (Renderer renderer, Material material) {
+         for (HashMap.Entry<Integer, Uniform> entry : uniforms.entrySet()) {
+-            entry.getValue().insertInto(entry.getKey());
++            entry.
+         }
+     }
+     private void unbindUniforms() {
+@@ -86,7 +88,7 @@
+ 
+         layout.bind(vbo, this.programHandle);
+         bindUniforms();
+-        setUniforms();
++        ();
+     }
+     public final void unuse() {
+         GLES20.glUseProgram(0);
+Index: app/src/main/res/raw/shaderv_object.vert
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>precision mediump float;\r\n\r\nattribute vec3 a_Position;\r\nattribute vec4 a_Color;\r\nattribute vec3 a_Normal;\r\n\r\nuniform mat4 u_ModelMatrix;\r\nuniform mat4 u_ViewMatrix;\r\nuniform mat4 u_ProjectionMatrix;\r\n\r\nvarying vec4 v_Color;\r\nvarying vec3 v_Normal;\r\n\r\nvoid main() {\r\n    gl_Position = u_ProjectionMatrix * u_ViewMatrix * u_ModelMatrix * vec4(a_Position, 1);\r\n    v_Color = a_Color;\r\n    v_Normal = vec3(u_ViewMatrix * u_ModelMatrix * vec4(a_Normal, 0.0));\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/raw/shaderv_object.vert	(revision af96573011d4500ead1761291256f258fb7a3033)
++++ app/src/main/res/raw/shaderv_object.vert	(date 1618358414491)
+@@ -3,6 +3,7 @@
+ attribute vec3 a_Position;
+ attribute vec4 a_Color;
+ attribute vec3 a_Normal;
++attribute vec2 a_UVs;
+ 
+ uniform mat4 u_ModelMatrix;
+ uniform mat4 u_ViewMatrix;
+@@ -10,9 +11,11 @@
+ 
+ varying vec4 v_Color;
+ varying vec3 v_Normal;
++varying vec2 v_UVs;
+ 
+ void main() {
+     gl_Position = u_ProjectionMatrix * u_ViewMatrix * u_ModelMatrix * vec4(a_Position, 1);
+     v_Color = a_Color;
++    v_UVs = a_UVs;
+     v_Normal = vec3(u_ViewMatrix * u_ModelMatrix * vec4(a_Normal, 0.0));
+ }
+\ No newline at end of file
+Index: app/src/main/res/raw/shaderf_object.frag
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>precision mediump float;\r\n\r\nvarying vec4 v_Color;\r\nvarying vec3 v_Normal;\r\n\r\nvoid main() {\r\n   gl_FragColor = v_Color;\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/raw/shaderf_object.frag	(revision af96573011d4500ead1761291256f258fb7a3033)
++++ app/src/main/res/raw/shaderf_object.frag	(date 1618358628429)
+@@ -2,7 +2,10 @@
+ 
+ varying vec4 v_Color;
+ varying vec3 v_Normal;
++varying vec2 v_UVs;
++
++uniform sampler2D u_Texture;
+ 
+ void main() {
+-   gl_FragColor = v_Color;
++   gl_FragColor = texture2D(u_Texture, v_UVs);
+ }
+\ No newline at end of file
