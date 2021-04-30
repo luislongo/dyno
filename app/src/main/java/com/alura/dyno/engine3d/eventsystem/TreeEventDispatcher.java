@@ -17,18 +17,24 @@ public class TreeEventDispatcher {
     }
 
     public void sendDownTheTree(IEvent event) {
-        EventTreeIterator iterator = getEventTreeIterator(event);
+        EventTreeIterator iterator = getEventTreeIterator(event.getType());
 
         while(iterator.hasNext()) {
             ITreeEventHandler handler = iterator.next();
             handler.onExecute(event);
         }
     }
-    private EventTreeIterator getEventTreeIterator(IEvent event) {
-        if(cache.containsKey(event.getType())) {
-            return cache.get(event.getType());
+    private EventTreeIterator getEventTreeIterator(TreeEventType type) {
+        if(cache.containsKey(type)) {
+            EventTreeIterator iterator =  cache.get(type);
+            iterator.restart();
+
+            return iterator;
         } else {
-            return EventTreeIterator.fromNodeDown(root, event.getType());
+            EventTreeIterator iterator = EventTreeIterator.fromNodeDown(root, type);
+            cache.put(type, iterator);
+
+            return iterator;
         }
     }
 
@@ -48,7 +54,5 @@ public class TreeEventDispatcher {
     }
     public void executeIfActive(ITreeEventHandler handler, IEvent event) {
             handler.onExecute(event);
-
     }
-
 }

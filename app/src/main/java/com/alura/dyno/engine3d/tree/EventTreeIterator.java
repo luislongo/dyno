@@ -26,6 +26,11 @@ public class EventTreeIterator implements Iterator<ITreeEventHandler> {
             throw new RuntimeException();
         }
     }
+    public void restart() {
+        curId = -1;
+    }
+
+
     public int count() {
         return ordered.size();
     }
