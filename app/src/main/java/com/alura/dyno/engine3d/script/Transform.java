@@ -39,7 +39,7 @@ public class Transform extends Script {
 
     private void updateGlobalAxii() {
         if(getParent().hasParent()) {
-            globalAxii = Axii.compose(getParent().getParent().transform().globalAxii, localAxii);
+            globalAxii = Axii.compose(getParent().getParent().getTransform().globalAxii, localAxii);
         } else {
             globalAxii = localAxii.clone();
         }

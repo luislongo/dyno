@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.function.Predicate;
 
 public abstract class TreeNode<NODE extends TreeNode, LEAF extends TreeLeaf> extends TreeLeaf<NODE> {
+    Tree<NODE, LEAF> tree;
     LinkedList<LEAF> leaves;
     LinkedList<NODE> children;
 
@@ -21,27 +22,43 @@ public abstract class TreeNode<NODE extends TreeNode, LEAF extends TreeLeaf> ext
         if(child.hasParent()) {
             child.parent.children.remove(child);
         }
-        child.parent = this;
-        children.add(child);
-    }
-    public void removeChild(NODE child) {
-        if(children.contains(child)) {
-            child.parent = null;
-            children.remove(child);
-        }
-    }
 
+        child.parent = this;
+        child.tree = this.tree;
+
+        children.add(child);
+
+        tree.notifyNodeChanged(child);
+    }
     public void addLeaf(LEAF leaf) {
         if(leaf.hasParent()) {
             leaf.parent.leaves.remove(leaf);
         }
         leaf.parent = this;
         leaves.addLast(leaf);
+
+        if(tree != null) {
+            tree.notifyLeafChanged(leaf);
+        }
+    }
+    public void removeChild(NODE child) {
+        if(children.contains(child)) {
+
+            child.parent = null;
+            child.tree = null;
+
+            children.remove(child);
+        }
+        tree.notifyNodeChanged(child);
     }
     public void removeLeaf(LEAF leaf) {
         if(leaves.contains(leaf)) {
             leaf.parent = null;
             leaves.remove(leaf);
+        }
+
+        if(tree != null) {
+            tree.notifyLeafChanged(leaf);
         }
     }
 
@@ -56,13 +73,8 @@ public abstract class TreeNode<NODE extends TreeNode, LEAF extends TreeLeaf> ext
     }
 
     public String getName() {return this.name;}
-
-    public NODE getRoot() {
-        NODE root = (NODE) this;
-        while(root.hasParent()) {
-            root = (NODE) root.parent;
-        }
-        return root;
+    public Tree<NODE, LEAF> getTree() {
+        return tree;
     }
     public NODE getParent() {
         if(hasParent()) {
@@ -94,7 +106,6 @@ public abstract class TreeNode<NODE extends TreeNode, LEAF extends TreeLeaf> ext
 
         return selected;
     }
-
     public LinkedList<LEAF> getLeaves() { return leaves; }
     public <LEAFLING extends LEAF> LEAFLING getLeaf(String name) {
         for(LEAF leaf : leaves) {

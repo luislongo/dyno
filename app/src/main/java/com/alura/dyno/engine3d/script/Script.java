@@ -6,6 +6,7 @@ import com.alura.dyno.engine3d.glyph.Glyph;
 import com.alura.dyno.engine3d.tree.TreeLeaf;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class Script<GLYPH extends Glyph> extends TreeLeaf<GLYPH> {
     private HashMap<TreeEventType, ITreeEventHandler> eventHandlers;
@@ -45,6 +46,8 @@ public class Script<GLYPH extends Glyph> extends TreeLeaf<GLYPH> {
     protected HashMap<TreeEventType, ITreeEventHandler> getEventHandlers() {
         return eventHandlers;
     }
-
+    public Iterator<TreeEventType> getEventTypes() {
+        return eventHandlers.keySet().iterator();
+    }
 
 }

@@ -68,7 +68,7 @@ public class Camera extends Glyph implements ICamera {
         updateProjectionMatrix();
     }
     private void updateViewMatrix() {
-        Vector3 eye = transform().getGlobalPosition();
+        Vector3 eye = getTransform().getGlobalPosition();
         Vector3 center = eye.clone().plus(new Vector3(0.0f, 0.0f, -1.0f));
         Vector3 up = new Vector3(0.0f, 1.0f, 0.0f);
 
@@ -86,7 +86,7 @@ public class Camera extends Glyph implements ICamera {
     }
     private void calculateOrthogonalProjectionMatrix() {
         if (screenSize.norm2() != 0) {
-            Vector3 position = transform().getGlobalPosition();
+            Vector3 position = getTransform().getGlobalPosition();
 
             float left = position.x() - screenSize.x() / zoom ;
             float right = position.x() + screenSize.x() / zoom ;

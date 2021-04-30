@@ -4,9 +4,8 @@ import android.content.Context;
 import android.opengl.GLES20;
 
 import com.alura.dyno.R;
-import com.alura.dyno.engine3d.draw.ShapeDrawer;
-import com.alura.dyno.engine3d.draw.shapes.Quad;
 import com.alura.dyno.engine3d.eventsystem.TreeEventDispatcher;
+import com.alura.dyno.engine3d.eventsystem.TreeEventType;
 import com.alura.dyno.engine3d.eventsystem.events.OnDragEvent;
 import com.alura.dyno.engine3d.eventsystem.events.OnRenderEvent;
 import com.alura.dyno.engine3d.eventsystem.events.OnScaleEvent;
@@ -14,23 +13,25 @@ import com.alura.dyno.engine3d.eventsystem.events.OnTapEvent;
 import com.alura.dyno.engine3d.eventsystem.events.OnUpdateEvent;
 import com.alura.dyno.engine3d.eventsystem.events.OnViewChangedEvent;
 import com.alura.dyno.engine3d.eventsystem.events.OnViewCreatedEvent;
+import com.alura.dyno.engine3d.eventsystem.handlers.ITreeEventHandler;
 import com.alura.dyno.engine3d.glyph.Camera;
 import com.alura.dyno.engine3d.glyph.Glyph;
 import com.alura.dyno.engine3d.input.IInputListener;
 import com.alura.dyno.engine3d.input.InputDetector;
 import com.alura.dyno.engine3d.render.Material;
 import com.alura.dyno.engine3d.render.Texture;
-import com.alura.dyno.engine3d.render.buffer.Mesh;
 import com.alura.dyno.engine3d.render.shader.ShaderLoader;
 import com.alura.dyno.engine3d.render.shader.ShaderType;
 import com.alura.dyno.engine3d.render.shader.SimpleShader;
 import com.alura.dyno.engine3d.script.CameraController;
-import com.alura.dyno.engine3d.script.MeshRenderer;
-import com.alura.dyno.engine3d.script.RotateScript;
-import com.alura.dyno.math.graphics.Quaternion;
+import com.alura.dyno.engine3d.script.CreateBoxOnTap;
+import com.alura.dyno.engine3d.script.Script;
 import com.alura.dyno.math.graphics.Vector3;
 
-public class SceneController implements IInputListener, ISceneRendererListener {
+import java.util.Iterator;
+
+public class SceneController implements
+        IInputListener, ISceneRendererListener, ITreeChangedListener<Glyph, Script> {
     private static SceneView view;
     private static SceneModel model;
     private static SceneRenderer renderer;
@@ -51,6 +52,7 @@ public class SceneController implements IInputListener, ISceneRendererListener {
         view.setOnTouchListener(detector);
         renderer.setOnRenderListener(this);
         detector.setInputListener(this);
+        model.setTreeChangedListener(this);
     }
 
     @Override public void onTap(OnTapEvent event) {
@@ -62,7 +64,7 @@ public class SceneController implements IInputListener, ISceneRendererListener {
     @Override public void onDrag(OnDragEvent event) {
         dispatcher.sendDownTheTree(event);
     }
-    @Override public void OnViewCreated(OnViewCreatedEvent event) {
+    @Override public void onViewCreated(OnViewCreatedEvent event) {
         chechMaxTextureSlot();
         loadMaterial();
         loadShader();
@@ -71,12 +73,21 @@ public class SceneController implements IInputListener, ISceneRendererListener {
 
         dispatcher.sendDownTheTree(event);
     }
-    @Override public void OnViewChanged(OnViewChangedEvent event) {
+    @Override public void onViewChanged(OnViewChangedEvent event) {
         dispatcher.sendDownTheTree(event);
     }
-    @Override public void OnRender(OnRenderEvent event) {
+    @Override public void onRender(OnRenderEvent event) {
         dispatcher.sendDownTheTree(new OnUpdateEvent());
         dispatcher.sendDownTheTree(event);
+    }
+    @Override public void onTreeNodeChanged(Glyph node) {
+        dispatcher.invalidateCache();
+    }
+    @Override public void onTreeLeafChanged(Script leaf) {
+        Iterator<TreeEventType> handlers = leaf.getEventTypes();
+        while (handlers.hasNext()) {
+            dispatcher.invalidateCache(handlers.next());
+        }
     }
 
     private void chechMaxTextureSlot() {
@@ -102,31 +113,15 @@ public class SceneController implements IInputListener, ISceneRendererListener {
     }
     private void loadCamera() {
         Camera camera = new Camera("MainCam", 0.01f, 100.0f, 50f);
-        camera.transform().move(new Vector3(0.0f, 0.0f, 50.0f));
+        camera.getTransform().move(new Vector3(0.0f, 0.0f, 50.0f));
         camera.addLeaf(new CameraController("CameraController"));
 
         model.setMainCamera(camera);
         model.getRoot().addChild(camera);
     }
     private void loadObjects() {
-        Glyph a = new Glyph("");
-        a.transform().setPosition(new Vector3(0,0,-10));
-
-        RotateScript rotate = new RotateScript("Rotate",
-                Quaternion.fromAxisAndAngle(Vector3.backward(), 1.0f));
-
-        Mesh mesh = new ShapeDrawer().addShape(new Quad(1.0f,1.0f))
-                .asMesh();
-
-        MeshRenderer renderer = new MeshRenderer("Quad");
-        renderer.setMaterial(model.getMaterial("Box"));
-        renderer.setShader(model.getShader("ObjShader"));
-        renderer.setData(mesh);
-
-        a.addLeaf(rotate);
-        a.addLeaf(renderer);
-
-        model.root.addChild(a);
+        CreateBoxOnTap script = new CreateBoxOnTap("Create Box");
+        model.getRoot().addLeaf(script);
     }
 
     public static SceneView getView() {
@@ -142,5 +137,4 @@ public class SceneController implements IInputListener, ISceneRendererListener {
         return dispatcher;
     }
 
-    
 }

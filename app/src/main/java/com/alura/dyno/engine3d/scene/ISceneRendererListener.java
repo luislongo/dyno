@@ -8,7 +8,7 @@ import com.alura.dyno.engine3d.eventsystem.handlers.OnViewChangedHandler;
 import com.alura.dyno.engine3d.eventsystem.handlers.OnViewCreatedHandler;
 
 public interface ISceneRendererListener {
-        void OnViewCreated(OnViewCreatedEvent event);
-        void OnViewChanged(OnViewChangedEvent event);
-        void OnRender(OnRenderEvent event);
+        void onViewCreated(OnViewCreatedEvent event);
+        void onViewChanged(OnViewChangedEvent event);
+        void onRender(OnRenderEvent event);
 }

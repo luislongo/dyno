@@ -1,8 +1,5 @@
 package com.alura.dyno.engine3d.script;
 
-import android.opengl.Matrix;
-import android.util.Log;
-
 import com.alura.dyno.engine3d.eventsystem.events.OnDragEvent;
 import com.alura.dyno.engine3d.eventsystem.events.OnScaleEvent;
 import com.alura.dyno.engine3d.eventsystem.events.OnViewChangedEvent;
@@ -46,7 +43,7 @@ public class CameraController extends Script<Camera> {
             Vector3 distance = new Vector3(event.getDeltaScreen().divide(2 * parent.getZoom()), 0.0f);
             distance.straightProduct(new Vector3(-1.0f, 1.0f, 1.0f));
 
-            getParent().transform().move(distance);
+            getParent().getTransform().move(distance);
             getParent().invalidate();
         }
     }

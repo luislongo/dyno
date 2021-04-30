@@ -7,9 +7,6 @@ import android.opengl.GLSurfaceView;
 import com.alura.dyno.engine3d.eventsystem.events.OnRenderEvent;
 import com.alura.dyno.engine3d.eventsystem.events.OnViewChangedEvent;
 import com.alura.dyno.engine3d.eventsystem.events.OnViewCreatedEvent;
-import com.alura.dyno.engine3d.eventsystem.handlers.OnRenderEventHandler;
-import com.alura.dyno.engine3d.eventsystem.handlers.OnViewChangedHandler;
-import com.alura.dyno.engine3d.eventsystem.handlers.OnViewCreatedHandler;
 import com.alura.dyno.math.graphics.Vector2;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -34,7 +31,7 @@ public class SceneRenderer implements GLSurfaceView.Renderer {
         GLES20.glCullFace(GLES20.GL_BACK);;
 
         if (listener != null) {
-            listener.OnViewCreated(new OnViewCreatedEvent());
+            listener.onViewCreated(new OnViewCreatedEvent());
         }
     }
     @Override public void onSurfaceChanged(GL10 gl, int width, int height) {
@@ -42,14 +39,14 @@ public class SceneRenderer implements GLSurfaceView.Renderer {
                 screenSize = new Vector2(width, height);
 
         if (listener != null) {
-            listener.OnViewChanged(new OnViewChangedEvent(width, height));
+            listener.onViewChanged(new OnViewChangedEvent(width, height));
         }
     }
     @Override public void onDrawFrame(GL10 gl) {
         GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
 
         if (listener != null && screenSize.x() != 0 && screenSize.y() != 0) {
-            listener.OnRender(new OnRenderEvent());
+            listener.onRender(new OnRenderEvent());
         }
     }
 

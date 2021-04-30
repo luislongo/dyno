@@ -1,5 +1,6 @@
 package com.alura.dyno.engine3d.glyph;
 
+import com.alura.dyno.engine3d.scene.SceneModel;
 import com.alura.dyno.engine3d.script.Script;
 import com.alura.dyno.engine3d.script.Transform;
 import com.alura.dyno.engine3d.tree.TreeNode;
@@ -14,7 +15,10 @@ public class Glyph extends TreeNode<Glyph, Script> {
         transform = new Transform(TRANSFORMKEY);
         this.addLeaf(transform);
     }
-    public Transform transform() {
+
+    public Transform getTransform() {
         return transform;
     }
+
+
 }

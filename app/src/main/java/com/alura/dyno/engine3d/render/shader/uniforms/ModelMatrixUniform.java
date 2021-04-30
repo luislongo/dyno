@@ -11,7 +11,7 @@ public class ModelMatrixUniform extends GraphicMatrixUniform {
 
     @Override
     public GraphicMatrix getValue(Renderer renderer) {
-        return renderer.getParent().transform().getModelMatrix();
+        return renderer.getParent().getTransform().getModelMatrix();
     }
     @Override
     public String getName() {

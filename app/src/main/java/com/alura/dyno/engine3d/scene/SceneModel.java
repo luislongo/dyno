@@ -1,18 +1,17 @@
 package com.alura.dyno.engine3d.scene;
 
-import android.content.Context;
-
-import com.alura.dyno.R;
 import com.alura.dyno.engine3d.glyph.Camera;
 import com.alura.dyno.engine3d.glyph.Glyph;
 import com.alura.dyno.engine3d.render.Material;
 import com.alura.dyno.engine3d.render.Texture;
 import com.alura.dyno.engine3d.render.shader.Shader;
+import com.alura.dyno.engine3d.script.Script;
+import com.alura.dyno.engine3d.tree.Tree;
 
 import java.util.HashMap;
 
 public class SceneModel {
-    Glyph root;
+    private Tree<Glyph, Script> tree;
     Camera mainCamera;
 
     private HashMap<String, Shader> shaders;
@@ -20,17 +19,21 @@ public class SceneModel {
     private HashMap<String, Material> materials;
 
     public SceneModel() {
-        root = new Glyph("ROOT");
+        Glyph root = new Glyph("ROOT");
+        tree = new Tree(root);
 
         textures = new HashMap<>();
         materials = new HashMap<>();
         shaders = new HashMap<>();
     }
     public Glyph getRoot() {
-        return root;
+        return tree.getRoot();
     }
     public Camera getMainCamera() {return mainCamera;}
     public void setMainCamera(Camera mainCamera) {this.mainCamera = mainCamera;}
+    public void setTreeChangedListener(ITreeChangedListener listener) {
+        tree.setTreeChangedListener(listener);
+    }
 
     public void cacheShader(String name, Shader shader) {
         if(shaders.containsKey(name)) {
@@ -61,6 +64,4 @@ public class SceneModel {
         return textures.get(name);
     }
     public Material getMaterial(String name) { return materials.get(name); }
-
-
 }
