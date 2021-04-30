@@ -18,7 +18,6 @@ import java.util.HashMap;
 public class Font {
 
     public final char INVALID_CHAR_REPLACEMENT = '?';
-
     public HashMap<Integer, FontCharacter> symbols;
     public Texture fontAtlas;
 
@@ -37,7 +36,6 @@ public class Font {
         this.scaleW = builder.scaleH;
         this.scaleH = builder.scaleW;
     }
-
     public FontCharacter find(char ch) {
         int key = ch;
 
@@ -47,61 +45,6 @@ public class Font {
             return symbols.get((int) INVALID_CHAR_REPLACEMENT);
         }
 
-    }
-
-    public Mesh layOutQuads(String text) {
-        Mesh mesh = new Mesh();
-
-        float cursorX = 0.0f;
-
-        int last = 0;
-        for (char ch : text.toCharArray()) {
-            FontCharacter fontCh = find(ch);
-
-            mesh.addVertex(Arrays.asList(calculateCharQuad(fontCh, cursorX)));
-            mesh.addFace(new Triangle(last, last + 1, last + 2));
-            mesh.addFace(new Triangle(last, last + 2, last + 3));
-
-            cursorX += fontCh.xadvance;
-            last += 4;
-        }
-
-        return mesh;
-    }
-
-    @NotNull
-    private Vertex[] calculateCharQuad(FontCharacter fontCh, float cursorX) {
-        float left = cursorX + fontCh.left;
-        float right = cursorX + fontCh.right;
-        float top = fontCh.top;
-        float bottom = fontCh.bottom;
-
-        Vertex v1 = new VertexBuilder()
-                .setPosition(new Vector3(left, bottom, 0))
-                .setNormal(new Vector3(0.0f, 0.0f, 1.0f))
-                .setUVs(new Vector2(fontCh.uvLeft, fontCh.uvBottom))
-                .setColor(new RGBAColor(1.0f,1.0f,1.0f,1.0f))
-                .build();
-        Vertex v2 = new VertexBuilder()
-                .setPosition(new Vector3(right, bottom, 0))
-                .setNormal(new Vector3(0.0f, 0.0f, 1.0f))
-                .setUVs(new Vector2(fontCh.uvRight, fontCh.uvBottom))
-                .setColor(new RGBAColor(1.0f,1.0f,1.0f,1.0f))
-                .build();
-        Vertex v3 = new VertexBuilder()
-                .setPosition(new Vector3(right, top, 0))
-                .setNormal(new Vector3(0.0f, 0.0f, 1.0f))
-                .setUVs(new Vector2(fontCh.uvRight, fontCh.uvTop))
-                .setColor(new RGBAColor(1.0f,1.0f,1.0f,1.0f))
-                .build();
-        Vertex v4 = new VertexBuilder()
-                .setPosition(new Vector3(left, top, 0))
-                .setNormal(new Vector3(0.0f, 0.0f, 1.0f))
-                .setUVs(new Vector2(fontCh.uvLeft, fontCh.uvTop))
-                .setColor(new RGBAColor(1.0f,1.0f,1.0f,1.0f))
-                .build();
-
-        return new Vertex[]{v1,v2,v3,v4};
     }
 
     public static class FontBuilder {
@@ -116,35 +59,29 @@ public class Font {
         public FontBuilder() {
             symbols = new HashMap<>();
         }
-
         public Font build() {
             return new Font(this);
         }
-
         public FontBuilder setFontAtlas(Texture fontAtlas) {
             this.fontAtlas = fontAtlas;
 
             return this;
         }
-
         public FontBuilder addCharacter(FontCharacter character) {
             this.symbols.put(character.id, character);
 
             return this;
         }
-
         public FontBuilder setLineHeight(int lineHeight) {
             this.lineHeight = lineHeight;
 
             return this;
         }
-
         public FontBuilder setBase(int base) {
             this.base = base;
 
             return this;
         }
-
         public FontBuilder setScale(int scaleH, int scaleW) {
             this.scaleH = scaleH;
             this.scaleW = scaleW;
