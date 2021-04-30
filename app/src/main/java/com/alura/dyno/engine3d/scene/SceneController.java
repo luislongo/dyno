@@ -39,8 +39,6 @@ public class SceneController implements IInputListener, ISceneRendererListener {
     InputDetector detector;
     Context context;
 
-    Glyph glyphA;
-
     public SceneController(SceneView view, SceneModel model, Context context) {
         this.view = view;
         this.model = model;
