@@ -51,6 +51,9 @@ public abstract class Renderer<T extends GraphicObjectData> extends Script {
     public Shader getShader() {
         return shader;
     }
+    public FloatBuffer getVBO() {
+        return vbo;
+    }
 
     public void invalidate() {
         clearBufferData();
@@ -99,7 +102,8 @@ public abstract class Renderer<T extends GraphicObjectData> extends Script {
                 invalidate();
             }
 
-            shader.use(vbo);
+            shader.use();
+            shader.bind(Renderer.this);
             shader.setUniformsFromRenderer(Renderer.this);
 
             GLES20.glDrawElements(getDrawMode(),

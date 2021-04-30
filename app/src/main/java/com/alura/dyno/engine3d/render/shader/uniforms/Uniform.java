@@ -11,7 +11,7 @@ public abstract class Uniform<T> {
         }
 
     public int getHandleFromShader(Shader shader) {
-            int handle = GLES20.glGetUniformLocation(shader.getProgramId(), getName());
+            int handle = GLES20.glGetUniformLocation(shader.getHandle(), getName());
 
             if(!doesHandleExist(handle)) {
                 Log.e("SHADER", "SHADER::UNIFORM::COULD NOT FIND UNIFORM::NAME: " + getName());

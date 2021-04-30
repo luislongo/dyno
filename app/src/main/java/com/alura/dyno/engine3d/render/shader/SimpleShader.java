@@ -25,17 +25,13 @@ public class SimpleShader extends Shader {
         initializeLayout();
     }
     private void initializeUniforms() {
-        putUniform(new ModelMatrixUniform(Algebra.graphicMatrixFactory().identity()));
-        putUniform(new ViewMatrixUniform(Algebra.graphicMatrixFactory().identity()));
-        putUniform(new ProjectionMatrixUniform(Algebra.graphicMatrixFactory().identity()));
-
-        //TODO Find a null texture;
+        putUniform(new ModelMatrixUniform());
+        putUniform(new ViewMatrixUniform());
+        putUniform(new ProjectionMatrixUniform());
         putUniform(new AlbedoUniform());
     }
     private void initializeLayout() {
         pushAttribute(new PositionAttribute());
-        pushAttribute(new ColorAttribute());
-        pushAttribute(new NormalAttribute());
         pushAttribute(new UVAttribute());
     }
 

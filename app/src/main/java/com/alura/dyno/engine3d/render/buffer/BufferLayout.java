@@ -1,6 +1,7 @@
 package com.alura.dyno.engine3d.render.buffer;
 
 import android.opengl.GLES20;
+import android.util.Log;
 
 import com.alura.dyno.engine3d.render.Vertex;
 import com.alura.dyno.engine3d.render.attr.IAttribute;
@@ -39,9 +40,14 @@ public class BufferLayout {
         for(IAttribute attribute : attributes)
         {
             int attrHandle = GLES20.glGetAttribLocation(programHandle, attribute.getName());
-            GLES20.glEnableVertexAttribArray(attrHandle);
-            GLES20.glVertexAttribPointer(attrHandle, attribute.getCount(), GLES20.GL_FLOAT,
-                attribute.doNormalize(), layoutSize, buffer.position(offset));
+
+            if(doesHandleExist(attrHandle)) {
+                GLES20.glEnableVertexAttribArray(attrHandle);
+                GLES20.glVertexAttribPointer(attrHandle, attribute.getCount(), GLES20.GL_FLOAT,
+                        attribute.doNormalize(), layoutSize, buffer.position(offset));
+            } else {
+                Log.w("BUFFER LAYOUT", "Can't find attribute name in shader: " + attribute.getName());
+            }
 
             offset += attribute.getCount();
         }
@@ -53,7 +59,9 @@ public class BufferLayout {
             GLES20.glDisableVertexAttribArray(attrHandle);
         }
     }
-
+    public boolean doesHandleExist(int handle) {
+        return !(handle==-1);
+    }
     public int getLayoutSize() {
         return layoutSize;
     }

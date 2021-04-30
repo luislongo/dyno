@@ -5,7 +5,6 @@ import android.opengl.GLES20;
 
 import com.alura.dyno.R;
 import com.alura.dyno.engine3d.draw.ShapeDrawer;
-import com.alura.dyno.engine3d.draw.deformer.IDeformer;
 import com.alura.dyno.engine3d.draw.shapes.Quad;
 import com.alura.dyno.engine3d.eventsystem.TreeEventDispatcher;
 import com.alura.dyno.engine3d.eventsystem.events.OnDragEvent;
@@ -19,8 +18,8 @@ import com.alura.dyno.engine3d.glyph.Camera;
 import com.alura.dyno.engine3d.glyph.Glyph;
 import com.alura.dyno.engine3d.input.IInputListener;
 import com.alura.dyno.engine3d.input.InputDetector;
+import com.alura.dyno.engine3d.render.Material;
 import com.alura.dyno.engine3d.render.Texture;
-import com.alura.dyno.engine3d.render.Vertex;
 import com.alura.dyno.engine3d.render.buffer.Mesh;
 import com.alura.dyno.engine3d.render.shader.ShaderLoader;
 import com.alura.dyno.engine3d.render.shader.ShaderType;
@@ -39,8 +38,6 @@ public class SceneController implements IInputListener, ISceneRendererListener {
 
     InputDetector detector;
     Context context;
-    Texture textureA;
-    Texture textureB;
 
     Glyph glyphA;
 
@@ -69,31 +66,41 @@ public class SceneController implements IInputListener, ISceneRendererListener {
     }
     @Override public void OnViewCreated(OnViewCreatedEvent event) {
         chechMaxTextureSlot();
-        loadTextures();
+        loadMaterial();
         loadShader();
         loadCamera();
         loadObjects();
 
         dispatcher.sendDownTheTree(event);
     }
+    @Override public void OnViewChanged(OnViewChangedEvent event) {
+        dispatcher.sendDownTheTree(event);
+    }
+    @Override public void OnRender(OnRenderEvent event) {
+        dispatcher.sendDownTheTree(new OnUpdateEvent());
+        dispatcher.sendDownTheTree(event);
+    }
+
     private void chechMaxTextureSlot() {
         int[] maxTextureUnits = new int[1];
         GLES20.glGetIntegerv(GLES20.GL_MAX_TEXTURE_IMAGE_UNITS, maxTextureUnits, 0);
         Texture.setMaxTextureUnits(maxTextureUnits[0]);
     }
+
     private void loadShader() {
         ShaderLoader loader = new ShaderLoader(context);
         loader.loadFromRawResource(ShaderType.Vertex, R.raw.shaderv_object);
         loader.loadFromRawResource(ShaderType.Fragment, R.raw.shaderf_object);
 
-
-
-        model.setShader(new SimpleShader(loader.getSources()));
+        model.cacheShader("ObjShader", new SimpleShader(loader.getSources()));
     }
-    private void loadTextures() {
-        textureA = new Texture(R.drawable.grid_texture, context);
-        textureB = new Texture(R.drawable.grid_texture, context);
+    private void loadMaterial() {
+        Texture texture = new Texture(R.drawable.crate_0, context);
+        model.cacheTexture("Box", texture);
 
+        Material material = new Material("Box");
+        material.setAlbedo(model.getTexture("Box"));
+        model.cacheMaterial("Box", material);
     }
     private void loadCamera() {
         Camera camera = new Camera("MainCam", 0.01f, 100.0f, 50f);
@@ -104,68 +111,24 @@ public class SceneController implements IInputListener, ISceneRendererListener {
         model.getRoot().addChild(camera);
     }
     private void loadObjects() {
-        Glyph a= new Glyph("");
+        Glyph a = new Glyph("");
         a.transform().setPosition(new Vector3(0,0,-10));
-        RotateScript scriptA = new RotateScript("Rotate",
-                Quaternion.fromAxisAndAngle(new Vector3(0.1f,0.1f, 0.0f), 1.0f));
-        a.addLeaf(scriptA);
-        model.root.addChild(a);
 
-        createTriad(a, 20, 0.8f, 2, 0.5f);
-    }
-    private void createTriad(Glyph parent, float radius, float vel, int n, float  factor) {
-        if(n == 0) {
-            return;
-        }
+        RotateScript rotate = new RotateScript("Rotate",
+                Quaternion.fromAxisAndAngle(Vector3.backward(), 1.0f));
 
-        Glyph a = createRotatingCubaAt(new Vector3(radius, 0,0 ));
-        Glyph b = createRotatingCubaAt(new Vector3(-radius, 0,0));
-        Glyph c = createRotatingCubaAt(new Vector3(0, radius,0));
-        Glyph d = createRotatingCubaAt(new Vector3(0, -radius,0));
+        Mesh mesh = new ShapeDrawer().addShape(new Quad(1.0f,1.0f))
+                .asMesh();
 
-        parent.addChild(a);
-        parent.addChild(b);
-        parent.addChild(c);
-        parent.addChild(d);
-
-        createTriad(a, radius * factor, vel/factor,n-1, factor);
-        createTriad(b, radius * factor, vel/factor,n-1, factor);
-        createTriad(c, radius * factor, vel/factor,n-1, factor);
-        createTriad(d, radius * factor, vel/factor,n-1, factor);
-    }
-    int count = 0;
-    private Glyph createRotatingCubaAt(Vector3 pos) {
-        ShapeDrawer drawer = new ShapeDrawer();
-
-        Quad quad = new Quad(2f,2f);
-        drawer.addShape(quad);
-
-        Mesh mesh = drawer.asMesh();
-        MeshRenderer renderer = new MeshRenderer("Mesh");
-        renderer.setTexture(textureA);
+        MeshRenderer renderer = new MeshRenderer("Quad");
+        renderer.setMaterial(model.getMaterial("Box"));
+        renderer.setShader(model.getShader("ObjShader"));
         renderer.setData(mesh);
-        renderer.setShader((SimpleShader) model.getShader());
-        renderer.invalidate();
 
-        Glyph glyph = new Glyph("Cube");
+        a.addLeaf(rotate);
+        a.addLeaf(renderer);
 
-        glyph.addLeaf(renderer);
-
-        glyph.transform().move(pos);
-
-        return glyph;
-    }
-
-    @Override public void OnViewChanged(OnViewChangedEvent event) {
-        dispatcher.sendDownTheTree(event);
-    }
-
-    @Override public void OnRender(OnRenderEvent event) {
-        dispatcher.sendDownTheTree(new OnUpdateEvent());
-        dispatcher.sendDownTheTree(event);
-    }
-    public static TreeEventDispatcher getDispatcher() {
-        return dispatcher;
+        model.root.addChild(a);
     }
 
     public static SceneView getView() {
@@ -177,4 +140,8 @@ public class SceneController implements IInputListener, ISceneRendererListener {
     public static SceneRenderer getRenderer() {
         return renderer;
     }
+    public static TreeEventDispatcher getDispatcher() {
+        return dispatcher;
+    }
+
 }

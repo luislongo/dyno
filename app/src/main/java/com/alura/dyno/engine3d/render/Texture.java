@@ -76,7 +76,7 @@ public class Texture {
     }
 
     public int getFirstFreeSlot() {
-        for(int i = 0; i < MAX_TEXTURE_SLOT; i++) {
+        for(int i = 1; i < MAX_TEXTURE_SLOT; i++) {
             if(hasBoundTexture[i] == false) {
                 return i;
             }

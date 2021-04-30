@@ -7,7 +7,7 @@ import com.alura.dyno.math.graphics.GraphicMatrix;
 
 public abstract class GraphicMatrixUniform extends Uniform<GraphicMatrix> {
 
-    public GraphicMatrixUniform(GraphicMatrix value) {
+    public GraphicMatrixUniform() {
         super();
     }
 

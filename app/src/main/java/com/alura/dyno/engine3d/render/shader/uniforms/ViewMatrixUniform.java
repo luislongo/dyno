@@ -5,8 +5,8 @@ import com.alura.dyno.engine3d.script.Renderer;
 import com.alura.dyno.math.graphics.GraphicMatrix;
 
 public class ViewMatrixUniform extends GraphicMatrixUniform {
-    public ViewMatrixUniform(GraphicMatrix value) {
-        super(value);
+    public ViewMatrixUniform() {
+        super();
     }
 
     @Override

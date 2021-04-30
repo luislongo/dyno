@@ -1,32 +1,19 @@
 package com.alura.dyno.engine3d.render.shader;
 
 import android.opengl.GLES20;
-import android.util.AttributeSet;
-import android.util.LayoutDirection;
-import android.util.Log;
 
-import com.alura.dyno.engine3d.render.Texture;
 import com.alura.dyno.engine3d.render.attr.IAttribute;
 import com.alura.dyno.engine3d.render.buffer.BufferLayout;
 import com.alura.dyno.engine3d.render.shader.uniforms.Uniform;
 import com.alura.dyno.engine3d.script.Renderer;
-import com.alura.dyno.engine3d.utils.RGBAColor;
-import com.alura.dyno.math.MathExtra;
-import com.alura.dyno.math.graphics.GraphicMatrix;
-import com.alura.dyno.math.graphics.Vector2;
-import com.alura.dyno.math.graphics.Vector3;
-import com.alura.dyno.math.graphics.Vector4;
 
-import java.nio.FloatBuffer;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Shader {
     HashMap<Integer, Uniform> uniforms;
     private BufferLayout layout;
-
-    private int programHandle;
+    private int handle;
 
     public Shader(List<ShaderSource> sources) {
         initializeVariables();
@@ -43,7 +30,7 @@ public class Shader {
             compiler.putShader(source);
         }
 
-        programHandle = compiler.compile();
+        handle = compiler.compile();
     }
 
     protected void putUniform(Uniform uniform) {
@@ -65,19 +52,27 @@ public class Shader {
         }
     }
 
-    public int getProgramId() {
-        return programHandle;
+    public int getHandle() {
+        return handle;
     }
     public BufferLayout getLayout() {
         return layout;
     }
-    public final void use(FloatBuffer vbo) {
-        GLES20.glUseProgram(programHandle);
 
-        layout.bind(vbo, this.programHandle);
+    public final void use() {
+        GLES20.glUseProgram(handle);
+
     }
     public final void unuse() {
         GLES20.glUseProgram(0);
+    }
+    public final void bind(Renderer renderer) {
+        layout.bind(renderer.getVBO(), this.handle);
+        renderer.getMaterial().bind();
+    }
+    public final void unbind(Renderer renderer) {
+        layout.unbind(this.handle);
+        renderer.getMaterial().unbind();
     }
 
 }

@@ -6,8 +6,8 @@ import com.alura.dyno.math.graphics.GraphicMatrix;
 
 public class ProjectionMatrixUniform extends GraphicMatrixUniform {
 
-    public ProjectionMatrixUniform(GraphicMatrix value) {
-        super(value);
+    public ProjectionMatrixUniform() {
+        super();
     }
 
     @Override

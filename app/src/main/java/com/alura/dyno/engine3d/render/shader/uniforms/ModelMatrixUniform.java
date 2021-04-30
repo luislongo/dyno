@@ -5,8 +5,8 @@ import com.alura.dyno.math.graphics.GraphicMatrix;
 
 public class ModelMatrixUniform extends GraphicMatrixUniform {
 
-    public ModelMatrixUniform(GraphicMatrix value) {
-        super(value);
+    public ModelMatrixUniform() {
+        super();
     }
 
     @Override
