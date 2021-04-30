@@ -14,4 +14,7 @@ public class WireRenderer extends Renderer<Wire> {
     @Override public int getDrawMode() {
         return GLES20.GL_LINES;
     }
+    public void setWire(Wire wire) {
+        this.sharedData = wire;
+    }
 }

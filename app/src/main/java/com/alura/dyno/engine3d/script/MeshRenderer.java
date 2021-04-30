@@ -18,5 +18,7 @@ public class MeshRenderer extends Renderer<Mesh> {
     @Override public int getDrawMode() {
         return GLES20.GL_TRIANGLES;
     }
-
+    public void setMesh(Mesh mesh) {
+        this.setData(mesh);
+    }
 }

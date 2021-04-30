@@ -41,7 +41,7 @@ public abstract class Renderer<T extends GraphicObjectData> extends Script {
     public void setShader(Shader shader) {
         this.shader = shader;
     }
-    public void setData(T data) {
+    protected void setData(T data) {
         this.sharedData = data;
         isLoaded = false;
     }
