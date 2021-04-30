@@ -116,33 +116,6 @@ class TreeTest {
         assertEquals(scriptB, parent.getLeaves().get(1));
     }
 
-    @Test public void getRootTest_1() {
-        Glyph parent = new Glyph("parent");
-        Glyph childA = new Glyph("childA");
-        Glyph childAA = new Glyph("childAA");
-        Glyph childAB = new Glyph("childAB");
-        Glyph childB = new Glyph("childB");
-        Glyph childBA = new Glyph("childBA");
-        Glyph childBB = new Glyph("childBB");
-        Glyph childBC = new Glyph("childBC");
-
-        parent.addChild(childA);
-        childA.addChild(childAA);
-        childA.addChild(childAB);
-        parent.addChild(childB);
-        childB.addChild(childBA);
-        childB.addChild(childBB);
-        childB.addChild(childBC);
-
-        assertEquals(parent, childA.getRoot());
-        assertEquals(parent, childB.getRoot());
-        assertEquals(parent, childAA.getRoot());
-        assertEquals(parent, childAB.getRoot());
-        assertEquals(parent, childBA.getRoot());
-        assertEquals(parent, childBB.getRoot());
-        assertEquals(parent, childBC.getRoot());
-    }
-
     @Test public void getLeavesTest_1() {
         Glyph parent = new Glyph("parent");
         Script scriptA = new Script("scriptA");
