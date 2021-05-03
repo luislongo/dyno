@@ -1,4 +1,4 @@
-package com.alura.dyno.engine3d.render.shader.uniforms;
+package com.alura.dyno.engine3d.render.uniforms;
 
 import android.opengl.GLES20;
 
@@ -7,7 +7,7 @@ import com.alura.dyno.engine3d.utils.RGBAColor;
 
 public abstract class ColorUniform extends Uniform<RGBAColor> {
 
-    public ColorUniform(RGBAColor value) {
+    public ColorUniform() {
         super();
     }
 

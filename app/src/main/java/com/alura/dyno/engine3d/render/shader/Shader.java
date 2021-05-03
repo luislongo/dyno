@@ -2,9 +2,9 @@ package com.alura.dyno.engine3d.render.shader;
 
 import android.opengl.GLES20;
 
-import com.alura.dyno.engine3d.render.attr.IAttribute;
+import com.alura.dyno.engine3d.render.attributes.IAttribute;
 import com.alura.dyno.engine3d.render.buffer.BufferLayout;
-import com.alura.dyno.engine3d.render.shader.uniforms.Uniform;
+import com.alura.dyno.engine3d.render.uniforms.Uniform;
 import com.alura.dyno.engine3d.script.Renderer;
 
 import java.util.HashMap;

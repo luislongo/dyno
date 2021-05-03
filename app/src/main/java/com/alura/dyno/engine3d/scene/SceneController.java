@@ -13,7 +13,6 @@ import com.alura.dyno.engine3d.eventsystem.events.OnTapEvent;
 import com.alura.dyno.engine3d.eventsystem.events.OnUpdateEvent;
 import com.alura.dyno.engine3d.eventsystem.events.OnViewChangedEvent;
 import com.alura.dyno.engine3d.eventsystem.events.OnViewCreatedEvent;
-import com.alura.dyno.engine3d.eventsystem.handlers.ITreeEventHandler;
 import com.alura.dyno.engine3d.glyph.Camera;
 import com.alura.dyno.engine3d.glyph.Glyph;
 import com.alura.dyno.engine3d.input.IInputListener;
@@ -23,14 +22,14 @@ import com.alura.dyno.engine3d.render.Texture;
 import com.alura.dyno.engine3d.render.shader.ShaderLoader;
 import com.alura.dyno.engine3d.render.shader.ShaderType;
 import com.alura.dyno.engine3d.render.shader.SimpleShader;
+import com.alura.dyno.engine3d.render.shader.SimpleTextShader;
 import com.alura.dyno.engine3d.script.CameraController;
 import com.alura.dyno.engine3d.script.CreateBoxOnTap;
 import com.alura.dyno.engine3d.script.Script;
 import com.alura.dyno.engine3d.text.Font;
 import com.alura.dyno.engine3d.text.FontLoader;
+import com.alura.dyno.engine3d.utils.RGBAColor;
 import com.alura.dyno.math.graphics.Vector3;
-
-import org.junit.internal.runners.statements.FailOnTimeout;
 
 import java.util.Iterator;
 
@@ -71,7 +70,7 @@ public class SceneController implements
     @Override public void onViewCreated(OnViewCreatedEvent event) {
         chechMaxTextureSlot();
         loadMaterial();
-        loadShader();
+        loadShaders();
         loadCamera();
         loadFonts();
         loadObjects();
@@ -103,15 +102,22 @@ public class SceneController implements
     }
 
     private void loadFonts() {
-        Font font = new FontLoader(context).load(R.drawable.pengel, R.raw.pengel);
+        Font font = new FontLoader(context).load(R.drawable.pengeldist, R.raw.pengeldist);
         model.cacheFont("Font", font);
     }
-    private void loadShader() {
+    private void loadShaders() {
         ShaderLoader loader = new ShaderLoader(context);
-        loader.loadFromRawResource(ShaderType.Vertex, R.raw.shaderv_object);
-        loader.loadFromRawResource(ShaderType.Fragment, R.raw.shaderf_object);
+        loader.loadFromRawResource(ShaderType.Vertex, R.raw.obj_vert);
+        loader.loadFromRawResource(ShaderType.Fragment, R.raw.obj_frag);
 
         model.cacheShader("ObjShader", new SimpleShader(loader.getSources()));
+
+        ShaderLoader loader2 = new ShaderLoader(context);
+        loader2.loadFromRawResource(ShaderType.Vertex, R.raw.obj_vert);
+        loader2.loadFromRawResource(ShaderType.Fragment, R.raw.text_frag);
+
+        model.cacheShader("TextShader", new SimpleTextShader(loader2.getSources()));
+
     }
     private void loadMaterial() {
         Texture texture = new Texture(R.drawable.crate_0, context);
@@ -121,11 +127,12 @@ public class SceneController implements
         material.setAlbedo(model.getTexture("Box"));
         model.cacheMaterial("Box", material);
 
-        Texture fontAtlas = new Texture(R.drawable.pengel, context);
+        Texture fontAtlas = new Texture(R.drawable.pengeldist, context);
         model.cacheTexture("FontAtlas", fontAtlas);
 
         Material fontMaterial = new Material("FontMaterial");
         fontMaterial.setAlbedo(model.getTexture("FontAtlas"));
+        fontMaterial.setAlbedoColor(RGBAColor.ACQUA_GREEN);
         model.cacheMaterial("FontMaterial", fontMaterial);
     }
     private void loadCamera() {

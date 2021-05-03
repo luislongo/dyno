@@ -1,4 +1,4 @@
-package com.alura.dyno.engine3d.render.shader.uniforms;
+package com.alura.dyno.engine3d.render.uniforms;
 
 import android.opengl.GLES20;
 import android.util.Log;

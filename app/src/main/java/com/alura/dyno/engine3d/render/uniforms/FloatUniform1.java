@@ -1,4 +1,4 @@
-package com.alura.dyno.engine3d.render.shader.uniforms;
+package com.alura.dyno.engine3d.render.uniforms;
 
 import android.opengl.GLES20;
 
@@ -6,7 +6,7 @@ import com.alura.dyno.engine3d.script.Renderer;
 
 public abstract class FloatUniform1 extends Uniform<Float> {
 
-    public FloatUniform1(Float value) {
+    public FloatUniform1() {
         super();
     }
 

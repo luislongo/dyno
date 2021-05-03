@@ -4,7 +4,7 @@ import android.opengl.GLES20;
 import android.util.Log;
 
 import com.alura.dyno.engine3d.render.Vertex;
-import com.alura.dyno.engine3d.render.attr.IAttribute;
+import com.alura.dyno.engine3d.render.attributes.IAttribute;
 
 import java.nio.FloatBuffer;
 import java.util.Stack;

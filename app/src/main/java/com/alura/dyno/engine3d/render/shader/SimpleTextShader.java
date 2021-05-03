@@ -5,27 +5,45 @@ import com.alura.dyno.engine3d.render.attributes.UVAttribute;
 import com.alura.dyno.engine3d.render.uniforms.AlbedoUniform;
 import com.alura.dyno.engine3d.render.uniforms.ModelMatrixUniform;
 import com.alura.dyno.engine3d.render.uniforms.ProjectionMatrixUniform;
+import com.alura.dyno.engine3d.render.uniforms.TextColorUniform;
+import com.alura.dyno.engine3d.render.uniforms.TextHardEdgeUniform;
+import com.alura.dyno.engine3d.render.uniforms.TextSoftEdgeUniform;
 import com.alura.dyno.engine3d.render.uniforms.ViewMatrixUniform;
+import com.alura.dyno.engine3d.script.Renderer;
 
 import java.util.List;
 
-public class SimpleShader extends Shader {
+public class SimpleTextShader extends Shader {
+    float hardEdge = 0.5f;
+    float softEdge = 0.48f;
 
-    public SimpleShader(List<ShaderSource> sources) {
+    public SimpleTextShader(List<ShaderSource> sources) {
         super(sources);
 
-        initializeUniforms();
         initializeLayout();
+        initializeUniforms();
     }
     private void initializeUniforms() {
         putUniform(new ModelMatrixUniform());
         putUniform(new ViewMatrixUniform());
         putUniform(new ProjectionMatrixUniform());
         putUniform(new AlbedoUniform());
+        putUniform(new TextColorUniform());
+        putUniform(new TextHardEdgeUniform() {
+            @Override
+            public Float getValue(Renderer renderer) {
+                return hardEdge;
+            }
+        });
+        putUniform(new TextSoftEdgeUniform() {
+            @Override
+            public Float getValue(Renderer renderer) {
+                return softEdge;
+            }
+        });
     }
     private void initializeLayout() {
         pushAttribute(new PositionAttribute());
         pushAttribute(new UVAttribute());
     }
-
 }

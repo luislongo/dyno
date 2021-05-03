@@ -1,13 +1,12 @@
 package com.alura.dyno.engine3d.render;
 
-import com.alura.dyno.engine3d.render.shader.Shader;
+import com.alura.dyno.engine3d.script.Renderer;
 import com.alura.dyno.engine3d.utils.RGBAColor;
 
-import org.w3c.dom.Text;
-
-public class Material {
+public class Material<T extends Renderer> {
     String name;
     Texture albedo = null;
+    RGBAColor albedoColor = RGBAColor.MAGENTA;
 
     Texture metallic = null;
     float smoothFactor = 0.0f;
@@ -23,6 +22,7 @@ public class Material {
     public Texture getAlbedo() {
         return albedo;
     }
+    public RGBAColor getAlbedoColor() {return albedoColor; }
     public Texture getMetallic() {
         return metallic;
     }
@@ -44,6 +44,9 @@ public class Material {
 
     public void setAlbedo(Texture albedo) {
         this.albedo = albedo;
+    }
+    public void setAlbedoColor(RGBAColor color) {
+        this.albedoColor = color;
     }
     public void setMetallic(Texture metallic) {
         this.metallic = metallic;

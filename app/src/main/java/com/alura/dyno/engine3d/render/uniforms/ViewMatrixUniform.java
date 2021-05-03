@@ -1,4 +1,4 @@
-package com.alura.dyno.engine3d.render.shader.uniforms;
+package com.alura.dyno.engine3d.render.uniforms;
 
 import com.alura.dyno.engine3d.scene.SceneController;
 import com.alura.dyno.engine3d.script.Renderer;

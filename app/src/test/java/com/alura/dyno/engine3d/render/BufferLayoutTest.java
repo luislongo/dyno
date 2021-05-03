@@ -1,11 +1,11 @@
 package com.alura.dyno.engine3d.render;
 
-import com.alura.dyno.engine3d.render.attr.NormalAttribute;
-import com.alura.dyno.engine3d.render.attr.ColorAttribute;
-import com.alura.dyno.engine3d.render.attr.CustomAttribute;
-import com.alura.dyno.engine3d.render.attr.IAttribute;
-import com.alura.dyno.engine3d.render.attr.PositionAttribute;
-import com.alura.dyno.engine3d.render.attr.UVAttribute;
+import com.alura.dyno.engine3d.render.attributes.NormalAttribute;
+import com.alura.dyno.engine3d.render.attributes.ColorAttribute;
+import com.alura.dyno.engine3d.render.attributes.CustomAttribute;
+import com.alura.dyno.engine3d.render.attributes.IAttribute;
+import com.alura.dyno.engine3d.render.attributes.PositionAttribute;
+import com.alura.dyno.engine3d.render.attributes.UVAttribute;
 import com.alura.dyno.engine3d.render.buffer.BufferLayout;
 import com.alura.dyno.engine3d.utils.RGBAColor;
 import com.alura.dyno.math.graphics.Vector2;

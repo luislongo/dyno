@@ -28,10 +28,13 @@ public class CreateBoxOnTap extends Script {
                     SceneController.getModel().getFont("Font"),
                     new SingleLineSimpleTextLayouter());
             renderer.setMaterial(SceneController.getModel().getMaterial("FontMaterial"));
-            renderer.setShader(SceneController.getModel().getShader("ObjShader"));
+            renderer.setShader(SceneController.getModel().getShader("TextShader"));
             renderer.setText("ABCDEFGHIJKLM");
 
+            RotateScript rotateScript = new RotateScript("Name", Quaternion.fromAxisAndAngle(Vector3.forward(), 0.1f));
+
             text.addLeaf(renderer);
+            text.addLeaf(rotateScript);
             parent.addChild(text);
             pos += 10;
         }

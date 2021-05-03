@@ -106,6 +106,7 @@ public abstract class Renderer<T extends GraphicObjectData> extends Script {
             shader.bind(Renderer.this);
             shader.setUniformsFromRenderer(Renderer.this);
 
+
             GLES20.glDrawElements(getDrawMode(),
                     3 * sharedData.getFaceCount(), GLES20.GL_UNSIGNED_INT, ibo);
         }

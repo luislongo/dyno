@@ -1,4 +1,4 @@
-package com.alura.dyno.engine3d.render.attr;
+package com.alura.dyno.engine3d.render.attributes;
 
 public abstract class CustomAttribute implements IAttribute {
     String name;

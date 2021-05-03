@@ -1,8 +1,7 @@
-package com.alura.dyno.engine3d.render.attr;
+package com.alura.dyno.engine3d.render.attributes;
 
 import com.alura.dyno.engine3d.render.Vertex;
 
-import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
 public interface IAttribute {

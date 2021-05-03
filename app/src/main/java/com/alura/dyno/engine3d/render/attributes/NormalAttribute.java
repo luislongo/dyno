@@ -1,24 +1,24 @@
-package com.alura.dyno.engine3d.render.attr;
+package com.alura.dyno.engine3d.render.attributes;
 
 import com.alura.dyno.engine3d.render.Vertex;
 
-import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
-public class ColorAttribute implements IAttribute {
+public class NormalAttribute implements IAttribute {
     @Override public String getName() {
-        return "a_Color";
+        return "a_Normal";
     }
     @Override public int getSize() {
-        return 4 * Float.BYTES;
+        return 3 * Float.BYTES;
     }
     @Override public int getCount() {
-        return 4;
+        return 3;
     }
     @Override public boolean doNormalize() {
         return false;
     }
     @Override public void layoutVertex(Vertex v, FloatBuffer buffer) {
-        buffer.put(v.color.toArray());
+        buffer.put(v.normal.toArray());
     }
 }
+
