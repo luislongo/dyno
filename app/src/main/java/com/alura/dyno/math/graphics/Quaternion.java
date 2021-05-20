@@ -1,10 +1,11 @@
 package com.alura.dyno.math.graphics;
 
 import com.alura.dyno.math.MathExtra;
+import com.alura.dyno.math.linalg.AbstractFloatVector;
 
 import org.jetbrains.annotations.NotNull;
 
-public class Quaternion extends FloatVector<Quaternion> {
+public class Quaternion extends AbstractFloatVector<Quaternion> {
     public Quaternion() {
         super(4);
     }

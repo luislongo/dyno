@@ -7,7 +7,6 @@ import com.alura.dyno.engine3d.render.Vertex;
 import com.alura.dyno.engine3d.render.VertexBuilder;
 import com.alura.dyno.engine3d.render.buffer.Mesh;
 import com.alura.dyno.engine3d.render.buffer.Wire;
-import com.alura.dyno.math.graphics.Axii;
 import com.alura.dyno.math.graphics.GraphicMatrix;
 import com.alura.dyno.math.graphics.Vector3;
 import com.alura.dyno.math.linalg.Algebra;
@@ -28,7 +27,7 @@ import java.util.List;
        lines = new ArrayList<>();
     
        cursor = new Cursor();
-       preMatrix = Algebra.graphicMatrixFactory().identity();
+       preMatrix = Algebra.graphicMatrixBuilder().identity();
     }
 
     public ShapeDrawer addShape(Shape shape) {

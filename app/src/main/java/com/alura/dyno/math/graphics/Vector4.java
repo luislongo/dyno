@@ -1,8 +1,9 @@
 package com.alura.dyno.math.graphics;
 
+import com.alura.dyno.math.linalg.AbstractFloatVector;
 import com.alura.dyno.math.linalg.Algebra;
 
-public class Vector4 extends FloatVector<Vector4> {
+public class Vector4 extends AbstractFloatVector<Vector4> {
     public Vector4() {super(4);}
     public Vector4(float value) {super(4, value);}
     public Vector4(float[] values)
@@ -43,7 +44,7 @@ public class Vector4 extends FloatVector<Vector4> {
     }
 
     public Vector4 multiply(GraphicMatrix m_lhs) {
-        data.assign(Algebra.denseFloat().mult(m_lhs.getData(), this.data));
+        data.assign(Algebra.denseFloatAlgebra().mult(m_lhs.getData(), this.data));
         return this;
     }
 

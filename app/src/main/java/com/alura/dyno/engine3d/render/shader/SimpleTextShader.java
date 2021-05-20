@@ -14,8 +14,8 @@ import com.alura.dyno.engine3d.script.Renderer;
 import java.util.List;
 
 public class SimpleTextShader extends Shader {
-    float hardEdge = 0.5f;
-    float softEdge = 0.48f;
+    float hardEdge = 0.45f;
+    float softEdge = 0.4f;
 
     public SimpleTextShader(List<ShaderSource> sources) {
         super(sources);

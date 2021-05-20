@@ -1,6 +1,6 @@
-package com.alura.dyno.math.graphics;
+package com.alura.dyno.math.linalg;
 
-import com.alura.dyno.math.linalg.Algebra;
+import com.alura.dyno.math.graphics.GraphicMatrix;
 
 import org.junit.jupiter.api.Test;
 
@@ -42,7 +42,7 @@ class FloatMatrixTest {
         assertArrayEquals(expected.toArray(), m1.preMultiply(m2).toArray(), DELTA);
     }
     @Test void testPreMultiply_2() {
-        GraphicMatrix m1 = Algebra.graphicMatrixFactory().identity();
+        GraphicMatrix m1 = Algebra.graphicMatrixBuilder().identity();
         GraphicMatrix m2 = new GraphicMatrix(new float[]{
                 -7.0f, -6.0f, -5.0f, -4.0f,
                 -3.0f, -2.0f, -1.0f,  0.0f,
@@ -110,7 +110,7 @@ class FloatMatrixTest {
         assertArrayEquals(expected.toArray(), m1.postMultiply(m2).toArray(), DELTA);
     }
     @Test void testPostMultiply_2() {
-        GraphicMatrix m1 = Algebra.graphicMatrixFactory().identity();
+        GraphicMatrix m1 = Algebra.graphicMatrixBuilder().identity();
         GraphicMatrix m2 = new GraphicMatrix(new float[]{
                 -7.0f, -6.0f, -5.0f, -4.0f,
                 -3.0f, -2.0f, -1.0f,  0.0f,
@@ -184,9 +184,9 @@ class FloatMatrixTest {
 
     //Test invert
     @Test void testInvert_1() {
-        GraphicMatrix m1 = Algebra.graphicMatrixFactory().identity();
+        GraphicMatrix m1 = Algebra.graphicMatrixBuilder().identity();
 
-        GraphicMatrix expected = Algebra.graphicMatrixFactory().identity();
+        GraphicMatrix expected = Algebra.graphicMatrixBuilder().identity();
         assertArrayEquals(m1.toArray(), expected.toArray(), DELTA);
     }
     @Test void testInvert_2() {
@@ -209,17 +209,17 @@ class FloatMatrixTest {
         });
         GraphicMatrix m2 = m1.clone().invert();
 
-        GraphicMatrix expected = Algebra.graphicMatrixFactory().identity();
+        GraphicMatrix expected = Algebra.graphicMatrixBuilder().identity();
         assertArrayEquals(expected.toArray(), m1.clone().preMultiply(m2).toArray(), DELTA);
         assertArrayEquals(expected.toArray(), m1.clone().postMultiply(m2).toArray(), DELTA);
     }
 
     //Test transpose
     @Test void testTranspose_1() {
-        GraphicMatrix m = Algebra.graphicMatrixFactory().identity();
+        GraphicMatrix m = Algebra.graphicMatrixBuilder().identity();
         m.transpose();
 
-        assertArrayEquals(Algebra.graphicMatrixFactory().identity().toArray(), m.toArray(), DELTA);
+        assertArrayEquals(Algebra.graphicMatrixBuilder().identity().toArray(), m.toArray(), DELTA);
     }
     @Test void testTranspose_2() {
         GraphicMatrix m1 = new GraphicMatrix(new float[]{

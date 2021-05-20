@@ -37,7 +37,7 @@ public class Axii {
         return modelMatrix;
     }
     private void updateModelMatrix() {
-        modelMatrix = Algebra.graphicMatrixFactory().identity();
+        modelMatrix = Algebra.graphicMatrixBuilder().identity();
         modelMatrix.scale(scale).rotate(rotation).translate(position);
         isUpdated = true;
     }

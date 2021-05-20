@@ -2,9 +2,9 @@ package com.alura.dyno.engine3d.utils;
 
 import android.graphics.Color;
 
-import com.alura.dyno.math.graphics.FloatVector;
+import com.alura.dyno.math.linalg.AbstractFloatVector;
 
-public class RGBAColor extends FloatVector<RGBAColor> {
+public class RGBAColor extends AbstractFloatVector<RGBAColor> {
     public static RGBAColor RED            = new RGBAColor(1.0f, 0.0f, 0.0f, 1.0f);
     public static RGBAColor BLUE           = new RGBAColor(0.0f, 0.0f, 1.0f, 1.0f);
     public static RGBAColor GREEN          = new RGBAColor(0.0f, 1.0f, 0.0f, 1.0f);

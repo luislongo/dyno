@@ -1,11 +1,11 @@
 package com.alura.dyno.math.graphics;
 
 import com.alura.dyno.math.linalg.Algebra;
-
+import com.alura.dyno.math.linalg.AbstractFloatMatrix;
 import cern.colt.matrix.tfloat.FloatFactory1D;
 import cern.colt.matrix.tfloat.FloatMatrix1D;
 
-public class GraphicMatrix extends FloatMatrix<GraphicMatrix> {
+public class GraphicMatrix extends AbstractFloatMatrix<GraphicMatrix> {
 
     public GraphicMatrix() {
         super(4, 4);
@@ -21,23 +21,23 @@ public class GraphicMatrix extends FloatMatrix<GraphicMatrix> {
     }
 
     public GraphicMatrix translate(Vector3 delta) {
-        this.preMultiply(Algebra.graphicMatrixFactory().translation(delta));
+        this.preMultiply(Algebra.graphicMatrixBuilder().translation(delta));
         return this;
     }
     public GraphicMatrix rotateEuler(Vector3 euler) {
-        this.preMultiply(Algebra.graphicMatrixFactory().rotateEuler(euler));
+        this.preMultiply(Algebra.graphicMatrixBuilder().rotateEuler(euler));
         return this;
     }
     public GraphicMatrix rotate(Vector3 axis, float angle) {
-        this.preMultiply(Algebra.graphicMatrixFactory().rotate(axis,angle));
+        this.preMultiply(Algebra.graphicMatrixBuilder().rotate(axis,angle));
         return this;
     }
     public GraphicMatrix rotate(Quaternion q) {
-        this.preMultiply(Algebra.graphicMatrixFactory().rotate(q));
+        this.preMultiply(Algebra.graphicMatrixBuilder().rotate(q));
         return this;
     }
     public GraphicMatrix scale(Vector3 delta) {
-        this.preMultiply(Algebra.graphicMatrixFactory().scale(delta));
+        this.preMultiply(Algebra.graphicMatrixBuilder().scale(delta));
         return this;
     }
 

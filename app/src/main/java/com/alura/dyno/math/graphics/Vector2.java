@@ -1,6 +1,8 @@
 package com.alura.dyno.math.graphics;
 
-public class Vector2 extends FloatVector<Vector2> {
+import com.alura.dyno.math.linalg.AbstractFloatVector;
+
+public class Vector2 extends AbstractFloatVector<Vector2> {
     public final Vector2 vertical() {
         return new Vector2(0.0f, 1.0f);
     }

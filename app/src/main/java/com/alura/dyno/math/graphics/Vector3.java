@@ -1,8 +1,10 @@
 package com.alura.dyno.math.graphics;
 
+import com.alura.dyno.math.linalg.AbstractFloatVector;
+
 import org.jetbrains.annotations.NotNull;
 
-public class Vector3 extends FloatVector<Vector3> {
+public class Vector3 extends AbstractFloatVector<Vector3> {
     public Vector3()
     {
         super(3);

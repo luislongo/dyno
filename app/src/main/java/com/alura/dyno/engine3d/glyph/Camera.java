@@ -72,7 +72,7 @@ public class Camera extends Glyph implements ICamera {
         Vector3 center = eye.clone().plus(new Vector3(0.0f, 0.0f, -1.0f));
         Vector3 up = new Vector3(0.0f, 1.0f, 0.0f);
 
-        viewMatrix = Algebra.graphicMatrixFactory().lookAt(eye, center, up);
+        viewMatrix = Algebra.graphicMatrixBuilder().lookAt(eye, center, up);
     }
     private void updateProjectionMatrix() {
         switch(projectionType) {
@@ -93,14 +93,14 @@ public class Camera extends Glyph implements ICamera {
             float bottom = position.y() - screenSize.y() / zoom;
             float top = position.y() + screenSize.y() / zoom;
 
-            projectionMatrix = Algebra.graphicMatrixFactory()
+            projectionMatrix = Algebra.graphicMatrixBuilder()
                     .orthogonal(left, right, bottom, top, near, far);
         }
     }
     private void calculatePerspectiveProjectionMatrix() {
         float aspect = screenSize.x() / screenSize.y();
 
-        projectionMatrix = Algebra.graphicMatrixFactory()
+        projectionMatrix = Algebra.graphicMatrixBuilder()
                 .perspective(60, aspect, near, far);
     }
 

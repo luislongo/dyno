@@ -29,7 +29,7 @@ public class GraphicMatrixTest {
     }
 
     @Test public void translateTest_1() {
-        GraphicMatrix m = Algebra.graphicMatrixFactory().identity();
+        GraphicMatrix m = Algebra.graphicMatrixBuilder().identity();
         m.translate(new Vector3(1.0f,0.0f,0.0f));
 
         float[] expected = new float[] {
@@ -42,7 +42,7 @@ public class GraphicMatrixTest {
         assertArrayEquals(expected, m.toArray(), DELTA);
     }
     @Test public void translateTest_2() {
-        GraphicMatrix m = Algebra.graphicMatrixFactory().identity();
+        GraphicMatrix m = Algebra.graphicMatrixBuilder().identity();
         m.translate(new Vector3(0.0f,1.0f,0.0f));
 
         float[] expected = new float[] {
@@ -55,7 +55,7 @@ public class GraphicMatrixTest {
         assertArrayEquals(expected, m.toArray(), DELTA);
     }
     @Test public void translateTest_3() {
-        GraphicMatrix m = Algebra.graphicMatrixFactory().identity();
+        GraphicMatrix m = Algebra.graphicMatrixBuilder().identity();
         m.translate(new Vector3(0.0f,0.0f,1.0f));
 
         float[] expected = new float[] {
@@ -70,7 +70,7 @@ public class GraphicMatrixTest {
     @Test public void translateTest_4() {
         Vector3 v0 = randomVec3();
         Vector3 vDelta = randomVec3();
-        GraphicMatrix m = Algebra.graphicMatrixFactory().translation(vDelta);
+        GraphicMatrix m = Algebra.graphicMatrixBuilder().translation(vDelta);
 
         Vector3 expected = v0.clone().plus(vDelta);
         Vector3 actual = v0.clone().multiply(m, 1.0f);
@@ -80,7 +80,7 @@ public class GraphicMatrixTest {
     @Test public void translateTest_5() {
         Vector3 v0 = randomVec3();
         Vector3 vDelta = randomVec3();
-        GraphicMatrix m = Algebra.graphicMatrixFactory().translation(vDelta);
+        GraphicMatrix m = Algebra.graphicMatrixBuilder().translation(vDelta);
 
         Vector3 expected = v0.clone();
         Vector3 actual = v0.clone().multiply(m, 0.0f);
@@ -89,7 +89,7 @@ public class GraphicMatrixTest {
     }
 
     @Test public void rotateTest_1() {
-        GraphicMatrix rot = Algebra.graphicMatrixFactory().identity()
+        GraphicMatrix rot = Algebra.graphicMatrixBuilder().identity()
                 .rotate(new Vector3(1.0f, 0.0f, 0.0f), 90.0f);
 
         Vector3 v1 = new Vector3(1.0f, 0.0f, 0.0f);
@@ -108,7 +108,7 @@ public class GraphicMatrixTest {
         assertArrayEquals(v3expected, v3.toArray(), DELTA);
     }
     @Test public void rotateTest_2() {
-        GraphicMatrix rot = Algebra.graphicMatrixFactory().identity()
+        GraphicMatrix rot = Algebra.graphicMatrixBuilder().identity()
                 .rotate(new Vector3(0.0f, 1.0f, 0.0f), 90.0f);
 
         Vector3 v1 = new Vector3(1.0f, 0.0f, 0.0f);
@@ -127,7 +127,7 @@ public class GraphicMatrixTest {
         assertArrayEquals(v1expected, v1.toArray(), DELTA);
     }
     @Test public void rotateTest_3() {
-        GraphicMatrix rot = Algebra.graphicMatrixFactory().identity()
+        GraphicMatrix rot = Algebra.graphicMatrixBuilder().identity()
                 .rotate(new Vector3(0.0f, 0.0f, 1.0f), 90.0f);
 
         Vector3 v1 = new Vector3(1.0f, 0.0f, 0.0f);
@@ -146,7 +146,7 @@ public class GraphicMatrixTest {
         assertArrayEquals(v3expected, v3.toArray(), DELTA);
     }
     @Test public void rotateTest_4() {
-        GraphicMatrix rot = Algebra.graphicMatrixFactory().identity()
+        GraphicMatrix rot = Algebra.graphicMatrixBuilder().identity()
                 .rotate(new Vector3(1.0f, 0.0f, 0.0f), 180.0f);
 
         Vector3 v1 = new Vector3(1.0f, 0.0f, 0.0f);
@@ -165,7 +165,7 @@ public class GraphicMatrixTest {
         assertArrayEquals(v3expected, v3.toArray(), DELTA);
     }
     @Test public void rotateTest_5() {
-        GraphicMatrix rot = Algebra.graphicMatrixFactory().identity()
+        GraphicMatrix rot = Algebra.graphicMatrixBuilder().identity()
                 .rotate(new Vector3(0.0f, 1.0f, 0.0f), 180.0f);
 
         Vector3 v1 = new Vector3(1.0f, 0.0f, 0.0f);
@@ -184,7 +184,7 @@ public class GraphicMatrixTest {
         assertArrayEquals(v1expected, v1.toArray(), DELTA);
     }
     @Test public void rotateTest_6() {
-        GraphicMatrix rot = Algebra.graphicMatrixFactory().identity()
+        GraphicMatrix rot = Algebra.graphicMatrixBuilder().identity()
                 .rotate(new Vector3(0.0f, 0.0f, 1.0f), 180.0f);
 
         Vector3 v1 = new Vector3(1.0f, 0.0f, 0.0f);
@@ -205,7 +205,7 @@ public class GraphicMatrixTest {
 
     @Test public void rotateTest_7() {
         Quaternion q = Quaternion.fromAxisAndAngle(new Vector3(1.0f, 0.0f, 0.0f), 90.f);
-        GraphicMatrix rotation = Algebra.graphicMatrixFactory().rotate(q);
+        GraphicMatrix rotation = Algebra.graphicMatrixBuilder().rotate(q);
         Vector3 v = new Vector3(0.0f,1.0f, 0.0f);
 
         v.multiply(rotation, 1.0f);
@@ -222,7 +222,7 @@ public class GraphicMatrixTest {
     }
     @Test public void rotateTest_8() {
         Quaternion q = Quaternion.fromAxisAndAngle(new Vector3(0.0f, 1.0f, 0.0f), 90.f);
-        GraphicMatrix rotation = Algebra.graphicMatrixFactory().rotate(q);
+        GraphicMatrix rotation = Algebra.graphicMatrixBuilder().rotate(q);
         Vector3 v = new Vector3(1.0f,0.0f, 0.0f);
 
         v.multiply(rotation, 1.0f);
@@ -239,7 +239,7 @@ public class GraphicMatrixTest {
     }
     @Test public void rotateTest_9() {
         Quaternion q = Quaternion.fromAxisAndAngle(new Vector3(1.0f, 0.0f, 0.0f), 90.f);
-        GraphicMatrix rotation = Algebra.graphicMatrixFactory().rotate(q);
+        GraphicMatrix rotation = Algebra.graphicMatrixBuilder().rotate(q);
 
         Vector3 v = new Vector3(0.0f,1.0f, 0.0f);
         v.multiply(rotation, 1.0f);
@@ -256,7 +256,7 @@ public class GraphicMatrixTest {
     }
     @Test public void rotateTest_10() {
         Quaternion q = Quaternion.fromAxisAndAngle(new Vector3(0.0f, 0.0f, 1.0f), 90.f);
-        GraphicMatrix rotation = Algebra.graphicMatrixFactory().rotate(q);
+        GraphicMatrix rotation = Algebra.graphicMatrixBuilder().rotate(q);
 
         Vector3 v = new Vector3(1.0f,0.0f, 0.0f);
         v.multiply(rotation, 1.0f);
@@ -273,7 +273,7 @@ public class GraphicMatrixTest {
     }
     @Test public void rotateTest_11() {
         Quaternion q = Quaternion.fromAxisAndAngle(randomVec3(), 360.f);
-        GraphicMatrix rotation = Algebra.graphicMatrixFactory().rotate(q);
+        GraphicMatrix rotation = Algebra.graphicMatrixBuilder().rotate(q);
         Vector3 v = randomVec3();
 
         Vector3 expected = v.clone();
@@ -282,7 +282,7 @@ public class GraphicMatrixTest {
     }
     @Test public void rotateTest_12() {
         Quaternion q = Quaternion.fromAxisAndAngle(randomVec3(), 360.f);
-        GraphicMatrix rotation = Algebra.graphicMatrixFactory().rotate(q);
+        GraphicMatrix rotation = Algebra.graphicMatrixBuilder().rotate(q);
         Vector3 v = randomVec3();
 
         Vector3 expected = v.clone();
@@ -291,7 +291,7 @@ public class GraphicMatrixTest {
     }
     @Test public void rotateTest_13() {
         Quaternion q = Quaternion.fromAxisAndAngle(new Vector3(1.0f, 1.0f, 1.0f), 90.f);
-        GraphicMatrix rotation = Algebra.graphicMatrixFactory().rotate(q);
+        GraphicMatrix rotation = Algebra.graphicMatrixBuilder().rotate(q);
         Vector3 v = new Vector3(1.0f,0.0f, 0.0f);
 
         v.multiply(rotation, 1.0f);

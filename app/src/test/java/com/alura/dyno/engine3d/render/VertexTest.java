@@ -1,7 +1,6 @@
 package com.alura.dyno.engine3d.render;
 
 import com.alura.dyno.engine3d.utils.RGBAColor;
-import com.alura.dyno.math.graphics.FloatVector;
 import com.alura.dyno.math.graphics.Vector2;
 import com.alura.dyno.math.graphics.Vector3;
 

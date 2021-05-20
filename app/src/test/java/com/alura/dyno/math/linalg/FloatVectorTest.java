@@ -1,10 +1,9 @@
-package com.alura.dyno.math.graphics;
+package com.alura.dyno.math.linalg;
 
 import com.alura.dyno.math.graphics.GraphicMatrix;
 import com.alura.dyno.math.graphics.Vector2;
 import com.alura.dyno.math.graphics.Vector3;
 import com.alura.dyno.math.graphics.Vector4;
-import com.alura.dyno.math.linalg.Algebra;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -228,19 +227,19 @@ class FloatVectorTest {
     }
     @Test void testMultiply_13() {
         Vector2 v = new Vector2(-1.0f, 2.0f);
-        GraphicMatrix m = Algebra.graphicMatrixFactory().identity();
+        GraphicMatrix m = Algebra.graphicMatrixBuilder().identity();
 
         assertArrayEquals(v.clone().multiply(m, 0.0f,0.0f).toArray(), v.toArray(), DELTA);
     }
     @Test void testMultiply_14() {
         Vector3 v = new Vector3(-1.0f, 2.0f, 3.0f);
-        GraphicMatrix m = Algebra.graphicMatrixFactory().identity();
+        GraphicMatrix m = Algebra.graphicMatrixBuilder().identity();
 
         assertArrayEquals(v.clone().multiply(m, 0.0f).toArray(), v.toArray(), DELTA);
     }
     @Test void testMultiply_15() {
         Vector4 v = new Vector4(-1.0f, 2.0f, 3.0f, 0.0f);
-        GraphicMatrix m = Algebra.graphicMatrixFactory().identity();
+        GraphicMatrix m = Algebra.graphicMatrixBuilder().identity();
 
         assertArrayEquals(v.clone().multiply(m).toArray(), v.toArray(), DELTA);
     }

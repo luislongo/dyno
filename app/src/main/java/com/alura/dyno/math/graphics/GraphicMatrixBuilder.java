@@ -2,7 +2,7 @@ package com.alura.dyno.math.graphics;
 
 import android.opengl.Matrix;
 
-public class GraphicMatrixFactory {
+public class GraphicMatrixBuilder {
     public GraphicMatrix identity() {
         return new GraphicMatrix(new float[]{
                 1.0f, 0.0f, 0.0f, 0.0f,
