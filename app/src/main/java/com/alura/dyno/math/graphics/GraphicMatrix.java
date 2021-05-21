@@ -42,24 +42,10 @@ public class GraphicMatrix extends AbstractFloatMatrix<GraphicMatrix> {
     }
 
     public float[] toArray() {
-        FloatMatrix1D row1 = data.viewRow(0);
-        FloatMatrix1D row2 = data.viewRow(1);
-        FloatMatrix1D row3 = data.viewRow(2);
-        FloatMatrix1D row4 = data.viewRow(3);
-
-        FloatMatrix1D as1D = FloatFactory1D.dense.make(new FloatMatrix1D[]
-                {row1, row2, row3, row4});
-        return as1D.toArray();
+        return this.clone().transpose().data.vectorize().toArray();
     }
     public float[] toTransposedArray() {
-        FloatMatrix1D col0 = data.viewColumn(0);
-        FloatMatrix1D col1 = data.viewColumn(1);
-        FloatMatrix1D col2 = data.viewColumn(2);
-        FloatMatrix1D col3 = data.viewColumn(3);
-
-        FloatMatrix1D as1D = FloatFactory1D.dense.make(new FloatMatrix1D[]
-                {col0, col1, col2, col3});
-        return as1D.toArray();
+        return this.clone().data.vectorize().toArray();
     }
     @Override public GraphicMatrix clone() {
         return new GraphicMatrix(this);

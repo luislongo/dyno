@@ -2,8 +2,6 @@ package com.alura.dyno.math.linalg;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.stream.DoubleStream;
-
 import cern.colt.matrix.tdouble.DoubleMatrix1D;
 import cern.colt.matrix.tdouble.DoubleMatrix2D;
 import cern.colt.matrix.tdouble.algo.DenseDoubleAlgebra;
@@ -15,29 +13,29 @@ import static cern.jet.math.tdouble.DoubleFunctions.minus;
 import static cern.jet.math.tdouble.DoubleFunctions.mult;
 import static cern.jet.math.tdouble.DoubleFunctions.plus;
 
-public class DenseDoubleMatrix {
+public class DoubleMatrix {
     protected DenseDoubleMatrix2D data;
 
-    protected DenseDoubleMatrix(DenseDoubleMatrix2D data) {
+    protected DoubleMatrix(DenseDoubleMatrix2D data) {
         this.data = data;
     }
-    public DenseDoubleMatrix(int rows, int cols) {
+    public DoubleMatrix(int rows, int cols) {
         data = new DenseDoubleMatrix2D(rows, cols);
         this.data = data;
     }
-    public DenseDoubleMatrix(int rows, int cols, double value) {
+    public DoubleMatrix(int rows, int cols, double value) {
         this(rows, cols);
         data.assign(value);
     }
-    public DenseDoubleMatrix(int rows, int cols, double[] values) {
+    public DoubleMatrix(int rows, int cols, double[] values) {
         this(rows, cols);
         data.assign(values);
     }
-    public DenseDoubleMatrix(@NotNull double[][] values) {
+    public DoubleMatrix(@NotNull double[][] values) {
         this(values.length, values[0].length);
         data.assign(values);
     }
-    public DenseDoubleMatrix(@NotNull DenseDoubleMatrix other) {
+    public DoubleMatrix(@NotNull DoubleMatrix other) {
         this(other.rows(), other.cols());
         this.data.assign(other.data);
     }
@@ -50,45 +48,45 @@ public class DenseDoubleMatrix {
     }
 
     // Matrix operations
-    public DenseDoubleMatrix plus(@NotNull DenseDoubleMatrix m_rhs) {
+    public DoubleMatrix plus(@NotNull DoubleMatrix m_rhs) {
         data.assign(m_rhs.data, plus);
         return this;
     }
-    public DenseDoubleMatrix minus(@NotNull DenseDoubleMatrix m_rhs) {
+    public DoubleMatrix minus(@NotNull DoubleMatrix m_rhs) {
         data.assign(m_rhs.data, minus);
         return this;
     }
-    public DenseDoubleMatrix divide(double c) {
+    public DoubleMatrix divide(double c) {
         checkDivisionByZero(c);
 
         data.assign(div(c));
         return this;
     }
-    public DenseDoubleMatrix multiply(double value) {
+    public DoubleMatrix multiply(double value) {
         data.assign(mult(value));
         return this;
     }
-    public DenseDoubleMatrix preMultiply(@NotNull DenseDoubleMatrix m_lhs) {
+    public DoubleMatrix preMultiply(@NotNull DoubleMatrix m_lhs) {
         DenseDoubleAlgebra fun = Algebra.denseDoubleAlgebra();
         DenseDoubleMatrix2D result = (DenseDoubleMatrix2D) fun.mult(m_lhs.data, this.data);
         data = result;
 
         return this;
     }
-    public DenseDoubleMatrix postMultiply(@NotNull DenseDoubleMatrix m_rhs) {
+    public DoubleMatrix postMultiply(@NotNull DoubleMatrix m_rhs) {
         DenseDoubleAlgebra fun = Algebra.denseDoubleAlgebra();
         DenseDoubleMatrix2D result = (DenseDoubleMatrix2D) fun.mult(this.data, m_rhs.data);
         data = result;
 
         return this;
     }
-    public DenseDoubleMatrix invert() {
+    public DoubleMatrix invert() {
         DenseDoubleAlgebra fun = Algebra.denseDoubleAlgebra();
         data.assign(fun.inverse(this.data));
 
         return this;
     }
-    public DenseDoubleMatrix transpose() {
+    public DoubleMatrix transpose() {
         DenseDoubleAlgebra fun = Algebra.denseDoubleAlgebra();
         DenseDoubleMatrix2D result = (DenseDoubleMatrix2D) fun.transpose(this.data);
         data = result;
@@ -96,17 +94,21 @@ public class DenseDoubleMatrix {
         return this;
     }
 
+    // Static matrix operations (returns new Matrix)
+    @NotNull
+
+
     // Getters
     public double getCell(int row, int col) {
         return data.get(row, col);
     }
-    public DenseDoubleMatrix getRow(int row) {
-        return new DenseDoubleMatrix(1, cols(), data.viewRow(row).toArray());
+    public DoubleMatrix getRow(int row) {
+        return new DoubleMatrix(1, cols(), data.viewRow(row).toArray());
     }
-    public DenseDoubleMatrix getColumn(int column) {
-        return new DenseDoubleMatrix(rows(), 1, data.viewColumn(column).toArray());
+    public DoubleMatrix getColumn(int column) {
+        return new DoubleMatrix(rows(), 1, data.viewColumn(column).toArray());
     }
-    public DenseDoubleMatrix getRange(int rowA, int colA, int rowB, int colB) {
+    public DoubleMatrix getRange(int rowA, int colA, int rowB, int colB) {
         int height = rowB - rowA + 1;
         int width = colB - colA + 1;
 
@@ -114,29 +116,35 @@ public class DenseDoubleMatrix {
             throw new IllegalArgumentException("rowA > rowB || colA > colB");
         }
 
-        return new DenseDoubleMatrix(data.viewPart(rowA, colA, height, width).toArray());
+        return new DoubleMatrix(data.viewPart(rowA, colA, height, width).toArray());
     }
 
     // Setters
-    public void setCell(int row, int col, double c) {
+    public DoubleMatrix setCell(int row, int col, double c) {
         data.set(row, col, c);
+        return this;
     }
-    public void setRow(int row, @NotNull DenseDoubleMatrix rowData) {
+    public DoubleMatrix setRow(int row, @NotNull DoubleMatrix rowData) {
         this.setRow(row, rowData.toArray());
+        return this;
     }
-    public void setRow(int row, double[] rowData) {
+    public DoubleMatrix setRow(int row, double[] rowData) {
         this.data.viewRow(row).assign(rowData);
+        return this;
     }
-    public void setColumn(int column, @NotNull DenseDoubleMatrix columnData) {
+    public DoubleMatrix setColumn(int column, @NotNull DoubleMatrix columnData) {
         this.setColumn(column, columnData.toArray());
+        return this;
     }
-    public void setColumn(int column, double[] columnData) {
+    public DoubleMatrix setColumn(int column, double[] columnData) {
         this.data.viewColumn(column).assign(columnData);
+        return this;
     }
-    public void setRange(int rowA, int colA, int rowB, int colB, double[][] rangeData) {
+    public DoubleMatrix setRange(int rowA, int colA, int rowB, int colB, double[][] rangeData) {
         this.data.viewPart(rowA, colA, rowB, colB).assign(rangeData);
+        return this;
     }
-    public void setRange(int rowA, int colA, int rowB, int colB, DenseDoubleMatrix rangeData) {
+    public DoubleMatrix setRange(int rowA, int colA, int rowB, int colB, DoubleMatrix rangeData) {
         int height = rowB - rowA + 1;
         int width = colB - colA + 1;
 
@@ -145,37 +153,47 @@ public class DenseDoubleMatrix {
         }
 
         this.setRange(rowA, colA, height, width, rangeData.toArray2D());
+        return this;
     }
 
     // Plus operations on submatrix
-    public void plusCell(int row, int col, double c) {
+    public DoubleMatrix plusCell(int row, int col, double c) {
         data.set(row, col, data.get(row, col) + c);
+        return this;
     }
-    public void plusRow(int row, double[] rowData) {
+    public DoubleMatrix plusRow(int row, double[] rowData) {
         this.plusRow(row, new DenseDoubleMatrix1D(rowData));
+        return this;
     }
-    public void plusRow(int row, @NotNull DenseDoubleMatrix rowData) {
+    public DoubleMatrix plusRow(int row, @NotNull DoubleMatrix rowData) {
         this.plusRow(row, rowData.data.viewRow(0));
+        return this;
     }
-    private void plusRow(int row, DoubleMatrix1D rowData) {
+    private DoubleMatrix plusRow(int row, DoubleMatrix1D rowData) {
         this.data.viewRow(row).assign(rowData, plus);
+        return this;
     }
-    public void plusColumn(int column, double[] colData) {
+    public DoubleMatrix plusColumn(int column, double[] colData) {
         this.plusColumn(column, new DenseDoubleMatrix1D(colData));
+        return this;
     }
-    public void plusColumn(int column, @NotNull DenseDoubleMatrix colData) {
+    public DoubleMatrix plusColumn(int column, @NotNull DoubleMatrix colData) {
         this.plusColumn(column, colData.data.viewRow(0));
+        return this;
     }
-    public void plusColumn(int column, DoubleMatrix1D colData) {
+    public DoubleMatrix plusColumn(int column, DoubleMatrix1D colData) {
         this.data.viewColumn(column).assign(colData, plus);
+        return this;
     }
-    public void plusRange(int rowA, int colA, int rowB, int colB, double[][] rangeData) {
+    public DoubleMatrix plusRange(int rowA, int colA, int rowB, int colB, double[][] rangeData) {
         this.plusRange(rowA, colA, rowB, colB, new DenseDoubleMatrix2D(rangeData));
+        return this;
     }
-    public void plusRange(int rowA, int colA, int rowB, int colB, @NotNull DenseDoubleMatrix rangeData) {
+    public DoubleMatrix plusRange(int rowA, int colA, int rowB, int colB, @NotNull DoubleMatrix rangeData) {
         this.plusRange(rowA, colA, rowB, colB, rangeData.toArray2D());
+        return this;
     }
-    private void plusRange(int rowA, int colA, int rowB, int colB, DoubleMatrix2D rangeData) {
+    private DoubleMatrix plusRange(int rowA, int colA, int rowB, int colB, DoubleMatrix2D rangeData) {
         int height = rowB - rowA + 1;
         int width = colB - colA + 1;
 
@@ -184,37 +202,47 @@ public class DenseDoubleMatrix {
         }
 
         this.data.viewPart(rowA, colA, height, width).assign(rangeData, plus);
+        return this;
     }
 
     // Minus operations on submatrix
-    public void minusCell(int row, int col, double c) {
+    public DoubleMatrix minusCell(int row, int col, double c) {
         data.set(row, col, data.get(row, col) - c);
+        return this;
     }
-    public void minusRow(int row, double[] rowData) {
+    public DoubleMatrix minusRow(int row, double[] rowData) {
         this.minusRow(row, new DenseDoubleMatrix1D(rowData));
+        return this;
     }
-    public void minusRow(int row, @NotNull DenseDoubleMatrix rowData) {
+    public DoubleMatrix minusRow(int row, @NotNull DoubleMatrix rowData) {
         this.minusRow(row, rowData.data.viewRow(0));
+        return this;
     }
-    private void minusRow(int row, DoubleMatrix1D rowData) {
+    private DoubleMatrix minusRow(int row, DoubleMatrix1D rowData) {
         this.data.viewRow(row).assign(rowData, minus);
+        return this;
     }
-    public void minusColumn(int column,  double[] columnData) {
+    public DoubleMatrix minusColumn(int column,  double[] columnData) {
         this.minusColumn(column, new DenseDoubleMatrix1D(columnData));
+        return this;
     }
-    public void minusColumn(int column, @NotNull DenseDoubleMatrix columnData) {
+    public DoubleMatrix minusColumn(int column, @NotNull DoubleMatrix columnData) {
         this.minusColumn(column, columnData.data.viewRow(0));
+        return this;
     }
-    private void minusColumn(int column, DoubleMatrix1D columnData) {
+    private DoubleMatrix minusColumn(int column, DoubleMatrix1D columnData) {
         this.data.viewColumn(column).assign(columnData, minus);
+        return this;
     }
-    public void minusRange(int rowA, int colA, int rowB, int colB, double[][] rangeData) {
+    public DoubleMatrix minusRange(int rowA, int colA, int rowB, int colB, double[][] rangeData) {
         this.minusRange(rowA, colA, rowB, colB, new DenseDoubleMatrix2D(rangeData));
+        return this;
     }
-    public void minusRange(int rowA, int colA, int rowB, int colB, @NotNull DenseDoubleMatrix rangeData) {
+    public DoubleMatrix minusRange(int rowA, int colA, int rowB, int colB, @NotNull DoubleMatrix rangeData) {
         this.minusRange(rowA, colA, rowB, colB, rangeData.toArray2D());
+        return this;
     }
-    private void minusRange(int rowA, int colA, int rowB, int colB, DenseDoubleMatrix2D rangeData) {
+    private DoubleMatrix minusRange(int rowA, int colA, int rowB, int colB, DenseDoubleMatrix2D rangeData) {
         int height = rowB - rowA + 1;
         int width = colB - colA + 1;
 
@@ -223,19 +251,23 @@ public class DenseDoubleMatrix {
         }
 
         this.data.viewPart(rowA, colA, height, width).assign(rangeData, minus);
+        return this;
     }
 
     // Times operations on submatrix
-    public void multCell(int row, int col, double c) {
+    public DoubleMatrix multCell(int row, int col, double c) {
         data.set(row, col, data.get(row, col) * c);
+        return this;
     }
-    public void multRow(int row, double c) {
+    public DoubleMatrix multRow(int row, double c) {
         data.viewRow(row).assign(mult(c));
+        return this;
     }
-    public void multColumn(int column, double c) {
+    public DoubleMatrix multColumn(int column, double c) {
         data.viewColumn(column).assign(mult(c));
+        return this;
     }
-    public void multRange(int rowA, int colA, int rowB, int colB, double c) {
+    public DoubleMatrix multRange(int rowA, int colA, int rowB, int colB, double c) {
         int height = rowB - rowA + 1;
         int width = colB - colA + 1;
 
@@ -244,21 +276,25 @@ public class DenseDoubleMatrix {
         }
 
         data.viewPart(rowA, colA, height, width).assign(mult(c));
+        return this;
     }
 
     // Divs operations on submatrix
-    public void divCell(int row, int col, double c) {
+    public DoubleMatrix divCell(int row, int col, double c) {
         data.set(row, col, data.get(row, col) / c);
+        return this;
     }
-    public void divRow(int row, double c) {
+    public DoubleMatrix divRow(int row, double c) {
         checkDivisionByZero(c);
         data.viewRow(row).assign(div(c));
+        return this;
     }
-    public void divColumn(int column, double c) {
+    public DoubleMatrix divColumn(int column, double c) {
         checkDivisionByZero(c);
         data.viewColumn(column).assign(div(c));
+        return this;
     }
-    public void divRange(int rowA, int colA, int rowB, int colB, double c) {
+    public DoubleMatrix divRange(int rowA, int colA, int rowB, int colB, double c) {
         checkDivisionByZero(c);
 
         int height = rowB - rowA + 1;
@@ -269,22 +305,23 @@ public class DenseDoubleMatrix {
         }
 
         data.viewPart(rowA, colA, height, width).assign(div(c));
+        return this;
     }
-    private void checkDivisionByZero(double c) {
+    private static void checkDivisionByZero(double c) {
         if (c==0) {
             throw new IllegalArgumentException("Divisor can't be zero.");
         }
     }
 
     // Swap operations
-    public DenseDoubleMatrix swapRows(int i, int j) {
+    public DoubleMatrix swapRows(int i, int j) {
         DoubleMatrix1D rowI = data.viewRow(i);
         DoubleMatrix1D rowJ = data.viewRow(j);
         rowI.swap(rowJ);
 
         return this;
     }
-    public DenseDoubleMatrix swapColumns(int i, int j) {
+    public DoubleMatrix swapColumns(int i, int j) {
         DoubleMatrix1D colI = data.viewColumn(i);
         DoubleMatrix1D colJ = data.viewColumn(j);
         colI.swap(colJ);
@@ -299,8 +336,8 @@ public class DenseDoubleMatrix {
         return data.toArray();
     }
 
-    @Override public DenseDoubleMatrix clone() {
-        return new DenseDoubleMatrix(this);
+    @Override public DoubleMatrix clone() {
+        return new DoubleMatrix(this);
     }
 
 }

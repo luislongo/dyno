@@ -23,16 +23,16 @@ public class RGBAColor extends AbstractFloatVector<RGBAColor> {
     }
 
     public float r() {
-        return getX_(0);
+        return get(0);
     }
     public float g() {
-        return getX_(1);
+        return get(1);
     }
     public float b() {
-        return getX_(2);
+        return get(2);
     }
     public float a() {
-        return getX_(3);
+        return get(3);
     }
 
     public static RGBAColor fromIntColor(int color) {

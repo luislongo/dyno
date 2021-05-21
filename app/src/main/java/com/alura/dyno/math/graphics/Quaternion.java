@@ -57,16 +57,16 @@ public class Quaternion extends AbstractFloatVector<Quaternion> {
     }
 
     public float w() {
-        return getX_(0);
+        return get(0);
     }
     public float x() {
-        return getX_(1);
+        return get(1);
     }
     public float y() {
-        return getX_(2);
+        return get(2);
     }
     public float z() {
-        return getX_(3);
+        return get(3);
     }
 
     public Quaternion preMultiply(@NotNull Quaternion q_lhs) {
@@ -75,10 +75,10 @@ public class Quaternion extends AbstractFloatVector<Quaternion> {
         float newC = q_lhs.w() * y() - q_lhs.x() * z() + q_lhs.y() * w() + q_lhs.z() * x();
         float newD = q_lhs.w() * z() + q_lhs.x() * y() - q_lhs.y() * x() + q_lhs.z() * w();
 
-        setX_(0, newA);
-        setX_(1, newB);
-        setX_(2, newC);
-        setX_(3, newD);
+        set(0, newA);
+        set(1, newB);
+        set(2, newC);
+        set(3, newD);
 
         return this;
     }
@@ -88,10 +88,10 @@ public class Quaternion extends AbstractFloatVector<Quaternion> {
         float newC = w() * q_rhs.y() - x() * q_rhs.z() + y() * q_rhs.w() + z() * q_rhs.x();
         float newD = w() * q_rhs.z() + x() * q_rhs.y() - y() * q_rhs.x() + z() * q_rhs.w();
 
-        setX_(0, newA);
-        setX_(1, newB);
-        setX_(2, newC);
-        setX_(3, newD);
+        set(0, newA);
+        set(1, newB);
+        set(2, newC);
+        set(3, newD);
 
         return this;
     }

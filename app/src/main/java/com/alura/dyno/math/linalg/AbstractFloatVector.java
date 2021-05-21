@@ -37,10 +37,10 @@ public abstract class AbstractFloatVector<DIM extends AbstractFloatVector> {
         return data.toArray();
     }
 
-    protected final float getX_(int i) {
+    protected final float get(int i) {
         return data.get(i);
     }
-    protected final DIM setX_(int i, float value) {
+    protected final DIM set(int i, float value) {
         data.set(i, value);
 
         return (DIM) this;

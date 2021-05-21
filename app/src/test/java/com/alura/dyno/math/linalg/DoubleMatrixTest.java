@@ -10,13 +10,13 @@ class DoubleMatrixTest {
 
     // Test rows and columns
     @Test void testRowsAnsCols_1() {
-        DenseDoubleMatrix m = new DenseDoubleMatrix(3,4);
+        DoubleMatrix m = new DoubleMatrix(3,4);
 
         assertEquals(3, m.rows());
         assertEquals(4, m.cols());
     }
     @Test void testRowsAnsCols_2() {
-        DenseDoubleMatrix m = new DenseDoubleMatrix(2,1);
+        DoubleMatrix m = new DoubleMatrix(2,1);
 
         assertEquals(2, m.rows());
         assertEquals(1, m.cols());
@@ -30,7 +30,7 @@ class DoubleMatrixTest {
         double[] rowD = new double[]{5, 6, 5, 3};
 
         double[][] values = new double[][]{rowA, rowB, rowC, rowD};
-        DenseDoubleMatrix m = new DenseDoubleMatrix(values);
+        DoubleMatrix m = new DoubleMatrix(values);
 
         assertArrayEquals(rowA, m.getRow(0).toArray(), DELTA);
         assertArrayEquals(rowB, m.getRow(1).toArray(), DELTA);
@@ -38,7 +38,7 @@ class DoubleMatrixTest {
         assertArrayEquals(rowD, m.getRow(3).toArray(), DELTA);
     }
     @Test void testGetRow_2() {
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(4, 5);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(4, 5);
 
         assertThrows(IndexOutOfBoundsException.class, new Executable() {
             @Override
@@ -60,7 +60,7 @@ class DoubleMatrixTest {
         double[] colD = new double[]{5, 6, 5, 3};
 
         double[][] values = new double[][]{colA, colB, colC, colD};
-        DenseDoubleMatrix m = new DenseDoubleMatrix(values);
+        DoubleMatrix m = new DoubleMatrix(values);
         m.transpose();
 
         assertArrayEquals(colA, m.getColumn(0).toArray(), DELTA);
@@ -69,7 +69,7 @@ class DoubleMatrixTest {
         assertArrayEquals(colD, m.getColumn(3).toArray(), DELTA);
     }
     @Test void testGetCol_2() {
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(4, 5);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(4, 5);
 
         assertThrows(IndexOutOfBoundsException.class, new Executable() {
             @Override
@@ -90,7 +90,7 @@ class DoubleMatrixTest {
                 {1, 3, 2, 7},
                 {4, 7, 3, 2},
                 {5, 6, 5, 3}};
-        DenseDoubleMatrix m = new DenseDoubleMatrix(values);
+        DoubleMatrix m = new DoubleMatrix(values);
 
         double[][] expectedA = new double[][]{
                 {0, 3},
@@ -104,7 +104,7 @@ class DoubleMatrixTest {
                 {1, 3, 2, 7},
                 {4, 7, 3, 2},
                 {5, 6, 5, 3}};
-        DenseDoubleMatrix m = new DenseDoubleMatrix(values);
+        DoubleMatrix m = new DoubleMatrix(values);
 
         double[][] expectedB = new double[][]{
                 {0, 3, 4},
@@ -118,7 +118,7 @@ class DoubleMatrixTest {
                 {1, 3, 2, 7},
                 {4, 7, 3, 2},
                 {5, 6, 5, 3}};
-        DenseDoubleMatrix m = new DenseDoubleMatrix(values);
+        DoubleMatrix m = new DoubleMatrix(values);
 
         double[][] expectedC = new double[][]{
                 {0, 3},
@@ -133,7 +133,7 @@ class DoubleMatrixTest {
                 {1, 3, 2, 7},
                 {4, 7, 3, 2},
                 {5, 6, 5, 3}};
-        DenseDoubleMatrix m = new DenseDoubleMatrix(values);
+        DoubleMatrix m = new DoubleMatrix(values);
 
         double[][] expectedD = new double[][]{
                 {3, 2},
@@ -147,7 +147,7 @@ class DoubleMatrixTest {
                 {1, 3, 2, 7},
                 {4, 7, 3, 2},
                 {5, 6, 5, 3}};
-        DenseDoubleMatrix m = new DenseDoubleMatrix(values);
+        DoubleMatrix m = new DoubleMatrix(values);
 
         double[][] expectedE = new double[][]{
                 {3, 2, 7},
@@ -162,7 +162,7 @@ class DoubleMatrixTest {
                 {1, 3, 2, 7},
                 {4, 7, 3, 2},
                 {5, 6, 5, 3}};
-        DenseDoubleMatrix m = new DenseDoubleMatrix(values);
+        DoubleMatrix m = new DoubleMatrix(values);
 
         assertThrows(IndexOutOfBoundsException.class, new Executable() {
             @Override
@@ -177,7 +177,7 @@ class DoubleMatrixTest {
                 {1, 3, 2, 7},
                 {4, 7, 3, 2},
                 {5, 6, 5, 3}};
-        DenseDoubleMatrix m = new DenseDoubleMatrix(values);
+        DoubleMatrix m = new DoubleMatrix(values);
 
         assertThrows(IndexOutOfBoundsException.class, new Executable() {
             @Override
@@ -192,7 +192,7 @@ class DoubleMatrixTest {
                 {1, 3, 2, 7},
                 {4, 7, 3, 2},
                 {5, 6, 5, 3}};
-        DenseDoubleMatrix m = new DenseDoubleMatrix(values);
+        DoubleMatrix m = new DoubleMatrix(values);
 
         assertThrows(IndexOutOfBoundsException.class, new Executable() {
             @Override
@@ -207,7 +207,7 @@ class DoubleMatrixTest {
                 {1, 3, 2, 7},
                 {4, 7, 3, 2},
                 {5, 6, 5, 3}};
-        DenseDoubleMatrix m = new DenseDoubleMatrix(values);
+        DoubleMatrix m = new DoubleMatrix(values);
 
         assertThrows(IndexOutOfBoundsException.class, new Executable() {
             @Override
@@ -222,7 +222,7 @@ class DoubleMatrixTest {
                 {1, 3, 2, 7},
                 {4, 7, 3, 2},
                 {5, 6, 5, 3}};
-        DenseDoubleMatrix m = new DenseDoubleMatrix(values);
+        DoubleMatrix m = new DoubleMatrix(values);
 
         assertThrows(IllegalArgumentException.class, new Executable() {
             @Override
@@ -237,7 +237,7 @@ class DoubleMatrixTest {
                 {1, 3, 2, 7},
                 {4, 7, 3, 2},
                 {5, 6, 5, 3}};
-        DenseDoubleMatrix m = new DenseDoubleMatrix(values);
+        DoubleMatrix m = new DoubleMatrix(values);
 
         assertThrows(IllegalArgumentException.class, new Executable() {
             @Override
@@ -256,7 +256,7 @@ class DoubleMatrixTest {
         double[] rowS = new double[]{0, 0, 1, 0};
 
         double[][] values = new double[][]{rowA, rowB, rowC, rowD};
-        DenseDoubleMatrix m = new DenseDoubleMatrix(values);
+        DoubleMatrix m = new DoubleMatrix(values);
         m.setRow(2, rowS);
 
         assertArrayEquals(rowA, m.getRow(0).toArray(), DELTA);
@@ -265,7 +265,7 @@ class DoubleMatrixTest {
         assertArrayEquals(rowD, m.getRow(3).toArray(), DELTA);
     }
     @Test void testSetRow_2() {
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(4, 5);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(4, 5);
         double[] row = new double[5];
 
         assertThrows(IndexOutOfBoundsException.class, new Executable() {
@@ -282,7 +282,7 @@ class DoubleMatrixTest {
         });
     }
     @Test void testSetRow_3() {
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(4, 5);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(4, 5);
 
         double[] rowA = new double[6];
         double[] rowB = new double[4];
@@ -308,7 +308,7 @@ class DoubleMatrixTest {
         double[] colS = new double[]{0, 0, 1, 0};
 
         double[][] values = new double[][]{colA, colB, colC, colD};
-        DenseDoubleMatrix m = new DenseDoubleMatrix(values);
+        DoubleMatrix m = new DoubleMatrix(values);
         m.transpose();
         m.setColumn(2, colS);
 
@@ -318,7 +318,7 @@ class DoubleMatrixTest {
         assertArrayEquals(colD, m.getColumn(3).toArray(), DELTA);
     }
     @Test void testSetCol_2() {
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(4, 5);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(4, 5);
         double[] colA = new double[5];
 
         assertThrows(IndexOutOfBoundsException.class, new Executable() {
@@ -335,7 +335,7 @@ class DoubleMatrixTest {
         });
     }
     @Test void testSetCol_3() {
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(4, 5);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(4, 5);
 
         double[] colA = new double[3];
         double[] colB = new double[5];
@@ -354,7 +354,7 @@ class DoubleMatrixTest {
         });
     }
     @Test void testSetRange_1() {
-        DenseDoubleMatrix m = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m = new DoubleMatrix(new double[][]{
                 {0, 3, 4, 5},
                 {1, 3, 2, 7},
                 {4, 7, 3, 2},
@@ -375,7 +375,7 @@ class DoubleMatrixTest {
         assertArrayEquals(expectedRowD, m.getRow(3).toArray(), DELTA);
     }
     @Test void testSetRange_2() {
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(4, 4);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(4, 4);
         double[][] rangeA = new double[3][3];
 
         assertThrows(IndexOutOfBoundsException.class, new Executable() {
@@ -404,7 +404,7 @@ class DoubleMatrixTest {
         });
     }
     @Test void testSetRange_3() {
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(4, 4);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(4, 4);
         double[][] rangeA = new double[3][3];
 
         assertThrows(IllegalArgumentException.class, new Executable() {
@@ -421,7 +421,7 @@ class DoubleMatrixTest {
         });
     }
     @Test void testSetRange_4() {
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(4, 4);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(4, 4);
 
         double[][] range = new double[2][2];
 
@@ -439,7 +439,7 @@ class DoubleMatrixTest {
         });
     }
     @Test void testSetRange_5() {
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(4, 4);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(4, 4);
 
         double[][] range = new double[3][3];
 
@@ -459,39 +459,39 @@ class DoubleMatrixTest {
 
     // Test addition
     @Test void testPlus_1() {
-        DenseDoubleMatrix m_lhs = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m_lhs = new DoubleMatrix(new double[][]{
                 { 1,  2,  3,  4},
                 {-1, -2, -3, -4},
                 { 4,  3,  2,  1},
                 {-4, -3, -2, -1}});
 
-        DenseDoubleMatrix m_rhs = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m_rhs = new DoubleMatrix(new double[][]{
                 { 1,  2,  3,  4},
                 {-1, -2, -3, -4},
                 { 4,  3,  2,  1},
                 {-4, -3, -2, -1}});
 
-        DenseDoubleMatrix expected = new DenseDoubleMatrix(new double[][] {
+        DoubleMatrix expected = new DoubleMatrix(new double[][] {
                 {  2,  4,  6,  8},
                 { -2, -4, -6, -8},
                 {  8,  6,  4,  2},
                 { -8, -6, -4, -2}});
-        DenseDoubleMatrix actual = m_lhs.clone().plus(m_rhs);
+        DoubleMatrix actual = m_lhs.clone().plus(m_rhs);
         assertArrayEquals(expected.data.toArray(), actual.data.toArray());
     }
     @Test void testPlus_2() {
-        DenseDoubleMatrix m_A = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m_A = new DoubleMatrix(new double[][]{
                 { 1,  2,  3,  4},
                 {-1, -2, -3, -4},
                 { 4,  3,  2,  1},
                 {-4, -3, -2, -1}});
 
-        DenseDoubleMatrix m_B = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m_B = new DoubleMatrix(new double[][]{
                 { 1,  2,  3,  4},
                 {-1, -2, -3, -4},
                 { 4,  3,  2,  1}});
 
-        DenseDoubleMatrix m_C = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m_C = new DoubleMatrix(new double[][]{
                 { 1,  2,  3},
                 {-1, -2, -3},
                 { 4,  3,  2},
@@ -520,7 +520,7 @@ class DoubleMatrixTest {
         double[] expectedRowSum = new double[]{6, 6, 4, 0};
 
         double[][] values = new double[][]{rowA, rowB, rowC, rowD};
-        DenseDoubleMatrix m = new DenseDoubleMatrix(values);
+        DoubleMatrix m = new DoubleMatrix(values);
         m.plusRow(2, rowS);
 
         assertArrayEquals(rowA, m.getRow(0).toArray(), DELTA);
@@ -529,7 +529,7 @@ class DoubleMatrixTest {
         assertArrayEquals(rowD, m.getRow(3).toArray(), DELTA);
     }
     @Test void testPlusRow_2() {
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(4, 5);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(4, 5);
 
         assertThrows(IndexOutOfBoundsException.class, new Executable() {
             @Override
@@ -545,7 +545,7 @@ class DoubleMatrixTest {
         });
     }
     @Test void testPlusRow_3() {
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(4, 5);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(4, 5);
 
         double[] rowA = new double[6];
         double[] rowB = new double[4];
@@ -572,7 +572,7 @@ class DoubleMatrixTest {
         double[] expectedColSum = new double[]{6, 6, 4, 0};
 
         double[][] values = new double[][]{colA, colB, colC, colD};
-        DenseDoubleMatrix m = new DenseDoubleMatrix(values);
+        DoubleMatrix m = new DoubleMatrix(values);
         m.transpose().plusColumn(2, colS);
 
         assertArrayEquals(colA, m.getColumn(0).toArray(), DELTA);
@@ -581,7 +581,7 @@ class DoubleMatrixTest {
         assertArrayEquals(colD, m.getColumn(3).toArray(), DELTA);
     }
     @Test void testPlusColumn_2() {
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(4, 5);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(4, 5);
         double[] col = new double[4];
 
         assertThrows(IndexOutOfBoundsException.class, new Executable() {
@@ -598,7 +598,7 @@ class DoubleMatrixTest {
         });
     }
     @Test void testPlusColumn_3() {
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(4, 5);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(4, 5);
 
         double[] colA = new double[3];
         double[] colB = new double[5];
@@ -617,7 +617,7 @@ class DoubleMatrixTest {
         });
     }
     @Test void testPlusRange_1() {
-        DenseDoubleMatrix m = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m = new DoubleMatrix(new double[][]{
                 {0, 3, 4, 5},
                 {1, 3, 2, 7},
                 {4, 7, 3, 2},
@@ -638,7 +638,7 @@ class DoubleMatrixTest {
         assertArrayEquals(expectedRowD, m.getRow(3).toArray(), DELTA);
     }
     @Test void testPlusRange_2() {
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(4, 4);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(4, 4);
         double[][] rangeA = new double[3][3];
 
         assertThrows(IndexOutOfBoundsException.class, new Executable() {
@@ -667,7 +667,7 @@ class DoubleMatrixTest {
         });
     }
     @Test void testPlusRange_3() {
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(4, 4);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(4, 4);
         double[][] rangeA = new double[3][3];
 
         assertThrows(IllegalArgumentException.class, new Executable() {
@@ -684,7 +684,7 @@ class DoubleMatrixTest {
         });
     }
     @Test void testPlusRange_4() {
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(4, 4);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(4, 4);
 
         double[][] range = new double[2][2];
 
@@ -702,7 +702,7 @@ class DoubleMatrixTest {
         });
     }
     @Test void testPlusRange_5() {
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(4, 4);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(4, 4);
 
         double[][] range = new double[3][3];
 
@@ -722,57 +722,57 @@ class DoubleMatrixTest {
 
     // Test subtraction
     @Test void testMinus_1() {
-        DenseDoubleMatrix m_lhs = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m_lhs = new DoubleMatrix(new double[][]{
                 { 1,  2,  3,  4},
                 {-1, -2, -3, -4},
                 { 4,  3,  2,  1},
                 {-4, -3, -2, -1}});
 
-        DenseDoubleMatrix m_rhs = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m_rhs = new DoubleMatrix(new double[][]{
                 { 1,  2,  3,  4},
                 {-1, -2, -3, -4},
                 { 4,  3,  2,  1},
                 {-4, -3, -2, -1}});
 
-        DenseDoubleMatrix expected = new DenseDoubleMatrix(4, 4, 0);
-        DenseDoubleMatrix actual = m_lhs.clone().minus(m_rhs);
+        DoubleMatrix expected = new DoubleMatrix(4, 4, 0);
+        DoubleMatrix actual = m_lhs.clone().minus(m_rhs);
 
         assertArrayEquals(expected.data.toArray(), actual.data.toArray());
     }
     @Test void testMinus_2() {
-        DenseDoubleMatrix m_lhs = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m_lhs = new DoubleMatrix(new double[][]{
                 { 1,  2,  3,  4},
                 {-1, -2, -3, -4},
                 { 4,  3,  2,  1},
                 {-4, -3, -2, -1}});
 
-        DenseDoubleMatrix m_rhs = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m_rhs = new DoubleMatrix(new double[][]{
                 { 4,  3,  2,  1},
                 {-4, -3, -2, -1},
                 {-3, -2, -1,  0},
                 {-1, -6, -3, -3}});
 
-        DenseDoubleMatrix expected = new DenseDoubleMatrix(new double[][] {
+        DoubleMatrix expected = new DoubleMatrix(new double[][] {
                 {-3, -1,  1,  3},
                 { 3,  1, -1, -3},
                 { 7,  5,  3,  1},
                 {-3,  3,  1,  2}});
-        DenseDoubleMatrix actual = m_lhs.clone().minus(m_rhs);
+        DoubleMatrix actual = m_lhs.clone().minus(m_rhs);
         assertArrayEquals(expected.data.toArray(), actual.data.toArray());
     }
     @Test void testMinus_3() {
-        DenseDoubleMatrix m_A = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m_A = new DoubleMatrix(new double[][]{
                 { 1,  2,  3,  4},
                 {-1, -2, -3, -4},
                 { 4,  3,  2,  1},
                 {-4, -3, -2, -1}});
 
-        DenseDoubleMatrix m_B = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m_B = new DoubleMatrix(new double[][]{
                 { 1,  2,  3,  4},
                 {-1, -2, -3, -4},
                 { 4,  3,  2,  1}});
 
-        DenseDoubleMatrix m_C = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m_C = new DoubleMatrix(new double[][]{
                 { 1,  2,  3},
                 {-1, -2, -3},
                 { 4,  3,  2},
@@ -800,7 +800,7 @@ class DoubleMatrixTest {
         double[] expectedRowDiff = new double[]{2, 8, 2, 4};
 
         double[][] values = new double[][]{rowA, rowB, rowC, rowD};
-        DenseDoubleMatrix m = new DenseDoubleMatrix(values);
+        DoubleMatrix m = new DoubleMatrix(values);
         m.minusRow(2, rowS);
 
         assertArrayEquals(rowA, m.getRow(0).toArray(), DELTA);
@@ -809,7 +809,7 @@ class DoubleMatrixTest {
         assertArrayEquals(rowD, m.getRow(3).toArray(), DELTA);
     }
     @Test void testMinusRow_2() {
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(4, 5);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(4, 5);
         double[] row = new double[5];
 
         assertThrows(IndexOutOfBoundsException.class, new Executable() {
@@ -826,7 +826,7 @@ class DoubleMatrixTest {
         });
     }
     @Test void testMinusRow_3() {
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(4, 5);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(4, 5);
 
         double[] rowA = new double[6];
         double[] rowB = new double[4];
@@ -853,7 +853,7 @@ class DoubleMatrixTest {
         double[] expectedColDiff = new double[]{2, 8, 2, 4};
 
         double[][] values = new double[][]{colA, colB, colC, colD};
-        DenseDoubleMatrix m = new DenseDoubleMatrix(values);
+        DoubleMatrix m = new DoubleMatrix(values);
         m.transpose().minusColumn(2, colS);
 
         assertArrayEquals(colA, m.getColumn(0).toArray(), DELTA);
@@ -862,7 +862,7 @@ class DoubleMatrixTest {
         assertArrayEquals(colD, m.getColumn(3).toArray(), DELTA);
     }
     @Test void testMinusColumn_2() {
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(4, 5);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(4, 5);
         double[] col = new double[4];
 
         assertThrows(IndexOutOfBoundsException.class, new Executable() {
@@ -879,7 +879,7 @@ class DoubleMatrixTest {
         });
     }
     @Test void testMinusColumn_3() {
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(4, 5);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(4, 5);
 
         double[] colA = new double[3];
         double[] colB = new double[5];
@@ -898,7 +898,7 @@ class DoubleMatrixTest {
         });
     }
     @Test void testMinusRange_1() {
-        DenseDoubleMatrix m = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m = new DoubleMatrix(new double[][]{
                 {0, 3, 4, 5},
                 {1, 3, 2, 7},
                 {4, 7, 3, 2},
@@ -919,7 +919,7 @@ class DoubleMatrixTest {
         assertArrayEquals(expectedRowD, m.getRow(3).toArray(), DELTA);
     }
     @Test void testMinusRange_2() {
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(4, 4);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(4, 4);
         double[][] rangeA = new double[3][3];
 
         assertThrows(IndexOutOfBoundsException.class, new Executable() {
@@ -948,7 +948,7 @@ class DoubleMatrixTest {
         });
     }
     @Test void testMinusRange_3() {
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(4, 4);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(4, 4);
         double[][] rangeA = new double[3][3];
 
         assertThrows(IllegalArgumentException.class, new Executable() {
@@ -965,7 +965,7 @@ class DoubleMatrixTest {
         });
     }
     @Test void testMinusRange_4() {
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(4, 4);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(4, 4);
 
         double[][] range = new double[2][2];
 
@@ -983,7 +983,7 @@ class DoubleMatrixTest {
         });
     }
     @Test void testMinusRange_5() {
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(4, 4);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(4, 4);
 
         double[][] range = new double[3][3];
 
@@ -1004,43 +1004,43 @@ class DoubleMatrixTest {
     // Test division
     @Test void testDivide_1() {
         double c = 2.0d;
-        DenseDoubleMatrix m_lhs  = new DenseDoubleMatrix(new double[][] {
+        DoubleMatrix m_lhs  = new DoubleMatrix(new double[][] {
                 { 2,  4,  6,  8},
                 {10, 12, 14, 16},
                 {18, 20, 22, 24},
                 {26, 28, 30, 32}
         });
-        DenseDoubleMatrix expected = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix expected = new DoubleMatrix(new double[][]{
                 {1, 2, 3, 4},
                 {5, 6, 7, 8},
                 {9, 10, 11, 12},
                 {13, 14, 15, 16}
         });
-        DenseDoubleMatrix actual = m_lhs.clone().divide(c);
+        DoubleMatrix actual = m_lhs.clone().divide(c);
 
         assertArrayEquals(expected.data.toArray(), actual.data.toArray());
     }
     @Test void testDivide_2() {
         double c = 3.0d;
-        DenseDoubleMatrix m_lhs  = new DenseDoubleMatrix(new double[][] {
+        DoubleMatrix m_lhs  = new DoubleMatrix(new double[][] {
                 { 2,  4,  6,  8},
                 {10, 12, 14, 16},
                 {18, 20, 22, 24},
                 {26, 28, 30, 32}
         });
-        DenseDoubleMatrix expected = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix expected = new DoubleMatrix(new double[][]{
                 { 2d/3,  4d/3,  6d/3,  8d/3},
                 {10d/3, 12d/3, 14d/3, 16d/3},
                 {18d/3, 20d/3, 22d/3, 24d/3},
                 {26d/3, 28d/3, 30d/3, 32d/3}
         });
 
-        DenseDoubleMatrix actual = m_lhs.clone().divide(c);
+        DoubleMatrix actual = m_lhs.clone().divide(c);
         assertArrayEquals(expected.toArray(), actual.toArray(), DELTA);
     }
     @Test void testDivide_3() {
         double c = 0.0d;
-        DenseDoubleMatrix m_lhs  = new DenseDoubleMatrix(new double[][] {
+        DoubleMatrix m_lhs  = new DoubleMatrix(new double[][] {
                 { 2,  4,  6,  8},
                 {10, 12, 14, 16},
                 {18, 20, 22, 24},
@@ -1050,13 +1050,13 @@ class DoubleMatrixTest {
         assertThrows(IllegalArgumentException.class, new Executable() {
             @Override
             public void execute() throws Throwable {
-                DenseDoubleMatrix actual = m_lhs.clone().divide(c);
+                DoubleMatrix actual = m_lhs.clone().divide(c);
             }
         });
     }
     @Test void testDivideRow_1() {
         double c = 0.0d;
-        DenseDoubleMatrix m_lhs  = new DenseDoubleMatrix(new double[][] {
+        DoubleMatrix m_lhs  = new DoubleMatrix(new double[][] {
                 { 2,  4,  6,  8},
                 {10, 12, 14, 16},
                 {18, 20, 22, 24},
@@ -1072,7 +1072,7 @@ class DoubleMatrixTest {
     }
     @Test void testDivideRow_2() {
         double c = 1.0d;
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(10,10);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(10,10);
         double[] expected = m.getRow(5).toArray();
 
         m.divRow(5, c);
@@ -1080,7 +1080,7 @@ class DoubleMatrixTest {
         assertArrayEquals(expected, m.getRow(5).toArray(), DELTA);
     }
     @Test void testDivideRow_3() {
-        DenseDoubleMatrix m = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m = new DoubleMatrix(new double[][]{
             { 3,  4, 4, 7},
             {-6, -4, 2, 8},
             { 2,  1, 4, 7},
@@ -1092,7 +1092,7 @@ class DoubleMatrixTest {
         assertArrayEquals(expected, m.getRow(1).toArray(), DELTA);
     }
     @Test void testDivideRow_4() {
-        DenseDoubleMatrix m = new DenseDoubleMatrix(4,5);
+        DoubleMatrix m = new DoubleMatrix(4,5);
 
         assertThrows(IndexOutOfBoundsException.class, new Executable() {
             @Override
@@ -1109,7 +1109,7 @@ class DoubleMatrixTest {
     }
     @Test void testDivideColumn_1() {
         double c = 0.0d;
-        DenseDoubleMatrix m_lhs  = new DenseDoubleMatrix(new double[][] {
+        DoubleMatrix m_lhs  = new DoubleMatrix(new double[][] {
                 { 2,  4,  6,  8},
                 {10, 12, 14, 16},
                 {18, 20, 22, 24},
@@ -1125,7 +1125,7 @@ class DoubleMatrixTest {
     }
     @Test void testDivideColumn_2() {
         double c = 1.0d;
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(10,10);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(10,10);
         double[] expected = m.getColumn(5).toArray();
 
         m.divColumn(5, c);
@@ -1133,7 +1133,7 @@ class DoubleMatrixTest {
         assertArrayEquals(expected, m.getColumn(5).toArray(), DELTA);
     }
     @Test void testDivideColumn_3() {
-        DenseDoubleMatrix m = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m = new DoubleMatrix(new double[][]{
                 { 3,  4, 4, 7},
                 {-6, -4, 2, 8},
                 { 2,  1, 4, 7},
@@ -1144,7 +1144,7 @@ class DoubleMatrixTest {
         assertArrayEquals(expected, m.getColumn(1).toArray(), DELTA);
     }
     @Test void testDivideColumn_4() {
-        DenseDoubleMatrix m = new DenseDoubleMatrix(4,5);
+        DoubleMatrix m = new DoubleMatrix(4,5);
 
         assertThrows(IndexOutOfBoundsException.class, new Executable() {
             @Override
@@ -1161,7 +1161,7 @@ class DoubleMatrixTest {
     }
     @Test void testDivideRange_1() {
         double c = 0.0d;
-        DenseDoubleMatrix m_lhs  = new DenseDoubleMatrix(new double[][] {
+        DoubleMatrix m_lhs  = new DoubleMatrix(new double[][] {
                 { 2,  4,  6,  8},
                 {10, 12, 14, 16},
                 {18, 20, 22, 24},
@@ -1177,7 +1177,7 @@ class DoubleMatrixTest {
     }
     @Test void testDivideRange_2() {
         double c = 1.0d;
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(10,10);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(10,10);
         double[] expected = m.getRange(1, 2, 1, 2).toArray();
 
         m.divRange(1,2,1,2, c);
@@ -1185,7 +1185,7 @@ class DoubleMatrixTest {
         assertArrayEquals(expected, m.getRange(1,2,1,2).toArray(), DELTA);
     }
     @Test void testDivideRange_3() {
-        DenseDoubleMatrix m = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m = new DoubleMatrix(new double[][]{
                 { 3,  4, 4, 7},
                 {-6, -4, 2, 8},
                 { 2,  1, 4, 7},
@@ -1203,7 +1203,7 @@ class DoubleMatrixTest {
         assertArrayEquals(expectedRowD, m.getRow(3).toArray(), DELTA);
     }
     @Test void testDivideRange_4() {
-        DenseDoubleMatrix m = new DenseDoubleMatrix(4,5);
+        DoubleMatrix m = new DoubleMatrix(4,5);
         double[][] range = new double[2][2];
 
         assertThrows(IndexOutOfBoundsException.class, new Executable() {
@@ -1233,7 +1233,7 @@ class DoubleMatrixTest {
 
     }
     @Test void testDivideRange_5() {
-        DenseDoubleMatrix m = new DenseDoubleMatrix(4,5);
+        DoubleMatrix m = new DoubleMatrix(4,5);
         double[][] range = new double[2][2];
 
         assertThrows(IllegalArgumentException.class, new Executable() {
@@ -1253,106 +1253,106 @@ class DoubleMatrixTest {
 
     //Test multiplication
     @Test void testPreMultiply_1() {
-        DenseDoubleMatrix m_lhs = new DenseDoubleMatrix(4, 4, 0.0d);
-        DenseDoubleMatrix m_rhs = new DenseDoubleMatrix(new double[][] {
+        DoubleMatrix m_lhs = new DoubleMatrix(4, 4, 0.0d);
+        DoubleMatrix m_rhs = new DoubleMatrix(new double[][] {
                 {-7.0d, -6.0d, -5.0d, -4.0d},
                 {-3.0d, -2.0d, -1.0d,  0.0d},
                 { 1.0d,  2.0d,  3.0d,  4.0d},
                 { 5.0d,  6.0d,  7.0d,  8.0d}
         });
-        DenseDoubleMatrix expected = new DenseDoubleMatrix(4, 4, 0.0d);
+        DoubleMatrix expected = new DoubleMatrix(4, 4, 0.0d);
         assertArrayEquals(expected.toArray(), m_rhs.preMultiply(m_lhs).toArray(), DELTA);
     }
     @Test void testPreMultiply_2() {
-        DenseDoubleMatrix m1 = Algebra.denseMatrixFactory().identity(4);
-        DenseDoubleMatrix m2 = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m1 = Algebra.denseMatrixFactory().identity(4);
+        DoubleMatrix m2 = new DoubleMatrix(new double[][]{
                 {-7.0d, -6.0d, -5.0d, -4.0d},
                 {-3.0d, -2.0d, -1.0d,  0.0d},
                 { 1.0d,  2.0d,  3.0d,  4.0d},
                 { 5.0d,  6.0d,  7.0d,  8.0d}});
 
-        DenseDoubleMatrix expected = m2.clone();
-        DenseDoubleMatrix actual = m1.preMultiply(m2);
+        DoubleMatrix expected = m2.clone();
+        DoubleMatrix actual = m1.preMultiply(m2);
 
         assertArrayEquals(expected.toArray(), actual.toArray(), DELTA);
     }
     @Test void testPreMultiply_3() {
-        DenseDoubleMatrix m1 = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m1 = new DoubleMatrix(new double[][]{
                 {-3.0, -2.0, -1.0,  0.0},
                 {-7.0, -6.0, -5.0, -4.0},
                 { 1.0,  2.0,  3.0,  4.0},
                 { 5.0,  6.0,  7.0,  8.0}});
-        DenseDoubleMatrix m2 = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m2 = new DoubleMatrix(new double[][]{
                 {-7.0, -6.0, -5.0, -4.0},
                 {-3.0, -2.0, -1.0,  0.0},
                 { 1.0,  2.0,  3.0,  4.0},
                 { 5.0,  6.0,  7.0,  8.0}});
 
-        DenseDoubleMatrix expected = new DenseDoubleMatrix(new double[][] {
+        DoubleMatrix expected = new DoubleMatrix(new double[][] {
                 {  26.0d,  20.0d,  14.0d,   8.0d},
                 {  42.0d,  20.0d,  -2.0d, -24.0d},
                 {  10.0d,  20.0d,  30.0d,  40.0d},
                 {  -6.0d,  20.0d,  46.0d,  72.0d}});
-        DenseDoubleMatrix actual = m2.clone().preMultiply(m1);
+        DoubleMatrix actual = m2.clone().preMultiply(m1);
 
         assertArrayEquals(expected.toArray(), actual.toArray(), DELTA);
     }
     @Test void testPreMultiply_4() {
-        DenseDoubleMatrix m1 = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m1 = new DoubleMatrix(new double[][]{
                 {-3.0, -2.0, -1.0,  0.0},
                 {-7.0, -6.0, -5.0, -4.0},
                 { 1.0,  2.0,  3.0,  4.0},
                 { 5.0,  6.0,  7.0,  8.0}});
-        DenseDoubleMatrix m2 = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m2 = new DoubleMatrix(new double[][]{
                 {-7.0, -6.0, -5.0, -4.0},
                 {-3.0, -2.0, -1.0,  0.0},
                 { 1.0,  2.0,  3.0,  4.0},
                 { 5.0,  6.0,  7.0,  8.0}});
 
-        DenseDoubleMatrix expected = new DenseDoubleMatrix(new double[][] {
+        DoubleMatrix expected = new DoubleMatrix(new double[][] {
                 {  26.0d,  20.0d,  14.0d,   8.0d},
                 {  42.0d,  20.0d,  -2.0d, -24.0d},
                 {  10.0d,  20.0d,  30.0d,  40.0d},
                 {  -6.0d,  20.0d,  46.0d,  72.0d}});
-        DenseDoubleMatrix actual = m2.clone().preMultiply(m1);
+        DoubleMatrix actual = m2.clone().preMultiply(m1);
 
         assertArrayEquals(expected.toArray(), actual.toArray(), DELTA);
     }
     @Test void testPostMultiply_1() {
-        DenseDoubleMatrix m1 = new DenseDoubleMatrix(4,4, 0.0d);
-        DenseDoubleMatrix m2 = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m1 = new DoubleMatrix(4,4, 0.0d);
+        DoubleMatrix m2 = new DoubleMatrix(new double[][]{
                 {-7.0d, -6.0d, -5.0d, -4.0d},
                 {-3.0d, -2.0d, -1.0d, 0.0d},
                 { 1.0d,  2.0d,  3.0d, 4.0d},
                 { 5.0d,  6.0d,  7.0d, 8.0d}});
-        DenseDoubleMatrix expected = new DenseDoubleMatrix(4,4, 0.0d);
+        DoubleMatrix expected = new DoubleMatrix(4,4, 0.0d);
         assertArrayEquals(expected.toArray(), m1.postMultiply(m2).toArray(), DELTA);
     }
     @Test void testPostMultiply_2() {
-        DenseDoubleMatrix m1 = Algebra.denseMatrixFactory().identity(4);
-        DenseDoubleMatrix m2 = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m1 = Algebra.denseMatrixFactory().identity(4);
+        DoubleMatrix m2 = new DoubleMatrix(new double[][]{
                 {-7.0d, -6.0d, -5.0d, -4.0d},
                 {-3.0d, -2.0d, -1.0d,  0.0d},
                 { 1.0d,  2.0d,  3.0d,  4.0d},
                 { 5.0d,  6.0d,  7.0d,  8.0d}});
-        DenseDoubleMatrix expected = m2.clone();
-        DenseDoubleMatrix actual = m1.postMultiply(m2);
+        DoubleMatrix expected = m2.clone();
+        DoubleMatrix actual = m1.postMultiply(m2);
         assertArrayEquals(expected.toArray(), actual.toArray(), DELTA);
     }
     @Test void testPostMultiply_3() {
-        DenseDoubleMatrix m1 = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m1 = new DoubleMatrix(new double[][]{
                 {-7.0d, -6.0d, -5.0d, -4.0d},
                 {-3.0d, -2.0d, -1.0d,  0.0d},
                 { 1.0d,  2.0d,  3.0d,  4.0d},
                 { 5.0d,  6.0d,  7.0d,  8.0d}});
 
-        DenseDoubleMatrix m2 = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m2 = new DoubleMatrix(new double[][]{
                 {-7.0d, -6.0d, -5.0d, -4.0d},
                 {-3.0d, -2.0d, -1.0d,  0.0d},
                 { 1.0d,  2.0d,  3.0d,  4.0d},
                 { 5.0d,  6.0d,  7.0d,  8.0d}});
 
-        DenseDoubleMatrix expected = new DenseDoubleMatrix(new double[][] {
+        DoubleMatrix expected = new DoubleMatrix(new double[][] {
                 { 42.0d, 20.0d, -2.0d, -24.0d},
                 { 26.0d, 20.0d, 14.0d,   8.0d},
                 { 10.0d, 20.0d, 30.0d,  40.0d},
@@ -1361,18 +1361,18 @@ class DoubleMatrixTest {
         assertArrayEquals(expected.toArray(), m1.postMultiply(m2).toArray(), DELTA);
     }
     @Test void testPostMultiply_4() {
-        DenseDoubleMatrix m1 = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m1 = new DoubleMatrix(new double[][]{
                 {-7.0d, -6.0d, -5.0d, -4.0d},
                 {-3.0d, -2.0d, -1.0d,  0.0d},
                 { 1.0d,  2.0d,  3.0d,  4.0d},
                 { 5.0d,  6.0d,  7.0d,  8.0d}});
-        DenseDoubleMatrix m2 = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m2 = new DoubleMatrix(new double[][]{
                 { 8.0d,  7.0d,  6.0d,  5.0d},
                 { 4.0d,  3.0d,  2.0d,  1.0d},
                 { 0.0d, -1.0d, -2.0d, -3.0d},
                 {-4.0d, -5.0d, -6.0d, -7.0d}});
 
-        DenseDoubleMatrix expected = new DenseDoubleMatrix(new double[][] {
+        DoubleMatrix expected = new DoubleMatrix(new double[][] {
                 { -64.0d, -42.0d, -20.0d,   2.0d},
                 { -32.0d, -26.0d, -20.0d, -14.0d},
                 {   0.0d, -10.0d, -20.0d, -30.0d},
@@ -1381,12 +1381,12 @@ class DoubleMatrixTest {
         assertArrayEquals(expected.toArray(), m1.postMultiply(m2).toArray(), DELTA);
     }
     @Test void testMultiplicationPrePostEquivalence_1() {
-        DenseDoubleMatrix m1 = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m1 = new DoubleMatrix(new double[][]{
                 {-7.0d, -6.0d, -5.0d, -4.0d},
                 {-3.0d, -2.0d, -1.0d,  0.0d},
                 { 1.0d,  2.0d,  3.0d,  4.0d},
                 { 5.0d,  6.0d,  7.0d,  8.0d}});
-        DenseDoubleMatrix m2 = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m2 = new DoubleMatrix(new double[][]{
                 { 8.0d,  7.0d,  6.0d,  5.0d},
                 { 4.0d,  3.0d,  2.0d,  1.0d},
                 { 0.0d, -1.0d, -2.0d, -3.0d},
@@ -1395,67 +1395,67 @@ class DoubleMatrixTest {
         assertArrayEquals(m1.clone().preMultiply(m2).toArray(), m2.clone().postMultiply(m1).toArray(), DELTA);
     }
     @Test void testMultiplicationTransposition_1() {
-        DenseDoubleMatrix m1 = new DenseDoubleMatrix(new double[][] {
+        DoubleMatrix m1 = new DoubleMatrix(new double[][] {
                 {-7.0d, -6.0d, -5.0d, -4.0d},
                 {-3.0d, -2.0d, -1.0d,  0.0d},
                 { 1.0d,  2.0d,  3.0d,  4.0d},
                 { 5.0d,  6.0d,  7.0d,  8.0d}});
 
-        DenseDoubleMatrix m2 = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m2 = new DoubleMatrix(new double[][]{
                 { 8.0d,  7.0d,  6.0d,  5.0d},
                 { 4.0d,  3.0d,  2.0d,  1.0d},
                 { 0.0d, -1.0d, -2.0d, -3.0d},
                 {-4.0d, -5.0d, -6.0d, -7.0d}});
 
-        DenseDoubleMatrix resultA = m1.clone().postMultiply(m2);
-        DenseDoubleMatrix resultB = m2.clone().transpose()
+        DoubleMatrix resultA = m1.clone().postMultiply(m2);
+        DoubleMatrix resultB = m2.clone().transpose()
                 .postMultiply(m1.clone().transpose()).transpose();
 
         assertArrayEquals(resultA.toArray(), resultB.toArray(), DELTA);
     }
     @Test void testMultiplicationDistributive_1() {
-        DenseDoubleMatrix m1 = Algebra.denseMatrixFactory().random(4,4);
-        DenseDoubleMatrix m2 = Algebra.denseMatrixFactory().random(4,4);
-        DenseDoubleMatrix m3 = Algebra.denseMatrixFactory().random(4,4);
+        DoubleMatrix m1 = Algebra.denseMatrixFactory().random(4,4);
+        DoubleMatrix m2 = Algebra.denseMatrixFactory().random(4,4);
+        DoubleMatrix m3 = Algebra.denseMatrixFactory().random(4,4);
 
-        DenseDoubleMatrix resultA = m1.clone().postMultiply(m2.clone().plus(m3));
-        DenseDoubleMatrix resultB = m1.clone().postMultiply(m2).plus(m1.clone().postMultiply(m3));
+        DoubleMatrix resultA = m1.clone().postMultiply(m2.clone().plus(m3));
+        DoubleMatrix resultB = m1.clone().postMultiply(m2).plus(m1.clone().postMultiply(m3));
 
         assertArrayEquals(resultA.toArray(), resultB.toArray(), DELTA);
     }
     @Test void testMultiplicationAssociative_1() {
-        DenseDoubleMatrix m1 = Algebra.denseMatrixFactory().random(4,4);
-        DenseDoubleMatrix m2 = Algebra.denseMatrixFactory().random(4,4);
-        DenseDoubleMatrix m3 = Algebra.denseMatrixFactory().random(4,4);
+        DoubleMatrix m1 = Algebra.denseMatrixFactory().random(4,4);
+        DoubleMatrix m2 = Algebra.denseMatrixFactory().random(4,4);
+        DoubleMatrix m3 = Algebra.denseMatrixFactory().random(4,4);
 
-        DenseDoubleMatrix resultA = m1.clone().postMultiply(m2.clone().postMultiply(m3));
-        DenseDoubleMatrix resultB = (m1.clone().postMultiply(m2)).postMultiply(m3);
+        DoubleMatrix resultA = m1.clone().postMultiply(m2.clone().postMultiply(m3));
+        DoubleMatrix resultB = (m1.clone().postMultiply(m2)).postMultiply(m3);
 
         assertArrayEquals(resultA.toArray(), resultB.toArray(), DELTA);
     }
     @Test void testMultiplicationDimensions_1() {
-        DenseDoubleMatrix m1 = Algebra.denseMatrixFactory().random(3,4);
-        DenseDoubleMatrix m2 = Algebra.denseMatrixFactory().random(4,3);
+        DoubleMatrix m1 = Algebra.denseMatrixFactory().random(3,4);
+        DoubleMatrix m2 = Algebra.denseMatrixFactory().random(4,3);
 
-        DenseDoubleMatrix result = m1.clone().postMultiply(m2);
+        DoubleMatrix result = m1.clone().postMultiply(m2);
 
         assertEquals(3, result.cols());
         assertEquals(3, result.rows());
     }
     @Test void testMultiplicationDimensions_2() {
-        DenseDoubleMatrix m1 = Algebra.denseMatrixFactory().random(3,3);
-        DenseDoubleMatrix m2 = Algebra.denseMatrixFactory().random(4,3);
+        DoubleMatrix m1 = Algebra.denseMatrixFactory().random(3,3);
+        DoubleMatrix m2 = Algebra.denseMatrixFactory().random(4,3);
 
         assertThrows(IllegalArgumentException.class, new Executable() {
             @Override
             public void execute() throws Throwable {
-                DenseDoubleMatrix result = m1.clone().postMultiply(m2);
+                DoubleMatrix result = m1.clone().postMultiply(m2);
             }
         });
     }
     @Test void testMultRow_1() {
         double c = 0.0d;
-        DenseDoubleMatrix m = new DenseDoubleMatrix(new double[][] {
+        DoubleMatrix m = new DoubleMatrix(new double[][] {
                 { 2,  4,  6,  8},
                 {10, 12, 14, 16},
                 {18, 20, 22, 24},
@@ -1468,7 +1468,7 @@ class DoubleMatrixTest {
     }
     @Test void testMultRow_2() {
         double c = 1.0d;
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(10,10);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(10,10);
         double[] expected = m.getRow(5).toArray();
 
         m.multRow(5, c);
@@ -1476,7 +1476,7 @@ class DoubleMatrixTest {
         assertArrayEquals(expected, m.getRow(5).toArray(), DELTA);
     }
     @Test void testMultRow_3() {
-        DenseDoubleMatrix m = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m = new DoubleMatrix(new double[][]{
                 { 3,  4, 4, 7},
                 {-6, -4, 2, 8},
                 { 2,  1, 4, 7},
@@ -1488,7 +1488,7 @@ class DoubleMatrixTest {
         assertArrayEquals(expected, m.getRow(1).toArray(), DELTA);
     }
     @Test void testMultRow_4() {
-        DenseDoubleMatrix m = new DenseDoubleMatrix(4,5);
+        DoubleMatrix m = new DoubleMatrix(4,5);
 
         assertThrows(IndexOutOfBoundsException.class, new Executable() {
             @Override
@@ -1504,7 +1504,7 @@ class DoubleMatrixTest {
         });
     }
     @Test void testMultColumn_1() {
-        DenseDoubleMatrix m  = new DenseDoubleMatrix(new double[][] {
+        DoubleMatrix m  = new DoubleMatrix(new double[][] {
                 { 2,  4,  6,  8},
                 {10, 12, 14, 16},
                 {18, 20, 22, 24},
@@ -1517,7 +1517,7 @@ class DoubleMatrixTest {
     }
     @Test void testMultColumn_2() {
         double c = 1.0d;
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(10,10);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(10,10);
         double[] expected = m.getColumn(5).toArray();
 
         m.multColumn(5, c);
@@ -1525,7 +1525,7 @@ class DoubleMatrixTest {
         assertArrayEquals(expected, m.getColumn(5).toArray(), DELTA);
     }
     @Test void testMultColumn_3() {
-        DenseDoubleMatrix m = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m = new DoubleMatrix(new double[][]{
                 { 3,  4, 4, 7},
                 {-6, -4, 2, 8},
                 { 2,  1, 4, 7},
@@ -1536,7 +1536,7 @@ class DoubleMatrixTest {
         assertArrayEquals(expected, m.getColumn(1).toArray(), DELTA);
     }
     @Test void testMultColumn_4() {
-        DenseDoubleMatrix m = new DenseDoubleMatrix(4,5);
+        DoubleMatrix m = new DoubleMatrix(4,5);
 
         assertThrows(IndexOutOfBoundsException.class, new Executable() {
             @Override
@@ -1552,7 +1552,7 @@ class DoubleMatrixTest {
         });
     }
     @Test void testMultRange_1() {
-        DenseDoubleMatrix m = new DenseDoubleMatrix(new double[][] {
+        DoubleMatrix m = new DoubleMatrix(new double[][] {
                 { 2,  4,  6,  8},
                 {10, 12, 14, 16},
                 {18, 20, 22, 24},
@@ -1566,7 +1566,7 @@ class DoubleMatrixTest {
     }
     @Test void testMultRange_2() {
         double c = 1.0d;
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(10,10);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(10,10);
         double[] expected = m.getRange(1, 2, 1, 2).toArray();
 
         m.multRange(1,2,1,2, c);
@@ -1574,7 +1574,7 @@ class DoubleMatrixTest {
         assertArrayEquals(expected, m.getRange(1,2,1,2).toArray(), DELTA);
     }
     @Test void testMultRange_3() {
-        DenseDoubleMatrix m = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m = new DoubleMatrix(new double[][]{
                 { 3,  4, 4, 7},
                 {-6, -4, 2, 8},
                 { 2,  1, 4, 7},
@@ -1592,7 +1592,7 @@ class DoubleMatrixTest {
         assertArrayEquals(expectedRowD, m.getRow(3).toArray(), DELTA);
     }
     @Test void testMultRange_4() {
-        DenseDoubleMatrix m = new DenseDoubleMatrix(4,5);
+        DoubleMatrix m = new DoubleMatrix(4,5);
         double[][] range = new double[2][2];
 
         assertThrows(IndexOutOfBoundsException.class, new Executable() {
@@ -1622,7 +1622,7 @@ class DoubleMatrixTest {
 
     }
     @Test void testMultRange_5() {
-        DenseDoubleMatrix m = new DenseDoubleMatrix(4,5);
+        DoubleMatrix m = new DoubleMatrix(4,5);
         double[][] range = new double[2][2];
 
         assertThrows(IllegalArgumentException.class, new Executable() {
@@ -1641,25 +1641,25 @@ class DoubleMatrixTest {
 
     // Test inversion
     @Test void testInvert_1() {
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(4,4);
-        DenseDoubleMatrix m_inv = m.clone().invert();
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(4,4);
+        DoubleMatrix m_inv = m.clone().invert();
 
-        DenseDoubleMatrix expected = Algebra.denseMatrixFactory().identity(4);
-        DenseDoubleMatrix actual1 = m.clone().postMultiply(m_inv);
-        DenseDoubleMatrix actual2 = m.clone().preMultiply(m_inv);
+        DoubleMatrix expected = Algebra.denseMatrixFactory().identity(4);
+        DoubleMatrix actual1 = m.clone().postMultiply(m_inv);
+        DoubleMatrix actual2 = m.clone().preMultiply(m_inv);
 
         assertArrayEquals(expected.toArray(), actual1.toArray(), DELTA);
         assertArrayEquals(expected.toArray(), actual2.toArray(), DELTA);
     }
     @Test void testInvert_2() {
-        DenseDoubleMatrix m = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m = new DoubleMatrix(new double[][]{
                 {-2.3d, -6.5d, -5.2d, -4.9d},
                 {-3.2d,	-2.0d, -1.3d,  0.6d},
                 { 1.3d,	 2.1d,	3.5d,  4.6d},
                 { 5.9d,	 6.1d,	7.2d,  8.3d}});
 
-        DenseDoubleMatrix actual = new DenseDoubleMatrix(m.invert());
-        DenseDoubleMatrix expected = new DenseDoubleMatrix(new double[][] {
+        DoubleMatrix actual = new DoubleMatrix(m.invert());
+        DoubleMatrix expected = new DoubleMatrix(new double[][] {
                 { 0.1765241776451404d,  0.0319794251951382d, -0.460496224703263d,  0.357116078190257d},
                 {-0.2812727286360200d,  0.3812412365877610d, -0.870792624862222d,  0.288995778565912d},
                 { 0.0254935628753743d, -1.1241911417367100d,  2.084923556801910d, -1.059182556404510d},
@@ -1668,14 +1668,14 @@ class DoubleMatrixTest {
         assertArrayEquals(expected.toArray(), actual.toArray(), DELTA);
     }
     @Test void testInvert_3() {
-        DenseDoubleMatrix m = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m = new DoubleMatrix(new double[][]{
                 {-3.3d,	-2.0d, -1.6d,  1.3d},
                 {-7.2d,	-6.1d, -5.5d, -4.4d},
                 { 1.1d,	 2.2d,	3.4d,  4.6d},
                 { 5.0d,	 6.5d,	7.3d,  8.9d}});
 
-        DenseDoubleMatrix actual = new DenseDoubleMatrix(m.invert());
-        DenseDoubleMatrix expected = new DenseDoubleMatrix(new double[][] {
+        DoubleMatrix actual = new DoubleMatrix(m.invert());
+        DoubleMatrix expected = new DoubleMatrix(new double[][] {
                 { 0.629364425575059d, -1.123122742538500d,  1.194981306634560d,	-1.264812115835500},
                 {-0.588239021608263d,  1.384006083264690d, -2.811418794753190d,  2.223243140485400},
                 {-0.675685951460617d,  0.166719472783727d,	1.303656295545280d,	-0.492681072175402},
@@ -1684,7 +1684,7 @@ class DoubleMatrixTest {
         assertArrayEquals(expected.toArray(), actual.toArray(), DELTA);
     }
     @Test void testInvert_4() {
-        DenseDoubleMatrix m = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m = new DoubleMatrix(new double[][]{
                 {-3.3d,	-2.0d, -1.6d,  1.3d},
                 {-7.2d,	-6.1d, -5.5d, -4.4d},
                 { 1.1d,	 2.2d,	3.4d,  4.6d}});
@@ -1699,20 +1699,20 @@ class DoubleMatrixTest {
 
     // Test swap
     @Test void testSwapRow_1() {
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(5,6);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(5,6);
 
-        DenseDoubleMatrix rowA = m.getRow(2);
-        DenseDoubleMatrix rowB = m.getRow(4);
+        DoubleMatrix rowA = m.getRow(2);
+        DoubleMatrix rowB = m.getRow(4);
         m.swapRows(2,4);
 
         assertArrayEquals(rowB.toArray(), m.data.viewRow(2).toArray(), DELTA);
         assertArrayEquals(rowA.toArray(), m.data.viewRow(4).toArray(), DELTA);
     }
     @Test void testSwapColumn_1() {
-        DenseDoubleMatrix m = Algebra.denseMatrixFactory().random(5,6);
+        DoubleMatrix m = Algebra.denseMatrixFactory().random(5,6);
 
-        DenseDoubleMatrix colA = m.getColumn(2);
-        DenseDoubleMatrix colB = m.getColumn(4);
+        DoubleMatrix colA = m.getColumn(2);
+        DoubleMatrix colB = m.getColumn(4);
         m.swapColumns(2,4);
 
         assertArrayEquals(colB.toArray(), m.data.viewColumn(2).toArray(), DELTA);
@@ -1721,17 +1721,17 @@ class DoubleMatrixTest {
 
     // Test transposition
     @Test void testTranspose_1() {
-        DenseDoubleMatrix m1 = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m1 = new DoubleMatrix(new double[][]{
                 {-3.0, -2.0, -1.0,  0.0},
                 {-7.0, -6.0, -5.0, -4.0},
                 { 1.0,  2.0,  3.0,  4.0},
                 { 5.0,  6.0,  7.0,  8.0}});
-        DenseDoubleMatrix m2 = m1.clone().transpose().transpose();
+        DoubleMatrix m2 = m1.clone().transpose().transpose();
 
         assertArrayEquals(m1.toArray(), m2.toArray(), DELTA);
     }
     @Test void testTransposeDimensions_1() {
-        DenseDoubleMatrix m1 = new DenseDoubleMatrix(new double[][]{
+        DoubleMatrix m1 = new DoubleMatrix(new double[][]{
                 {-3.0, -2.0, -1.0,  0.0},
                 {-7.0, -6.0, -5.0, -4.0},
                 { 1.0,  2.0,  3.0,  4.0}});
