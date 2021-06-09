@@ -1,6 +1,8 @@
 package com.alura.dyno.math;
 
 public class MathExtra {
+    private static final double COFGAMMALN[] = { 76.18009172947146, -86.50532032941677, 24.01409824083091,
+            -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5 };
 
     public static float clamp(float value, float minValue, float maxValue) {
         return (float) Math.min(Math.max(value, minValue), maxValue);

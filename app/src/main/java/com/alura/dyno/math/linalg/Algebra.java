@@ -3,13 +3,12 @@ package com.alura.dyno.math.linalg;
 import com.alura.dyno.math.graphics.GraphicMatrixBuilder;
 
 import cern.colt.matrix.tdouble.algo.DenseDoubleAlgebra;
-import cern.colt.matrix.tdouble.algo.SparseDoubleAlgebra;
 import cern.colt.matrix.tfloat.algo.DenseFloatAlgebra;
 
 public class Algebra {
     private static DenseFloatAlgebra denseFloatAlgebra;
     private static DenseDoubleAlgebra denseDoubleAlgebra;
-    private static DenseDoubleMatrixFactory denseMatrixFactory;
+    private static DoubleMatrixFactory denseMatrixFactory;
     private static GraphicMatrixBuilder graphicMatrixBuilder;
 
     //Methods
@@ -34,9 +33,9 @@ public class Algebra {
 
         return graphicMatrixBuilder;
     }
-    public static DenseDoubleMatrixFactory denseMatrixFactory() {
+    public static DoubleMatrixFactory doubleMatrixFactory() {
         if(denseMatrixFactory == null) {
-            denseMatrixFactory = new DenseDoubleMatrixFactory();
+            denseMatrixFactory = new DoubleMatrixFactory();
         }
 
         return denseMatrixFactory;
